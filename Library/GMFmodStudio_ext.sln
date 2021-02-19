@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GMFmodStudio_ext", "GMFmodStudio_ext\GMFmodStudio_ext.vcxproj", "{2DA39EEA-04E0-4B3E-8A1A-88A228108996}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Debug|Win32.Build.0 = Debug|Win32
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Debug|x64.ActiveCfg = Debug|x64
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Debug|x64.Build.0 = Debug|x64
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Debug|x86.ActiveCfg = Debug|Win32
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Debug|x86.Build.0 = Debug|Win32
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Release|Win32.ActiveCfg = Release|Win32
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Release|Win32.Build.0 = Release|Win32
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Release|x64.ActiveCfg = Release|x64
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Release|x64.Build.0 = Release|x64
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Release|x86.ActiveCfg = Release|Win32
+		{2DA39EEA-04E0-4B3E-8A1A-88A228108996}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1A13BD1F-978C-4F0A-A001-1DBF34D6E2D6}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="Workspace" id="{d78828eb-40c5-40d1-a5b4-f1eaee05dc93}">
+		<property name="builtBanksOutputDirectory">
+			<value>../GameMakerStudio2/datafiles/soundbanks</value>
+		</property>
+		<relationship name="masterEventFolder">
+			<destination>{f504720a-0619-481d-961d-b299f47e7a32}</destination>
+		</relationship>
+		<relationship name="masterTagFolder">
+			<destination>{e1d65675-7126-4b2a-b760-5b4bcf0ad08d}</destination>
+		</relationship>
+		<relationship name="masterEffectPresetFolder">
+			<destination>{6d0498f5-6d85-4930-b661-f34d4b9962a3}</destination>
+		</relationship>
+		<relationship name="masterParameterPresetFolder">
+			<destination>{9362c1ab-1e01-4c87-9f87-5943f2722875}</destination>
+		</relationship>
+		<relationship name="masterBankFolder">
+			<destination>{b2318bb8-d215-4c13-a017-94f0510d8ea0}</destination>
+		</relationship>
+		<relationship name="masterSandboxFolder">
+			<destination>{b27debc3-239c-4c92-b2e9-f07924a81ebc}</destination>
+		</relationship>
+		<relationship name="masterAssetFolder">
+			<destination>{5d255f15-6a67-45c6-a995-607e17b262a7}</destination>
+		</relationship>
+		<relationship name="mixer">
+			<destination>{50e6a593-cf63-4a8e-a967-01a439234a65}</destination>
+		</relationship>
+		<relationship name="profilerSessionFolder">
+			<destination>{3630cd5d-5f5e-4fb3-aaab-c3d31221ff08}</destination>
+		</relationship>
+		<relationship name="platforms">
+			<destination>{bf69d5bf-e4bd-4e10-8c15-113eea508a1d}</destination>
+		</relationship>
+	</object>
+</objects>
