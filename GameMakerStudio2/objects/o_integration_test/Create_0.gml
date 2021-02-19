@@ -30,16 +30,4 @@ inst2 = studio.getEvent("event:/UIBlip").createInstance();
 
 show_debug_message("Instance Count: " + string(desc.getInstanceCount()));
 
-desc.createInstance();
-desc.createInstance();
-desc.createInstance();
-desc.createInstance();
-
 inst.start();
-
-instList = [];
-var count = desc.getInstanceList(instList);
-for (var i = 0; i < count; ++i)
-{
-    instList[i].start();
-}

@@ -32,9 +32,9 @@ gms_export double fmod_studio_system_create()
     check = FMOD::Studio::System::create(&fmod_studio_system);
 
     // Testing async event functionality.
-    int dsmap = CreateDsMap(0);
-    DsMapAddString(dsmap, "testVal", "Hello World!");
-    CreateAsynEventWithDSMap(dsmap, GM_EVENT_OTHER_SOCIAL);
+    auto map = GM_DsMap();
+    map.AddString("testVal", "Hello World!");
+    map.SendAsyncEvent(GM_EVENT_OTHER_SOCIAL);
 
     if (check == FMOD_OK)
         return (double)(uintptr_t)fmod_studio_system;

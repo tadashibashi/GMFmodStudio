@@ -72,23 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\..\GameMakerStudio2\extensions\GMFmodStudio_ext\</OutDir>
+    <OutDir>..\..\GameMakerStudio2\extensions\GMFmodStudio\</OutDir>
     <TargetName>$(ProjectName)_x64</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>$(ProjectName)</TargetName>
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\..\GameMakerStudio2\extensions\GMFmodStudio_ext\</OutDir>
+    <OutDir>..\..\GameMakerStudio2\extensions\GMFmodStudio\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\GameMakerStudio2\extensions\GMFmodStudio_ext\</OutDir>
+    <OutDir>..\..\GameMakerStudio2\extensions\GMFmodStudio\</OutDir>
     <TargetName>$(ProjectName)_x64</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>$(ProjectName)</TargetName>
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\GameMakerStudio2\extensions\GMFmodStudio_ext\</OutDir>
+    <OutDir>..\..\GameMakerStudio2\extensions\GMFmodStudio\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gmfs_api.cpp" />
     <ClCompile Include="gmfs_common.cpp" />
     <ClCompile Include="gmfs_studio_event_description.cpp" />
     <ClCompile Include="gmfs_studio_event_instance.cpp" />
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gmfs_buffer.h" />
+    <ClInclude Include="gmfs_api.h" />
     <ClInclude Include="gmfs_common.h" />
   </ItemGroup>
   <ItemGroup>

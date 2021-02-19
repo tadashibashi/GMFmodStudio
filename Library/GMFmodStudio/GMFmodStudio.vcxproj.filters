@@ -30,12 +30,18 @@
     <ClCompile Include="gmfs_studio_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gmfs_api.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gmfs_buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gmfs_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gmfs_api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

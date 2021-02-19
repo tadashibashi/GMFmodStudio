@@ -344,6 +344,7 @@ gms_export double fmod_studio_evinst_set_3D_attributes(char *ptr, char *gmbuf)
 {
     auto inst = (FMOD::Studio::EventInstance *)ptr;
 
+    return 0;
 }
 
 /*

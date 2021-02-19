@@ -4,12 +4,17 @@ GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio.exp
 GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio.ilk
 GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio.lib
 GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio.pdb
+GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio_x64.dll
+GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio_x64.exp
+GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio_x64.exp
+GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio_x64.ilk
+GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio_x64.lib
+GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio_x64.pdb
 GameMakerStudio2/extensions/GMFmodStudio/fmod.dll/
 GameMakerStudio2/extensions/GMFmodStudio/fmodL.dll/
 GameMakerStudio2/extensions/GMFmodStudio/fmodstudio.dll/
 GameMakerStudio2/extensions/GMFmodStudio/fmodstudioL.dll/
 GameMakerStudio2/datafiles/soundbanks/
-
 
 ## FMOD Studio 2.1
 FmodStudio/.cache/

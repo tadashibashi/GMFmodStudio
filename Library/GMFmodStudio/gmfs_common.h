@@ -10,12 +10,7 @@
     #define gms_export __attribute__((visibility("default")))
 #endif
 
+#include "gmfs_api.h"
+
 // TODO: Custom error checker
 extern FMOD_RESULT check;
-
-extern void (*CreateAsynEventWithDSMap)(int, int);
-extern int (*CreateDsMap)(int _num, ...);
-extern bool (*DsMapAddDouble)(int _index, const char *_pKey, double value);
-extern bool (*DsMapAddString)(int _index, const char *_pKey, const char *pVal);
-
-const int GM_EVENT_OTHER_SOCIAL = 70;

@@ -5,7 +5,7 @@
     {"id":{"name":"o_html5_test","path":"objects/o_html5_test/o_html5_test.yy",},"order":2,},
     {"id":{"name":"FmodStudioUserProperty","path":"scripts/FmodStudioUserProperty/FmodStudioUserProperty.yy",},"order":3,},
     {"id":{"name":"html5_test","path":"extensions/html5_test/html5_test.yy",},"order":1,},
-    {"id":{"name":"GMFmodStudio_ext","path":"extensions/GMFmodStudio_ext/GMFmodStudio_ext.yy",},"order":0,},
+    {"id":{"name":"GMFmodStudio","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},"order":0,},
     {"id":{"name":"FmodVector","path":"scripts/FmodVector/FmodVector.yy",},"order":4,},
     {"id":{"name":"FmodGUID","path":"scripts/FmodGUID/FmodGUID.yy",},"order":0,},
     {"id":{"name":"o_fmod","path":"objects/o_fmod/o_fmod.yy",},"order":0,},
