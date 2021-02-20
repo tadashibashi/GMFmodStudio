@@ -10,7 +10,7 @@
     {"id":{"name":"FmodGUID","path":"scripts/FmodGUID/FmodGUID.yy",},"order":0,},
     {"id":{"name":"o_fmod","path":"objects/o_fmod/o_fmod.yy",},"order":0,},
     {"id":{"name":"FmodStudioSystem","path":"scripts/FmodStudioSystem/FmodStudioSystem.yy",},"order":2,},
-    {"id":{"name":"Sprite1","path":"sprites/Sprite1/Sprite1.yy",},"order":0,},
+    {"id":{"name":"s_boombox","path":"sprites/s_boombox/s_boombox.yy",},"order":0,},
     {"id":{"name":"FmodStudioEventDescription","path":"scripts/FmodStudioEventDescription/FmodStudioEventDescription.yy",},"order":0,},
     {"id":{"name":"o_integration_test","path":"objects/o_integration_test/o_integration_test.yy",},"order":1,},
     {"id":{"name":"FmodStudioParameterDescription","path":"scripts/FmodStudioParameterDescription/FmodStudioParameterDescription.yy",},"order":1,},

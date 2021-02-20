@@ -28,6 +28,10 @@ paramdesc2.log();
 inst = descGottenByID.createInstance();
 inst2 = studio.getEvent("event:/UIBlip").createInstance();
 
-show_debug_message("Instance Count: " + string(desc.getInstanceCount()));
-
 inst.start();
+
+image_xscale = 4;
+image_yscale = 4;
+
+target_xscale = image_xscale;
+target_yscale = image_yscale;

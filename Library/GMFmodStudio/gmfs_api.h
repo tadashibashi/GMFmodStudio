@@ -11,7 +11,6 @@ public:
     GM_API() = delete;
     static void Init(char *arg1, char *arg2, char *arg3, char *arg4);
 private:
-    
     static void (*CreateAsyncEventWithDsMap)(int, int);
     static int (*CreateDsMap)(int _num, ...);
     static bool (*DsMapAddDouble)(int _index, const char *_pKey, double value);

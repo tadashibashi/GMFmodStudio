@@ -5,6 +5,81 @@
 // Helper converts a raw double pointer to an EventDescription pointer.
 #define evinst_ptr(ptr) ((FMOD::Studio::EventInstance *)(uintptr_t)ptr)
 
+FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback(
+    FMOD_STUDIO_EVENT_CALLBACK_TYPE type, 
+    FMOD_STUDIO_EVENTINSTANCE *inst,
+    void *params)
+{
+    GM_DsMap map;
+    map.AddDouble("type", (double)type);
+    map.AddDouble("event", (double)(uintptr_t)inst); // should cast to ptr on GMS side
+
+    switch (type)
+    {
+    case FMOD_STUDIO_EVENT_CALLBACK_CREATE_PROGRAMMER_SOUND:
+    {
+        auto props = (FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES *)params;
+        FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES *sound;
+
+        FMOD_Studio_EventInstance_GetUserData(inst, (void **)&sound);
+        props->name = sound->name;
+        props->sound = sound->sound;
+        props->subsoundIndex = sound->subsoundIndex;
+
+        map.AddString("name", sound->name);
+        map.AddDouble("sound", (double)(uintptr_t)sound->sound);
+        map.AddDouble("subsoundIndex", (double)sound->subsoundIndex);
+    } break;
+    case FMOD_STUDIO_EVENT_CALLBACK_DESTROY_PROGRAMMER_SOUND:
+    {
+        auto props = (FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES *)params;
+
+        FMOD_Sound_Release(props->sound);
+
+        map.AddString("name", props->name);
+        map.AddDouble("sound", (double)(uintptr_t)props->sound);
+        map.AddDouble("subsoundIndex", (double)props->subsoundIndex);
+    } break;
+
+    case FMOD_STUDIO_EVENT_CALLBACK_PLUGIN_CREATED:
+    case FMOD_STUDIO_EVENT_CALLBACK_PLUGIN_DESTROYED:
+    {
+        auto props = (FMOD_STUDIO_PLUGIN_INSTANCE_PROPERTIES *)params;
+        map.AddString("name", props->name);
+        map.AddDouble("dsp", (double)(uintptr_t)props->dsp);
+    } break;
+
+    case FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_MARKER:
+    {
+        auto props = (FMOD_STUDIO_TIMELINE_MARKER_PROPERTIES *)params;
+        map.AddString("name", props->name);
+        map.AddDouble("position", (double)props->position);
+    } break;
+
+    case FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_BEAT:
+    {
+        auto props = (FMOD_STUDIO_TIMELINE_BEAT_PROPERTIES *)params;
+        map.AddDouble("bar", (double)props->bar); // starting from 1
+        map.AddDouble("beat", (double)props->beat); // starting from 1
+        map.AddDouble("position", (double)props->position); // ms
+        map.AddDouble("tempo", (double)props->tempo); // bpm
+        map.AddDouble("timesignatureupper", (double)props->timesignatureupper);
+        map.AddDouble("timesignaturelower", (double)props->timesignaturelower);
+    } break;
+
+    case FMOD_STUDIO_EVENT_CALLBACK_SOUND_PLAYED:
+    case FMOD_STUDIO_EVENT_CALLBACK_SOUND_STOPPED:
+    {
+        map.AddDouble("sound", (double)(uintptr_t)params);
+    } break;
+
+    }
+
+    map.SendAsyncEvent();
+
+    return FMOD_OK;
+}
+
 // ============================================================================
 // Playback Control
 // ============================================================================
@@ -339,12 +414,100 @@ gms_export double fmod_studio_evinst_is_virtual(char *ptr)
 
 /* 
  * Set 3D Attributes
+ * Returns 0 on success and -1 on error
  */
 gms_export double fmod_studio_evinst_set_3D_attributes(char *ptr, char *gmbuf)
 {
+    double ret = -1;
     auto inst = (FMOD::Studio::EventInstance *)ptr;
 
-    return 0;
+    if (inst && inst->isValid())
+    {
+        // Retrieve the 3D Attributes info from the buffer
+        Buffer buf(gmbuf);
+        FMOD_3D_ATTRIBUTES attr = { 
+            {
+                buf.read<float>(),
+                buf.read<float>(),
+                buf.read<float>(),
+            },            
+            {
+                buf.read<float>(),
+                buf.read<float>(),
+                buf.read<float>(),
+            },            
+            {
+                buf.read<float>(),
+                buf.read<float>(),
+                buf.read<float>(),
+            },            
+            {
+                buf.read<float>(),
+                buf.read<float>(),
+                buf.read<float>(),
+            },
+
+        };
+
+        // Set attributes and check
+        check = inst->set3DAttributes(&attr);
+        if (check == FMOD_OK) ret = 0;
+    }
+
+    return ret;
+}
+
+/* 
+ * Get 3D Attributes, fills passed buffer with info
+ * Returns 0 on success and -1 on error
+ */
+gms_export double fmod_studio_evinst_get_3D_attributes(char *ptr, char *gmbuf)
+{
+    double ret = -1;
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+
+    if (inst && inst->isValid())
+    {
+        FMOD_3D_ATTRIBUTES attr;
+        check = inst->get3DAttributes(&attr);
+        
+        if (check == FMOD_OK)
+        {
+            Buffer buf(gmbuf);            
+            buf.write(attr.position.x);
+            buf.write(attr.position.y);
+            buf.write(attr.position.z);
+            buf.write(attr.velocity.x);
+            buf.write(attr.velocity.y);
+            buf.write(attr.velocity.z);
+            buf.write(attr.forward.x);
+            buf.write(attr.forward.y);
+            buf.write(attr.forward.z);
+            buf.write(attr.up.x);
+            buf.write(attr.up.y);
+            buf.write(attr.up.z);   
+
+            ret = 0;
+        }
+    }
+
+    return ret;
+}
+
+gms_export double fmod_studio_evinst_set_callback(char *ptr, double flags)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+    if (inst && inst->isValid())
+    {
+        check = inst->setCallback(
+            (FMOD_STUDIO_EVENT_CALLBACK)fmod_studio_evinst_callback,
+            (FMOD_STUDIO_EVENT_CALLBACK_TYPE)flags);
+        
+        if (check == FMOD_OK) ret = flags;
+    }
+
+    return ret;
 }
 
 /*

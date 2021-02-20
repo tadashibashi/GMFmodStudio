@@ -1,3 +1,4 @@
 /// @description Insert description here
 // You can write your code in this editor
-inst.setPitch(inst.getPitch() - .05);
+target_xscale += 0.5;
+target_yscale += 0.5;
