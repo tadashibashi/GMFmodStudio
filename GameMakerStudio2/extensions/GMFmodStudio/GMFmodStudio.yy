@@ -31,10 +31,6 @@
             1,
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_system_load_bank_file","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_system_play_oneshot","kind":1,"help":"fmod_studio_play_oneshot(studio_system, event_path)","hidden":false,"returnType":2,"argCount":0,"args":[
-            1,
-            1,
-          ],"resourceVersion":"1.0","name":"fmod_studio_system_play_oneshot","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_evdesc_create_instance","kind":1,"help":"fmod_studio_evdesc_create_instance(evdesc)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_evdesc_create_instance","tags":[],"resourceType":"GMExtensionFunction",},
@@ -383,7 +379,6 @@
         {"name":"fmod_studio_system_initialize","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_update","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_load_bank_file","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
-        {"name":"fmod_studio_system_play_oneshot","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_get_event","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_create","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_get_core_system","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
