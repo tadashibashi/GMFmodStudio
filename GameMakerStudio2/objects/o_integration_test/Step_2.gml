@@ -12,6 +12,8 @@ target_yscale = max(target_yscale, 0);
 image_xscale = lerp(image_xscale, target_xscale, .1);
 image_yscale = lerp(image_xscale, target_yscale, .1);
 
+image_alpha = lerp(image_alpha, .2, .1);
+
 inst.setVolume(image_xscale);
 inst.setPitch(.25/image_xscale*16);
 

@@ -35,3 +35,5 @@ image_yscale = 4;
 
 target_xscale = image_xscale;
 target_yscale = image_yscale;
+
+target_alpha = 1;
