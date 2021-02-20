@@ -2,9 +2,6 @@
 #include "gmfs_buffer.h"
 #include <iostream>
 
-// Helper converts a raw double pointer to an EventDescription pointer.
-#define evdesc_ptr(ptr) ((FMOD::Studio::EventDescription *)(uintptr_t)ptr)
-
 // ============================================================================
 // Instances
 // ============================================================================

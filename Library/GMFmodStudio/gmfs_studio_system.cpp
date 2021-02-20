@@ -18,9 +18,6 @@ gms_export const char *__gmfmod_interpret_string(double ptr)
     return (const char *)(uintptr_t)ptr;
 }
 
-// Helper converts a raw double pointer to an EventDescription pointer.
-#define studiosystem_ptr(ptr) ((FMOD::Studio::System *)(uintptr_t)ptr)
-
 // ============================================================================
 // Lifetime
 // ============================================================================
@@ -55,7 +52,7 @@ gms_export void fmod_studio_system_initialize(char *raw_studio_ptr, double max_c
 // Returns true on success, and false on error.
 gms_export double fmod_studio_system_release(char *raw_studio_ptr)
 {
-    auto studio = studiosystem_ptr(raw_studio_ptr);
+    auto studio = (FMOD::Studio::System *)raw_studio_ptr;
     check = studio->release();
 
     return (check == FMOD_OK);

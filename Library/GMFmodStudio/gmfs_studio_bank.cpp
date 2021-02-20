@@ -2,14 +2,11 @@
 #include "gmfs_buffer.h"
 #include <iostream>
 
-// Helper converts a raw double pointer to a Studio Bank pointer.
-#define bank_ptr(ptr) ((FMOD::Studio::Bank *)(uintptr_t)ptr)
-
 // Gets the current loading state of a studio bank.
 // Returns the loading state enum value or -1 on error.
-gms_export double fmod_studio_bank_get_loading_state(double ptr)
+gms_export double fmod_studio_bank_get_loading_state(char *ptr)
 {
-    auto bank{ bank_ptr(ptr) };
+    auto bank = (FMOD::Studio::Bank *)ptr;
     double ret = -1;
 
     if (bank && bank->isValid())
@@ -26,9 +23,9 @@ gms_export double fmod_studio_bank_get_loading_state(double ptr)
 
 // Loads non-streaming sample data for all events in the bank.
 // Returns 0 on success and -1 on error.
-gms_export double fmod_studio_bank_load_sample_data(double ptr)
+gms_export double fmod_studio_bank_load_sample_data(char *ptr)
 {
-    auto bank{ bank_ptr(ptr) };
+    auto bank = (FMOD::Studio::Bank *)ptr;
     double ret = -1;
 
     if (bank && bank->isValid())
@@ -41,9 +38,9 @@ gms_export double fmod_studio_bank_load_sample_data(double ptr)
 
 // Loads non-streaming sample data for all events in the bank.
 // Returns 0 on success and -1 on error.
-gms_export double fmod_studio_bank_unload_sample_data(double ptr)
+gms_export double fmod_studio_bank_unload_sample_data(char *ptr)
 {
-    auto bank{ bank_ptr(ptr) };
+    auto bank = (FMOD::Studio::Bank *)ptr;
     double ret = -1;
 
     if (bank && bank->isValid())
@@ -56,9 +53,9 @@ gms_export double fmod_studio_bank_unload_sample_data(double ptr)
 
 // Gets the current loading state of a studio bank.
 // Returns the loading state enum value or -1 on error.
-gms_export double fmod_studio_bank_get_sample_loading_state(double ptr)
+gms_export double fmod_studio_bank_get_sample_loading_state(char *ptr)
 {
-    auto bank{ bank_ptr(ptr) };
+    auto bank = (FMOD::Studio::Bank *)ptr;
     double ret = -1;
 
     if (bank && bank->isValid())
@@ -77,9 +74,9 @@ gms_export double fmod_studio_bank_get_sample_loading_state(double ptr)
 // This will destroy all objects created from the bank, unload all sample
 // data inside the bank, and invalidate all API handles referring to the bank.
 // Returns 0 on success and -1 on error.
-gms_export double fmod_studio_bank_unload(double ptr)
+gms_export double fmod_studio_bank_unload(char *ptr)
 {
-    auto bank{ bank_ptr(ptr) };
+    auto bank = (FMOD::Studio::Bank *)ptr;
     double ret = -1;
 
     if (bank && bank->isValid())
@@ -92,9 +89,9 @@ gms_export double fmod_studio_bank_unload(double ptr)
 
 // Retrieves the number of busses in the bank.
 // Returns the number of busses or -1 on error.
-gms_export double fmod_studio_bank_get_bus_count(double ptr)
+gms_export double fmod_studio_bank_get_bus_count(char *ptr)
 {
-    auto bank{ bank_ptr(ptr) };
+    auto bank = (FMOD::Studio::Bank *)ptr;
     double ret = -1;
 
     if (bank && bank->isValid())
@@ -111,12 +108,12 @@ gms_export double fmod_studio_bank_get_bus_count(double ptr)
 }
 
 // Get bus list: Buffers must be supported to implement this function
-// gms_export double fmod_studio_bank_get_bus_list(double ptr)
+// gms_export double fmod_studio_bank_get_bus_list(char *ptr)
 
 // Returns the number of busses or -1 on error.
-gms_export double fmod_studio_bank_get_event_count(double ptr)
+gms_export double fmod_studio_bank_get_event_count(char *ptr)
 {
-    auto bank{ bank_ptr(ptr) };
+    auto bank = (FMOD::Studio::Bank *)ptr;
     double ret = -1;
 
     if (bank && bank->isValid())
@@ -133,12 +130,12 @@ gms_export double fmod_studio_bank_get_event_count(double ptr)
 }
 
 // Get event list: Buffers must be supported to implement this function
-// gms_export double fmod_studio_bank_get_event_list(double ptr, double capacity, char *gm_buffer)
+// gms_export double fmod_studio_bank_get_event_list(char *ptr, double capacity, char *gm_buffer)
 
 // Returns the number of busses or -1 on error.
-gms_export double fmod_studio_bank_get_vca_count(double ptr)
+gms_export double fmod_studio_bank_get_vca_count(char *ptr)
 {
-    auto bank{ bank_ptr(ptr) };
+    auto bank = (FMOD::Studio::Bank *)ptr;
     double ret = -1;
 
     if (bank && bank->isValid())
@@ -155,7 +152,7 @@ gms_export double fmod_studio_bank_get_vca_count(double ptr)
 }
 
 // Get event list: Buffers must be supported to implement this function
-// gms_export double fmod_studio_bank_get_vca_list(double ptr, double capacity, char *gm_buffer)
+// gms_export double fmod_studio_bank_get_vca_list(char *ptr, double capacity, char *gm_buffer)
 
 // TODO:
 // getID
@@ -163,8 +160,8 @@ gms_export double fmod_studio_bank_get_vca_count(double ptr)
 // setUserData (support strings and doubles)
 // getUserData
 
-gms_export double fmod_studio_bank_is_valid(double ptr)
+gms_export double fmod_studio_bank_is_valid(char *ptr)
 {
-    auto bank{ bank_ptr(ptr) };
+    auto bank = (FMOD::Studio::Bank *)ptr;
     return bank->isValid();
 }

@@ -2,9 +2,7 @@
 #include "gmfs_buffer.h"
 #include <iostream>
 
-// Helper converts a raw double pointer to an EventDescription pointer.
-#define evinst_ptr(ptr) ((FMOD::Studio::EventInstance *)(uintptr_t)ptr)
-
+// General callback handler for EventInstances
 FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback(
     FMOD_STUDIO_EVENT_CALLBACK_TYPE type, 
     FMOD_STUDIO_EVENTINSTANCE *inst,
@@ -13,6 +11,7 @@ FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback(
     GM_DsMap map;
     map.AddDouble("type", (double)type);
     map.AddDouble("event", (double)(uintptr_t)inst); // should cast to ptr on GMS side
+    map.AddDouble("fmod", 1);
 
     switch (type)
     {
