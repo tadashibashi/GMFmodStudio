@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Wrappers",
-    "path": "folders/Scripts/GMFmodStudio/Wrappers.yy",
+    "name": "FmodStructs",
+    "path": "folders/Scripts/GMFmodStudio/FmodStructs.yy",
   },
   "resourceVersion": "1.0",
-  "name": "FmodStudioEventInstance",
+  "name": "FmodStudioMemoryUsage",
   "tags": [],
   "resourceType": "GMScript",
 }

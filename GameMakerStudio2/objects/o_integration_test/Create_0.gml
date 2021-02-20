@@ -26,6 +26,7 @@ var paramdesc2 = desc.getParameterDescriptionByID(paramID);
 paramdesc2.log();
 
 inst = descGottenByID.createInstance();
+
 inst2 = studio.getEvent("event:/UIBlip").createInstance();
 
 inst.start();
@@ -37,3 +38,4 @@ target_xscale = image_xscale;
 target_yscale = image_yscale;
 
 target_alpha = 1;
+

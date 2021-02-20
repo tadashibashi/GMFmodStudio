@@ -165,6 +165,7 @@
     <ClCompile Include="gmfs_studio_event_instance.cpp" />
     <ClCompile Include="gmfs_studio_bank.cpp" />
     <ClCompile Include="gmfs_studio_system.cpp" />
+    <ClCompile Include="gmfs_studio_vca.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gmfs_buffer.h" />

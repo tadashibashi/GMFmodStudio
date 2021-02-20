@@ -30,6 +30,13 @@ if (dsmap[?"fmod_type"] == "EventInstance")
 		show_debug_message("==Timeline Marker==");
 		show_debug_message("name: " + dsmap[?"name"]);
 		show_debug_message("position: " + string(dsmap[?"position"]));
-		
 	}
+	
+	var inst = new FmodStudioEventInstance(dsmap[?"inst"]);
+	var attr = new Fmod3DAttributes();
+	inst.get3DAttributes(attr);
+	attr.log();
+	
+	delete attr;
+	delete inst;
 }

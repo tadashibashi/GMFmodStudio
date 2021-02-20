@@ -3,7 +3,7 @@
   "isCompatibility": false,
   "parent": {
     "name": "Wrappers",
-    "path": "folders/Scripts/FmodStudio/Wrappers.yy",
+    "path": "folders/Scripts/GMFmodStudio/Wrappers.yy",
   },
   "resourceVersion": "1.0",
   "name": "FmodStudioSystem",

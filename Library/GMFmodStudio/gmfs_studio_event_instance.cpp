@@ -10,7 +10,7 @@ FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback(
 {
     GM_DsMap map;
     map.AddDouble("type", (double)type);
-    map.AddDouble("event", (double)(uintptr_t)inst); // should cast to ptr on GMS side
+    map.AddDouble("inst", (double)(uintptr_t)inst); // should cast to ptr on GMS side
     map.AddString("fmod_type", "EventInstance");
 
     switch (type)
@@ -493,6 +493,310 @@ gms_export double fmod_studio_evinst_get_3D_attributes(char *ptr, char *gmbuf)
     return ret;
 }
 
+// Sets the listener mask. Default selects all masks. Use bit shifting to set.
+// Use only if you want particular listners involved with this event 
+// instance. E.g. in a multiplayer game where certain interface/musical sounds
+// are "private" to a particular player.
+gms_export double fmod_studio_evinst_set_listener_mask(char *ptr, double mask)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        check = inst->setListenerMask((unsigned int)mask);
+        if (check == FMOD_OK)
+            ret = 0;
+    }
+    
+    return ret;
+}
+
+gms_export double fmod_studio_evinst_get_listener_mask(char *ptr)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        unsigned int mask;
+        check = inst->getListenerMask(&mask);
+
+        if (check == FMOD_OK)
+            ret = static_cast<double>(mask);
+    }
+
+    return ret;
+}
+
+// ============================================================================
+// Parameters
+// ============================================================================
+
+gms_export double fmod_studio_evinst_set_parameter_by_name(char *ptr, char *name, double value, double ignoreseekspeed)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        check = inst->setParameterByName(name, (float)value, (bool)ignoreseekspeed);
+
+        if (check == FMOD_OK)
+            ret = 0;
+    }
+
+    return ret;
+}
+
+gms_export double fmod_studio_evinst_get_parameter_by_name(char *ptr, char *name)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        float value;
+        check = inst->getParameterByName(name, &value, nullptr);
+
+        if (check == FMOD_OK)
+            ret = static_cast<double>(value);
+    }
+
+    return ret;
+}
+
+gms_export double fmod_studio_evinst_get_parameter_by_name_final(char *ptr, char *name)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        float value;
+        check = inst->getParameterByName(name, nullptr, &value);
+
+        if (check == FMOD_OK)
+            ret = static_cast<double>(value);
+    }
+
+    return ret;
+}
+
+gms_export double fmod_studio_evinst_set_parameter_by_id(char *ptr, char *gmbuf, double value, double ignoreseekspeed)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        Buffer buf(gmbuf);
+        FMOD_STUDIO_PARAMETER_ID id;
+        id.data1 = buf.read<uint32_t>();
+        id.data2 = buf.read<uint32_t>();
+
+        check = inst->setParameterByID(id, static_cast<float>(value), static_cast<bool>(ignoreseekspeed));
+
+        if (check == FMOD_OK)
+            ret = 0;
+    }
+
+    return ret;
+}
+
+// buffer must be uin32_t, uint32_t, float for each set of ParameterID + value.
+gms_export double fmod_studio_evinst_set_parameters_by_ids(char *ptr, char *gmbuf, double count, double ignoreseekspeed)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        Buffer buf(gmbuf);
+        FMOD_STUDIO_PARAMETER_ID *ids = new FMOD_STUDIO_PARAMETER_ID[(int)count];
+        float *values = new float[(int)count];
+
+        for (int i = 0; i < (int)count; ++i)
+        {
+            ids[i] = { buf.read<uint32_t>(), buf.read<uint32_t>() };
+            values[i] = buf.read<float>();
+        }
+
+        check = inst->setParametersByIDs(ids, values, (int)count, (bool)ignoreseekspeed);
+
+        if (check == FMOD_OK)
+            ret = 0;
+
+        delete[] ids;
+        delete[] values;
+    }
+
+    return ret;
+}
+
+gms_export double fmod_studio_evinst_get_parameter_by_id(char *ptr, char *gmbuf)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        Buffer buf(gmbuf);
+        FMOD_STUDIO_PARAMETER_ID id;
+        id.data1 = buf.read<uint32_t>();
+        id.data2 = buf.read<uint32_t>();
+
+        float value;
+        check = inst->getParameterByID(id, &value, nullptr);
+
+        if (check == FMOD_OK)
+            ret = static_cast<double>(value);
+    }
+
+    return ret;
+}
+
+gms_export double fmod_studio_evinst_get_parameter_by_id_final(char *ptr, char *gmbuf)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        Buffer buf(gmbuf);
+        FMOD_STUDIO_PARAMETER_ID id;
+        id.data1 = buf.read<uint32_t>();
+        id.data2 = buf.read<uint32_t>();
+
+        float value;
+        check = inst->getParameterByID(id, nullptr, &value);
+
+        if (check == FMOD_OK)
+            ret = static_cast<double>(value);
+    }
+
+    return ret;
+}
+
+// ============================================================================
+// Core
+// ============================================================================
+
+// Returns channel group ptr as double, or nullptr as 0 on error
+gms_export double fmod_studio_evinst_get_channel_group(char *ptr)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = 0;
+
+    if (inst && inst->isValid())
+    {
+        FMOD::ChannelGroup *group;
+        check = inst->getChannelGroup(&group);
+
+        if (check == FMOD_OK)
+            ret = (double)(uintptr_t)group;
+    }
+
+    return ret;
+}
+
+// Sets the core reverb level. Returns 0 on success and -1 on error.
+gms_export double fmod_studio_evinst_set_reverb_level(char *ptr, double index, double level)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        check = inst->setReverbLevel((int)index, (float)level);
+
+        if (check == FMOD_OK)
+            ret = 0;
+    }
+
+    return ret;
+}
+
+// Gets the core reverb level. Returns level on success and -1 on error.
+gms_export double fmod_studio_evinst_get_reverb_level(char *ptr, double index)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        float level;
+        check = inst->getReverbLevel((int)index, &level);
+
+        if (check == FMOD_OK)
+            ret = (double)level;
+    }
+
+    return ret;
+}
+
+// Gets cpu time spent processing this unit during last update.
+// Returns time as microseconds on success and -1 on error.
+gms_export double fmod_studio_evinst_get_cpu_usage_exclusive(char *ptr)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        unsigned int microsecs;
+        check = inst->getCPUUsage(&microsecs, nullptr);
+
+        if (check == FMOD_OK)
+            ret = (double)microsecs;
+    }
+
+    return ret;
+}
+
+// Gets cpu time spent processing this unit and all of its input during the last update.
+// Returns time as microseconds on success and -1 on error.
+gms_export double fmod_studio_evinst_get_cpu_usage_inclusive(char *ptr)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        unsigned int microsecs;
+        check = inst->getCPUUsage(nullptr, &microsecs);
+
+        if (check == FMOD_OK)
+            ret = (double)microsecs;
+    }
+
+    return ret;
+}
+
+// Fills buffer with retrieved memory usage. Returns 0 on success and -1 on error.
+gms_export double fmod_studio_evinst_get_memory_usage(char *ptr, char *gmbuf)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = -1;
+
+    if (inst && inst->isValid())
+    {
+        Buffer buf(gmbuf);
+
+        FMOD_STUDIO_MEMORY_USAGE usage;
+        check = inst->getMemoryUsage(&usage);
+
+        buf.write<int32_t>(usage.exclusive);
+        buf.write<int32_t>(usage.inclusive);
+        buf.write<int32_t>(usage.sampledata);
+
+        if (check == FMOD_OK)
+            ret = 0;
+    }
+
+    return ret;
+}
+
 gms_export double fmod_studio_evinst_set_callback(char *ptr, double flags)
 {
     auto inst = (FMOD::Studio::EventInstance *)ptr;
@@ -508,6 +812,7 @@ gms_export double fmod_studio_evinst_set_callback(char *ptr, double flags)
 
     return ret;
 }
+
 
 /*
  * Event Instance Release
@@ -535,4 +840,22 @@ gms_export double fmod_studio_evinst_is_valid(char *ptr)
 {
     auto inst = (FMOD::Studio::EventInstance *)ptr;
     return inst->isValid();
+}
+
+// Returns a ptr to the event description or nullptr on error.
+gms_export double fmod_studio_evinst_get_description(char *ptr)
+{
+    auto inst = (FMOD::Studio::EventInstance *)ptr;
+    double ret = 0;
+
+    if (inst && inst->isValid())
+    {
+        FMOD::Studio::EventDescription *desc;
+
+        check = inst->getDescription(&desc);
+        if (check == FMOD_OK)
+            ret = (double)(uintptr_t)desc;
+    }
+
+    return ret;
 }

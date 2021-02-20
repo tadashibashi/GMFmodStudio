@@ -66,6 +66,23 @@ function FmodStudioEventInstance(_handle) constructor
 		return fmod_studio_evinst_set_volume(inst_, vol_scale);
 	};
 	
+	// Only relevant in Logging builds of FMOD Studio. Release builds will output 0 for all numbers.
+	static getMemoryUsage = function(mem_usage)
+	{
+		var buf = FmodGetBuffer();
+		var success = fmod_studio_evinst_get_memory_usage(inst_, buf.getAddress());
+		
+		mem_usage.assignFromBuffer(buf);
+		
+		return success;
+	};
+	
+	static getDescription = function()
+	{
+		var handle = fmod_studio_evinst_get_description(inst_);
+		return new FmodStudioEventDescription(handle);
+	};
+	
 	static setCallback = function(callback_mask)
 	{
 		return fmod_studio_evinst_set_callback(inst_, callback_mask);	
