@@ -1,18 +1,10 @@
 /// @description Insert description here
 // You can write your code in this editor
 studio = new FmodStudioSystem(); /// @is FmodStudioSystem
-
 studio.initialize(128, FMOD_STUDIO_INIT_LIVEUPDATE, 0);
-show_debug_message(fmod_studio_get_error_string());
 studio.loadBankFile(working_directory + "soundbanks/Desktop/Master.bank");
-show_debug_message(fmod_studio_get_error_string());
 studio.loadBankFile(working_directory + "soundbanks/Desktop/Master.strings.bank");
-show_debug_message(fmod_studio_get_error_string());
 desc = studio.getEvent("event:/Music");
-show_debug_message(fmod_studio_get_error_string());
-
-desc.getUserProperty("num_prop").log();
-desc.getUserProperty("string_prop").log();
 
 descID = desc.getID();
 descGottenByID = studio.getEventByID(descID);
@@ -29,9 +21,13 @@ inst2 = studio.getEvent("event:/UIBlip").createInstance();
 
 //inst.start();
 
+fmod_studio_system_start_command_capture(studio.studio_, working_directory + "commandtest.file", 0);
+
 var sound = ptr(fmod_system_create_midi_sound(studio.core_, 
 	working_directory + "disney.mid", working_directory + "Fury.dls", 0));
-fmod_system_play_sound(studio.core_, sound);
+//fmod_system_play_sound(studio.core_, sound);
+
+inst.start();
 
 image_xscale = 4;
 image_yscale = 4;

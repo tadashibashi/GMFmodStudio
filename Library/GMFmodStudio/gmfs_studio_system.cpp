@@ -106,7 +106,7 @@ gms_export double fmod_studio_system_load_bank_file(char *raw_studio_ptr, const 
 
     return ret;
 }
-
+ 
 // loadBankCustom not applicable
 // TODO: loadBankMemory
 
@@ -175,4 +175,33 @@ gms_export double fmod_studio_system_get_core_system(char *raw_studio_ptr)
         ret = (double)(uintptr_t)core;
 
     return ret;
+}
+
+gms_export double fmod_studio_system_start_command_capture(char *raw_studio_ptr, char *filename, double flags)
+{
+    auto studio = (FMOD::Studio::System *)(raw_studio_ptr);
+    check = studio->startCommandCapture(filename, (FMOD_STUDIO_COMMANDCAPTURE_FLAGS)flags);
+;
+    return (check == FMOD_OK) ? 0 : -1;
+}
+
+gms_export double fmod_studio_system_stop_command_capture(char *raw_studio_ptr)
+{
+    auto studio = (FMOD::Studio::System *)(raw_studio_ptr);
+    check = studio->stopCommandCapture();
+
+    return (check == FMOD_OK) ? 0 : -1;
+}
+
+gms_export double fmod_studio_system_load_command_replay(char *raw_studio_ptr, char *filename, double flags)
+{
+    auto studio = (FMOD::Studio::System *)(raw_studio_ptr);
+
+    FMOD::Studio::CommandReplay *replay;
+    check = studio->loadCommandReplay(
+        filename, 
+        (FMOD_STUDIO_COMMANDREPLAY_FLAGS)flags,
+        &replay);
+
+    return (check == FMOD_OK) ? (double)(uintptr_t)replay : 0;
 }

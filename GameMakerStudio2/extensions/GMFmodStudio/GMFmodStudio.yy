@@ -436,6 +436,19 @@
         {"externalName":"fmod_studio_comreplay_release","kind":1,"help":"fmod_studio_comreplay_release(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_release","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_system_start_command_capture","kind":1,"help":"fmod_studio_system_start_command_capture(studio, filename, flags)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_studio_system_start_command_capture","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_system_stop_command_capture","kind":1,"help":"fmod_studio_system_stop_command_capture(studio)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_system_stop_command_capture","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_system_load_command_replay","kind":1,"help":"fmod_studio_system_load_command_replay(studio, filename, flags)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_studio_system_load_command_replay","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[
         {"value":"0","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_PLAYING","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"1","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_SUSTAINING","tags":[],"resourceType":"GMExtensionConstant",},
@@ -503,6 +516,9 @@
         {"value":"$00008000","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_EVENT_CALLBACK_REAL_TO_VIRTUAL","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"$00010000","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_EVENT_CALLBACK_VIRTUAL_TO_REAL","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"$FFFFFFFF","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_EVENT_CALLBACK_ALL","tags":[],"resourceType":"GMExtensionConstant",},
+        {"value":"$00000000","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_COMMANDCAPTURE_NORMAL","tags":[],"resourceType":"GMExtensionConstant",},
+        {"value":"$00000001","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_COMMANDCAPTURE_FILEFLUSH","tags":[],"resourceType":"GMExtensionConstant",},
+        {"value":"$00000002","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_COMMANDCAPTURE_SKIP_INITIAL_STATE","tags":[],"resourceType":"GMExtensionConstant",},
       ],"ProxyFiles":[
         {"TargetMask":6,"resourceVersion":"1.0","name":"GMFmodStudio_x64.dll","tags":[],"resourceType":"GMProxyFile",},
       ],"copyToTargets":64,"order":[
@@ -626,6 +642,9 @@
         {"name":"fmod_studio_comreplay_release","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_system_play_sound","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_system_create_midi_sound","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_system_start_command_capture","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_system_stop_command_capture","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_system_load_command_replay","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",

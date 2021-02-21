@@ -9,3 +9,5 @@ studio.unloadAll();
 studio.release();
 
 global.__fmod_studio_extension_buffer.release();
+
+fmod_studio_system_stop_command_capture(studio.studio_);
