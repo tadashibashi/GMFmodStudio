@@ -127,8 +127,6 @@ gms_export double fmod_studio_comreplay_set_load_bank_callback(char *ptr)
     return ret;
 }
 
-// TODO: Figure out Callback Stuff Later
-
 gms_export double fmod_studio_comreplay_start(char *ptr)
 {
     double ret = -1;

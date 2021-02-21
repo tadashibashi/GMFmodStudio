@@ -366,6 +366,76 @@
         {"externalName":"fmod_studio_bus_is_valid","kind":1,"help":"fmod_studio_bus_is_valid(bus)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_bus_is_valid","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_set_bank_path","kind":1,"help":"fmod_studio_comreplay_set_bank_path(comreplay, path)  ","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_set_bank_path","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_set_create_instance_callback","kind":1,"help":"fmod_studio_comreplay_set_create_instance_callback(comreplay)","hidden":false,"returnType":1,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_set_create_instance_callback","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_set_frame_callback","kind":1,"help":"fmod_studio_comreplay_set_frame_callback(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_set_frame_callback","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_set_load_bank_callback","kind":1,"help":"fmod_studio_comreplay_set_load_bank_callback(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_set_load_bank_callback","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_start","kind":1,"help":"fmod_studio_comreplay_start(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_start","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_stop","kind":1,"help":"fmod_studio_comreplay_stop","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_stop","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_get_current_command_index","kind":1,"help":"fmod_studio_comreplay_get_current_command_index(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_get_current_command_index","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_get_current_command_time","kind":1,"help":"fmod_studio_comreplay_get_current_command_time(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_get_current_command_time","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_get_playback_state","kind":1,"help":"fmod_studio_comreplay_get_playback_state(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_get_playback_state","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_set_paused","kind":1,"help":"fmod_studio_comreplay_set_paused(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_set_paused","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_get_paused","kind":1,"help":"fmod_studio_comreplay_get_paused(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_get_paused","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_seek_to_command","kind":1,"help":"fmod_studio_comreplay_seek_to_command(comreplay, commandindex)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_seek_to_command","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_seek_to_time","kind":1,"help":"fmod_studio_comreplay_seek_to_time(comreplay, time)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_seek_to_time","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_get_command_at_time","kind":1,"help":"fmod_studio_comreplay_get_command_at_time(comreplay, time)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_get_command_at_time","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_get_command_count","kind":1,"help":"fmod_studio_comreplay_get_command_count(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_get_command_count","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_get_command_info","kind":1,"help":"fmod_studio_comreplay_get_command_info(comreplay, commandindex, info_buffaddr)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            2,
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_get_command_info","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_get_command_string","kind":1,"help":"fmod_studio_comreplay_get_command_string(comreplay, commandindex)","hidden":false,"returnType":1,"argCount":0,"args":[
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_get_command_string","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_get_length","kind":1,"help":"fmod_studio_comreplay_get_length(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_get_length","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_get_system","kind":1,"help":"fmod_studio_comreplay_get_system(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_get_system","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_is_valid","kind":1,"help":"fmod_studio_comreplay_is_valid","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_is_valid","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_comreplay_release","kind":1,"help":"fmod_studio_comreplay_release(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_release","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[
         {"value":"0","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_PLAYING","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"1","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_SUSTAINING","tags":[],"resourceType":"GMExtensionConstant",},
@@ -517,8 +587,6 @@
         {"name":"fmod_studio_vca_get_id","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_vca_get_path","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_vca_is_valid","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
-        {"name":"fmod_system_play_sound","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
-        {"name":"fmod_system_create_midi_sound","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_bus_set_paused","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_bus_get_paused","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_bus_set_volume","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
@@ -535,6 +603,29 @@
         {"name":"fmod_studio_bus_get_id","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_bus_get_path","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_bus_is_valid","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_set_bank_path","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_set_create_instance_callback","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_set_frame_callback","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_set_load_bank_callback","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_start","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_stop","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_get_current_command_index","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_get_current_command_time","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_get_playback_state","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_set_paused","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_get_paused","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_seek_to_command","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_seek_to_time","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_get_command_at_time","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_get_command_count","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_get_command_info","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_get_command_string","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_get_length","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_get_system","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_is_valid","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_comreplay_release","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_system_play_sound","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_system_create_midi_sound","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",

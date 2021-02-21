@@ -162,38 +162,7 @@ gms_export double fmod_studio_system_get_event_by_id(char *raw_studio_ptr, char 
     return (double)(uintptr_t)desc;
 }
 
-// Helper, send to GMS integration scripts instead
-gms_export double fmod_studio_system_play_oneshot(char *raw_studio_ptr, const char *path)
-{
-    auto studio = (FMOD::Studio::System *)(raw_studio_ptr);
-    FMOD::Studio::EventDescription *desc;
-    check = studio->getEvent(path, &desc);
-    if (check == FMOD_OK)
-    {
-        // Determine if this event is a oneshot.
-        bool isOneshot;
-        desc->isOneshot(&isOneshot);
-        if (isOneshot) // it is, play event
-        {
-            FMOD::Studio::EventInstance *inst;
-            check = desc->createInstance(&inst);
-            inst->start();
-            inst->release();
 
-            return (double)(uintptr_t)inst;
-        }
-        else           // it is not, log error
-        {
-            std::cerr << "FMOD GMS2: Attempted to play a oneshot with event \"" << path <<
-                "\", but it is not a oneshot.\n";
-            return 0;
-        }
-    }
-    else
-    {
-        return 0;
-    }
-}
 
 gms_export double fmod_studio_system_get_core_system(char *raw_studio_ptr)
 {
