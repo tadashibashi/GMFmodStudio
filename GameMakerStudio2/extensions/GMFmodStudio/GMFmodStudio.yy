@@ -302,6 +302,70 @@
         {"externalName":"fmod_studio_vca_is_valid","kind":1,"help":"fmod_studio_vca_is_valid(vca)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_vca_is_valid","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_system_play_sound","kind":1,"help":"fmod_system_play_sound(sys, sound)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_system_play_sound","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_system_create_midi_sound","kind":1,"help":"fmod_system_create_midi_sound(sys, midi_filename, dlsname, mode)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_system_create_midi_sound","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_set_paused","kind":1,"help":"fmod_studio_bus_set_paused(bus, paused)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_set_paused","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_get_paused","kind":1,"help":"fmod_studio_bus_get_paused(bus)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_get_paused","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_set_volume","kind":1,"help":"fmod_studio_bus_set_volume(bus, volume)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_set_volume","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_get_volume","kind":1,"help":"fmod_studio_bus_get_volume(bus)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_get_volume","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_set_mute","kind":1,"help":"fmod_studio_bus_set_mute(bus, mute)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_set_mute","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_get_mute","kind":1,"help":"fmod_studio_bus_get_mute(bus)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_get_mute","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_get_channel_group","kind":1,"help":"fmod_studio_bus_get_channel_group(bus)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_get_channel_group","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_lock_channel_group","kind":1,"help":"fmod_studio_bus_lock_channel_group(bus)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_lock_channel_group","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_unlock_channel_group","kind":1,"help":"fmod_studio_bus_unlock_channel_group(bus)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_unlock_channel_group","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_stop_all_events","kind":1,"help":"fmod_studio_bus_stop_all_events(bus, stop_mode)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_stop_all_events","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_get_cpu_usage_exclusive","kind":1,"help":"fmod_studio_bus_get_cpu_usage_exclusive(bus)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_get_cpu_usage_exclusive","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_get_cpu_usage_inclusive","kind":1,"help":"fmod_studio_bus_get_cpu_usage_inclusive(bus)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_get_cpu_usage_inclusive","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_get_memory_usage","kind":1,"help":"fmod_studio_bus_get_memory_usage(bus, gmbuf)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_get_memory_usage","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_get_id","kind":1,"help":"fmod_studio_bus_get_id(bus, id_buff)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_get_id","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_get_path","kind":1,"help":"fmod_studio_bus_get_path(bus)","hidden":false,"returnType":1,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_get_path","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_bus_is_valid","kind":1,"help":"fmod_studio_bus_is_valid(bus)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_bus_is_valid","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[
         {"value":"0","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_PLAYING","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"1","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_SUSTAINING","tags":[],"resourceType":"GMExtensionConstant",},
@@ -453,6 +517,24 @@
         {"name":"fmod_studio_vca_get_id","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_vca_get_path","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_vca_is_valid","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_system_play_sound","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_system_create_midi_sound","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_set_paused","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_get_paused","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_set_volume","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_get_volume","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_set_mute","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_get_mute","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_get_channel_group","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_lock_channel_group","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_unlock_channel_group","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_stop_all_events","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_get_cpu_usage_exclusive","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_get_cpu_usage_inclusive","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_get_memory_usage","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_get_id","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_get_path","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_bus_is_valid","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",

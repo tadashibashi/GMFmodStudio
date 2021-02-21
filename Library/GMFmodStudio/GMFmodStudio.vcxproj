@@ -160,12 +160,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="gmfs_api.cpp" />
+    <ClCompile Include="gmfs_command_replay.cpp" />
     <ClCompile Include="gmfs_common.cpp" />
+    <ClCompile Include="gmfs_studio_bus.cpp" />
     <ClCompile Include="gmfs_studio_event_description.cpp" />
     <ClCompile Include="gmfs_studio_event_instance.cpp" />
     <ClCompile Include="gmfs_studio_bank.cpp" />
     <ClCompile Include="gmfs_studio_system.cpp" />
     <ClCompile Include="gmfs_studio_vca.cpp" />
+    <ClCompile Include="gmfs_system.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gmfs_buffer.h" />

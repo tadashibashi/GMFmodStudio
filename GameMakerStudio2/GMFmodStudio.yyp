@@ -11,6 +11,7 @@
     {"id":{"name":"FmodGUID","path":"scripts/FmodGUID/FmodGUID.yy",},"order":0,},
     {"id":{"name":"o_fmod","path":"objects/o_fmod/o_fmod.yy",},"order":0,},
     {"id":{"name":"FmodStudioSystem","path":"scripts/FmodStudioSystem/FmodStudioSystem.yy",},"order":2,},
+    {"id":{"name":"FmodStudioCommandInfo","path":"scripts/FmodStudioCommandInfo/FmodStudioCommandInfo.yy",},"order":7,},
     {"id":{"name":"s_boombox","path":"sprites/s_boombox/s_boombox.yy",},"order":0,},
     {"id":{"name":"FmodStudioEventDescription","path":"scripts/FmodStudioEventDescription/FmodStudioEventDescription.yy",},"order":0,},
     {"id":{"name":"o_integration_test","path":"objects/o_integration_test/o_integration_test.yy",},"order":1,},
@@ -56,6 +57,7 @@
     {"folderPath":"folders/Scripts/GMFmodStudio.yy","order":1,"resourceVersion":"1.0","name":"GMFmodStudio","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Scripts/GMFmodStudio/FmodStructs.yy","order":10,"resourceVersion":"1.0","name":"FmodStructs","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Scripts/GMFmodStudio/Wrappers.yy","order":11,"resourceVersion":"1.0","name":"Wrappers","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Scripts/GMFmodStudio/RuntimeManagement.yy","order":12,"resourceVersion":"1.0","name":"RuntimeManagement","tags":[],"resourceType":"GMFolder",},
   ],
   "AudioGroups": [
     {"targets":-1,"resourceVersion":"1.3","name":"audiogroup_default","resourceType":"GMAudioGroup",},
@@ -72,6 +74,8 @@
     {"CopyToMask":-1,"filePath":"datafiles/soundbanks/Desktop","resourceVersion":"1.0","name":"Master.strings.bank","resourceType":"GMIncludedFile",},
     {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"fmod.dll","resourceType":"GMIncludedFile",},
     {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"fmodstudio.dll","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"disney.mid","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"Fury.dls","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
     "IDEVersion": "2.3.1.542",

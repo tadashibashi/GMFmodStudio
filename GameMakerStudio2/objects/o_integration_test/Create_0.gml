@@ -15,7 +15,6 @@ desc.getUserProperty("num_prop").log();
 desc.getUserProperty("string_prop").log();
 
 descID = desc.getID();
-descID.log();
 descGottenByID = studio.getEventByID(descID);
 
 var paramdesc/*: FmodStudioParameterDescription*/ = 
@@ -23,13 +22,16 @@ var paramdesc/*: FmodStudioParameterDescription*/ =
 
 var paramID = paramdesc.id;
 var paramdesc2 = desc.getParameterDescriptionByID(paramID);
-paramdesc2.log();
 
 inst = descGottenByID.createInstance();
 
 inst2 = studio.getEvent("event:/UIBlip").createInstance();
 
-inst.start();
+//inst.start();
+
+var sound = ptr(fmod_system_create_midi_sound(studio.core_, 
+	working_directory + "disney.mid", working_directory + "Fury.dls", 0));
+fmod_system_play_sound(studio.core_, sound);
 
 image_xscale = 4;
 image_yscale = 4;
