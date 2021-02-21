@@ -17,6 +17,116 @@ gms_export double fmod_studio_comreplay_set_bank_path(char *ptr, char *path)
     return ret;
 }
 
+FMOD_RESULT F_CALLBACK fmod_studio_comreplay_create_instance_callback(
+    FMOD_STUDIO_COMMANDREPLAY *replay,
+    int commandindex,
+    FMOD_STUDIO_EVENTDESCRIPTION *eventdescription,
+    FMOD_STUDIO_EVENTINSTANCE **instance,
+    void *userdata
+)
+{
+    GM_DsMap map;
+    map.AddString("fmodCallbackType", "CommandReplayCreateInstance");
+    map.AddDouble("replay", (double)(uintptr_t)replay);
+    map.AddDouble("commandindex", (double)commandindex);
+    map.AddDouble("eventdescription", (double)(uintptr_t)eventdescription);
+    map.AddDouble("instance", (double)(uintptr_t)instance);
+    map.AddDouble("userdata", (double)(uintptr_t)userdata); // ptr to userdata
+
+    map.SendAsyncEvent();
+    return FMOD_OK;
+}
+
+gms_export double fmod_studio_comreplay_set_create_instance_callback(char *ptr)
+{
+    double ret = -1;
+    auto com = (FMOD::Studio::CommandReplay *)ptr;
+    
+    if (com && com->isValid())
+    {
+         check = com->setCreateInstanceCallback(
+                (FMOD_STUDIO_COMMANDREPLAY_CREATE_INSTANCE_CALLBACK)fmod_studio_comreplay_create_instance_callback);
+
+         if (check == FMOD_OK) ret = 0;
+    }
+
+    return ret;
+}
+
+FMOD_RESULT F_CALLBACK fmod_studio_comreplay_frame_callback(
+    FMOD_STUDIO_COMMANDREPLAY *replay,
+    int commandindex,
+    float currenttime,
+    void *userdata
+)
+{
+    GM_DsMap map;
+    map.AddString("fmodCallbackType", "CommandReplayFrame");
+    map.AddDouble("replay", (double)(uintptr_t)replay);
+    map.AddDouble("commandindex", (double)commandindex);
+    map.AddDouble("currenttime", (double)currenttime);
+    map.AddDouble("userdata", (double)(uintptr_t)userdata); // ptr to userdata
+
+    map.SendAsyncEvent();
+    return FMOD_OK;
+}
+
+gms_export double fmod_studio_comreplay_set_frame_callback(char *ptr)
+{
+    double ret = -1;
+    auto com = (FMOD::Studio::CommandReplay *)ptr;
+
+    if (com && com->isValid())
+    {
+        check = com->setFrameCallback(
+            (FMOD_STUDIO_COMMANDREPLAY_FRAME_CALLBACK)fmod_studio_comreplay_frame_callback);
+
+        if (check == FMOD_OK) ret = 0;
+    }
+
+    return ret;
+}
+
+FMOD_RESULT F_CALLBACK fmod_studio_comreplay_load_bank_callback(
+    FMOD_STUDIO_COMMANDREPLAY *replay,
+    int commandindex,
+    const FMOD_GUID *bankguid,
+    const char *bankfilename,
+    FMOD_STUDIO_LOAD_BANK_FLAGS flags,
+    FMOD_STUDIO_BANK **bank,
+    void *userdata
+)
+{
+    GM_DsMap map;
+    map.AddString("fmodCallbackType", "CommandReplayLoadBank");
+    map.AddDouble("replay", (double)(uintptr_t)replay);
+    map.AddDouble("commandindex", (double)commandindex);
+    map.AddString("bankfilename", bankfilename);
+    map.AddDouble("flags", (double)flags);
+    map.AddDouble("bank", (double)flags);
+    map.AddDouble("userdata", (double)(uintptr_t)userdata); // ptr to userdata
+
+    map.SendAsyncEvent();
+
+    return FMOD_OK;
+}
+
+gms_export double fmod_studio_comreplay_set_load_bank_callback(char *ptr)
+{
+    double ret = -1;
+    auto com = (FMOD::Studio::CommandReplay *)ptr;
+
+    if (com && com->isValid())
+    {
+        check = com->setLoadBankCallback(
+            (FMOD_STUDIO_COMMANDREPLAY_LOAD_BANK_CALLBACK)fmod_studio_comreplay_load_bank_callback);
+
+        if (check == FMOD_OK) ret = 0;
+    }
+
+    return ret;
+}
+
 // TODO: Figure out Callback Stuff Later
 
 gms_export double fmod_studio_comreplay_start(char *ptr)

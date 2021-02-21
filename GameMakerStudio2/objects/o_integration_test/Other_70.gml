@@ -6,7 +6,7 @@ if (dsmap[?"testVal"] == "Hello World!")
 	show_debug_message("Success!!!");
 
 
-if (dsmap[?"fmod_type"] == "EventInstance")
+if (dsmap[?"fmodCallbackType"] == "EventInstance")
 {
 	if (dsmap[?"type"] == FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_BEAT)
 	{
