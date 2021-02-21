@@ -301,10 +301,6 @@ gms_export double fmod_studio_bank_get_vca_list(char *evt_ptr, double capacity, 
     return ret;
 }
 
-// TODO:
-// setUserData (support strings and doubles)
-// getUserData
-
 gms_export double fmod_studio_bank_get_id(char *ptr, char *gmbuf)
 {
     return fmod_studio_obj_get_id<FMOD::Studio::Bank>(ptr, gmbuf);
@@ -314,6 +310,10 @@ gms_export char *fmod_studio_bank_get_path(char *ptr)
 {
     return fmod_studio_obj_get_path<FMOD::Studio::Bank>(ptr);
 }
+
+// Not implemented:
+// setUserData (support strings and doubles)
+// getUserData
 
 gms_export double fmod_studio_bank_is_valid(char *ptr)
 {

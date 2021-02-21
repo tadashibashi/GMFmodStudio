@@ -5,6 +5,15 @@ var dsmap = async_load;
 if (dsmap[?"testVal"] == "Hello World!")
 	show_debug_message("Success!!!");
 
+if (dsmap[?"fmodCallbackType"] == "CommandReplayFrame")
+{
+	show_debug_message("Command Replay current time: " + string(dsmap[?"currenttime"]));
+}
+
+if (dsmap[?"fmodCallbackType"] == "CommandReplayLoadBank")
+{
+	show_debug_message("Bank load: " + dsmap[?"bankfilename"]);
+}
 
 if (dsmap[?"fmodCallbackType"] == "EventInstance")
 {

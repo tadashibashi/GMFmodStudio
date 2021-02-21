@@ -42,7 +42,7 @@
     <ClCompile Include="gmfs_studio_bus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gmfs_command_replay.cpp">
+    <ClCompile Include="gmfs_studio_command_replay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

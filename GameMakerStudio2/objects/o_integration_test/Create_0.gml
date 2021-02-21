@@ -37,3 +37,4 @@ target_yscale = image_yscale;
 
 target_alpha = 1;
 
+crep = pointer_null;

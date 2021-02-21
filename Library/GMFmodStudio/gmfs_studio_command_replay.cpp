@@ -25,15 +25,18 @@ FMOD_RESULT F_CALLBACK fmod_studio_comreplay_create_instance_callback(
     void *userdata
 )
 {
+    FMOD_Studio_EventDescription_CreateInstance(eventdescription, instance);
+    
     GM_DsMap map;
     map.AddString("fmodCallbackType", "CommandReplayCreateInstance");
     map.AddDouble("replay", (double)(uintptr_t)replay);
     map.AddDouble("commandindex", (double)commandindex);
     map.AddDouble("eventdescription", (double)(uintptr_t)eventdescription);
-    map.AddDouble("instance", (double)(uintptr_t)instance);
+    map.AddDouble("instance", (double)(uintptr_t)*instance);
     map.AddDouble("userdata", (double)(uintptr_t)userdata); // ptr to userdata
 
     map.SendAsyncEvent();
+
     return FMOD_OK;
 }
 
@@ -97,6 +100,11 @@ FMOD_RESULT F_CALLBACK fmod_studio_comreplay_load_bank_callback(
     void *userdata
 )
 {
+    FMOD_STUDIO_SYSTEM *sys;
+    FMOD_Studio_CommandReplay_GetSystem(replay, &sys);
+
+    FMOD_Studio_System_LoadBankFile(sys, bankfilename, flags, bank);
+
     GM_DsMap map;
     map.AddString("fmodCallbackType", "CommandReplayLoadBank");
     map.AddDouble("replay", (double)(uintptr_t)replay);

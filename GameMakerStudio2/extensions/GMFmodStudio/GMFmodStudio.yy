@@ -519,6 +519,10 @@
         {"value":"$00000000","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_COMMANDCAPTURE_NORMAL","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"$00000001","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_COMMANDCAPTURE_FILEFLUSH","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"$00000002","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_COMMANDCAPTURE_SKIP_INITIAL_STATE","tags":[],"resourceType":"GMExtensionConstant",},
+        {"value":"$00000000","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_COMMANDREPLAY_NORMAL","tags":[],"resourceType":"GMExtensionConstant",},
+        {"value":"$00000001","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_COMMANDREPLAY_SKIP_CLEANUP","tags":[],"resourceType":"GMExtensionConstant",},
+        {"value":"$00000002","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_COMMANDREPLAY_FAST_FORWARD","tags":[],"resourceType":"GMExtensionConstant",},
+        {"value":"$00000004","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_COMMANDREPLAY_SKIP_BANK_LOAD","tags":[],"resourceType":"GMExtensionConstant",},
       ],"ProxyFiles":[
         {"TargetMask":6,"resourceVersion":"1.0","name":"GMFmodStudio_x64.dll","tags":[],"resourceType":"GMProxyFile",},
       ],"copyToTargets":64,"order":[
