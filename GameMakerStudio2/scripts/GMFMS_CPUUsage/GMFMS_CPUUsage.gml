@@ -1,0 +1,52 @@
+/// @func GMFMS_CPUUsage([buf]: GMFMS_Buffer)
+/// @desc Info for a single buffer in FMOD Studio. Implementation of the FMOD_STUDIO_CPU_USAGE object.
+function GMFMS_CPUUsage() constructor
+{
+	dspusage =      -1;  /// @is {number} float
+	streamusage =   -1;  /// @is {number} float
+	geometryusage = -1;  /// @is {number} float
+	updateusage =   -1;  /// @is {number} float
+	studiousage =   -1;  /// @is {number} float
+	
+	/// @func readFromBuffer(buf: GMFMS_Buffer)
+	/// @desc Populates this object with the contents form a buffer.
+	/// @returns {void}
+	static readFromBuffer = function(buf)
+	{
+		dspusage =      buf.read(buffer_f32);
+		streamusage =   buf.read(buffer_f32);
+		geometryusage = buf.read(buffer_f32);
+		updateusage =   buf.read(buffer_f32);
+		studiousage =   buf.read(buffer_f32);
+	};
+	
+	if (argument_count == 1 && instanceof(argument[0] == "GMFMS_Buffer"))
+	{
+		readFromBuffer(argument[0]);	
+	}
+	
+	/// @func writeToBuffer(buf: GMFMS_Buffer)
+	/// @desc Writes this object's internal data to a buffer.
+	/// @returns {void}
+	static writeToBuffer = function(buf)
+	{
+		buf.write(buffer_f32, dspusage);
+		buf.write(buffer_f32, streamusage);
+		buf.write(buffer_f32, geometryusage);
+		buf.write(buffer_f32, updateusage);
+		buf.write(buffer_f32, studiousage);
+	};
+	
+	/// @function log()
+	/// @description Logs this object's internal data to the console.
+	/// @returns {void}
+	static log = function()
+	{
+		show_debug_message("===== GMFMS_CPUUsage Log =====");	
+		show_debug_message("dspusage: " + string(dspusage));	
+		show_debug_message("streamusage: " + string(streamusage));	
+		show_debug_message("geometryusage: " + string(geometryusage));	
+		show_debug_message("updateusage: " + string(updateusage));	
+		show_debug_message("studiousage: " + string(studiousage));	
+	};
+}

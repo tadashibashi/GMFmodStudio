@@ -2,6 +2,7 @@
 // You can write your code in this editor
 inst.release();
 inst2.release();
+tabletest.release();
 
 studio.flushCommands();
 studio.unloadAll();

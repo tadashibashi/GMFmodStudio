@@ -1,25 +1,29 @@
-/// @description Insert description here
-// You can write your code in this editor
-studio = new FmodStudioSystem(); /// @is FmodStudioSystem
+
+studio = new GMFMS_System(); /// @is GMFMS_System
 studio.initialize(128, FMOD_STUDIO_INIT_LIVEUPDATE, 0);
-studio.loadBankFile(working_directory + "soundbanks/Desktop/Master.bank");
-studio.loadBankFile(working_directory + "soundbanks/Desktop/Master.strings.bank");
+studio.loadBankFile(working_directory + "soundbanks/Desktop/Master_ENG.bank");
+studio.loadBankFile(working_directory + "soundbanks/Desktop/Master_ENG.strings.bank");
 desc = studio.getEvent("event:/Music");
+audioTableDesc = studio.getEvent("event:/AudioTable");
 
 descID = desc.getID();
 descGottenByID = studio.getEventByID(descID);
 
-var paramdesc/*: FmodStudioParameterDescription*/ = 
-    desc.getParameterDescriptionByName("Pitch");
+var paramdesc/*: GMFMS_ParamDesc*/ = 
+    desc.getParamDescByName("Pitch");
 
-var paramID = paramdesc.id;
-var paramdesc2 = desc.getParameterDescriptionByID(paramID);
+var paramID = paramdesc.pid;
+var paramdesc2 = desc.getParamDescByID(paramID);
 
-inst = descGottenByID.createInstance();
+inst = new GMFMS_EvInst();
+descGottenByID.createInstance(inst);
 
 inst2 = studio.getEvent("event:/UIBlip").createInstance();
 
-//inst.start();
+audioTableInst = audioTableDesc.createInstance();
+audioTableInst.setCallbackAudioTable(studio.getHandle());
+
+tabletest = studio.createAudioTableInst("event:/AudioTable", "Explode");
 
 fmod_studio_system_start_command_capture(studio.studio_, working_directory + "commandtest.file", 0);
 
@@ -27,7 +31,6 @@ var sound = ptr(fmod_system_create_midi_sound(studio.core_,
 	working_directory + "disney.mid", working_directory + "Fury.dls", 0));
 //fmod_system_play_sound(studio.core_, sound);
 
-inst.start();
 
 image_xscale = 4;
 image_yscale = 4;

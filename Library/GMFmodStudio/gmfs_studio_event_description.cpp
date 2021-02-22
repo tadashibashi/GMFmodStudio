@@ -385,6 +385,8 @@ gms_export double fmod_studio_evdesc_get_paramdesc_by_name(char *evt_ptr, char *
     return ret;
 }
 
+
+
 // Fills a gm buffer with information for a parameter description.
 // Returns 0 on success and -1 on error.
 gms_export double fmod_studio_evdesc_get_paramdesc_by_index(char *evt_ptr, double index, char *buf_address)

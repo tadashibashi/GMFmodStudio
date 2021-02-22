@@ -53,7 +53,7 @@ public:
     }
 
     // Write the entire string into the buffer.
-    void write_string(const char *str, size_t str_buf_size)
+    void write_string(const char *str)
     {
         while (*str != '\0')
         {

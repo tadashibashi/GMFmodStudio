@@ -91,9 +91,9 @@
             1,
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_evdesc_get_id","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"__gmfmod_interpret_string","kind":1,"help":"__gmfmod_interpret_string(char_ptr)","hidden":false,"returnType":1,"argCount":0,"args":[
+        {"externalName":"gmfms_interpret_string","kind":1,"help":"gmfms_interpret_string(char_ptr)","hidden":false,"returnType":1,"argCount":0,"args":[
             2,
-          ],"resourceVersion":"1.0","name":"__gmfmod_interpret_string","tags":[],"resourceType":"GMExtensionFunction",},
+          ],"resourceVersion":"1.0","name":"gmfms_interpret_string","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_system_get_event_by_id","kind":1,"help":"fmod_studio_system_get_event_by_id(studio, gm_buffer)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             1,
@@ -449,6 +449,26 @@
             1,
             2,
           ],"resourceVersion":"1.0","name":"fmod_studio_system_load_command_replay","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_evinst_set_callback_audiotable","kind":1,"help":"fmod_studio_evinst_set_callback_audiotable(evinst, studio)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_evinst_set_callback_audiotable","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_system_get_buffer_usage","kind":1,"help":"fmod_studio_system_get_buffer_usage(studio, usage_bufaddr)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_system_get_buffer_usage","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"gmfms_audiotable_event_create","kind":1,"help":"gmfms_audiotable_event_create(studio, key, ev_path)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"gmfms_audiotable_event_create","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"gmfms_audiotable_event_release","kind":1,"help":"gmfms_audiotable_event_release(evinst)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"gmfms_audiotable_event_release","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"gmfms_audiotable_event_change_key","kind":1,"help":"gmfms_audiotable_event_change_key(evinst, key)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"gmfms_audiotable_event_change_key","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[
         {"value":"0","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_PLAYING","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"1","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_SUSTAINING","tags":[],"resourceType":"GMExtensionConstant",},
@@ -529,7 +549,7 @@
         {"name":"RegisterCallbacks","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_extension_close","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_get_error_string","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
-        {"name":"__gmfmod_interpret_string","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"gmfms_interpret_string","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_initialize","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_update","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_load_bank_file","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
@@ -649,6 +669,11 @@
         {"name":"fmod_studio_system_start_command_capture","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_stop_command_capture","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_load_command_replay","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_evinst_set_callback_audiotable","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_system_get_buffer_usage","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"gmfms_audiotable_event_create","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"gmfms_audiotable_event_release","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"gmfms_audiotable_event_change_key","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",
