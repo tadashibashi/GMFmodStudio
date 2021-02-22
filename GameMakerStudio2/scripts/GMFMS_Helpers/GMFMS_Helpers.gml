@@ -74,7 +74,7 @@ function GMFMS_Buffer(size, alignment) constructor
 	{
 		// read the pointer (should convert to 64bit uint on dll-side)
 		var charPtr = buffer_read(buffer_, buffer_u64);
-		return gmfms_interpret_string(charPtr);
+		return GMFMS_InterpretString(charPtr);
 	};
 	
 	static write = function(type, value)

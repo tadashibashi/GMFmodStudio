@@ -647,8 +647,6 @@ gms_export char *fmod_studio_evdesc_get_path(char *evt_ptr)
     return const_cast<char *>(ret.c_str());
 }
 
-// get/set User data, and set Callback temporarily not available
-
 /*
  * Checks if the EventDescription reference is valid.
  * Returns true or false.

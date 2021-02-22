@@ -82,7 +82,7 @@ function GMFMS_EvDesc() constructor
 		}
 		else
 		{
-			throw "Error getting Fmod Parameter Description: " + fmod_studio_get_error_string();	
+			throw "Error getting Fmod Parameter Description: " + GMFMS_GetErrorString();	
 		}
 	};
 	
@@ -99,7 +99,7 @@ function GMFMS_EvDesc() constructor
 		}
 		else
 		{
-			throw "Error getting Fmod Parameter Description: " + fmod_studio_get_error_string();
+			throw "Error getting Fmod Parameter Description: " + GMFMS_GetErrorString();
 		}
 	};
 	
@@ -118,7 +118,7 @@ function GMFMS_EvDesc() constructor
 		}
 		else
 		{
-			throw "Error getting Fmod Parameter Description: " + fmod_studio_get_error_string();
+			throw "Error getting Fmod Parameter Description: " + GMFMS_GetErrorString();
 		}
 	};
 

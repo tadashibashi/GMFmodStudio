@@ -35,7 +35,7 @@ function GMFMS_System() constructor
 	{
 		var evdesc = fmod_studio_system_get_event(studio_, event_path);
 		if (evdesc == 0) {
-			throw "FMOD Studio error: " + fmod_studio_get_error_string();
+			throw "FMOD Studio error: " + GMFMS_GetErrorString();
 		}
 			
 		return new GMFMS_EvDesc(evdesc);
@@ -49,7 +49,7 @@ function GMFMS_System() constructor
 		
 		var evdesc = fmod_studio_system_get_event_by_id(studio_, buf.getAddress());
 		if (evdesc == 0) {
-			throw "FMOD Studio error: " + fmod_studio_get_error_string();
+			throw "FMOD Studio error: " + GMFMS_GetErrorString();
 		}
 		
 		return new GMFMS_EvDesc(evdesc);

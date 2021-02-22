@@ -273,10 +273,10 @@ gms_export double fmod_studio_bank_get_vca_count(char *ptr)
 // Fills a buffer with an array of all the vcas as ptrs cast to uint64.
 // Slow because of dynamic memory allocation.
 // Returns count written on success and -1 on error.
-gms_export double fmod_studio_bank_get_vca_list(char *evt_ptr, double capacity, char *gmbuf)
+gms_export double fmod_studio_bank_get_vca_list(char *ptr, double capacity, char *gmbuf)
 {
     double ret = -1;
-    auto bank = (FMOD::Studio::Bank *)evt_ptr;
+    auto bank = (FMOD::Studio::Bank *)ptr;
     if (!bank || !bank->isValid()) return ret;
 
     int count;

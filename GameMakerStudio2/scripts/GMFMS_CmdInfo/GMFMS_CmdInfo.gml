@@ -11,7 +11,7 @@ function FmodStudioCommandInfo() constructor
 	
 	static readFromBuffer = function(buf)
 	{
-		 commandname = gmfms_interpret_string(buf.read(buffer_u64));
+		 commandname = GMFMS_InterpretString(buf.read(buffer_u64));
 		 parentcommandindex = buf.read(buffer_s32);
 		 framenumber = buf.read(buffer_s32);
 		 frametime = buf.read(buffer_f32);

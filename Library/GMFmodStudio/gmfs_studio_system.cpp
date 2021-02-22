@@ -5,12 +5,12 @@
 
 std::vector<FMOD_STUDIO_PARAMETER_DESCRIPTION> fmod_studio_global_params;
 
-gms_export int fmod_studio_get_error()
+gms_export double gmfms_get_error()
 {
-    return static_cast<int>(check);
+    return static_cast<double>(check);
 }
 
-gms_export const char *fmod_studio_get_error_string()
+gms_export const char *gmfms_get_error_string()
 {
     return FMOD_ErrorString(check);
 }
@@ -73,7 +73,6 @@ gms_export double fmod_studio_system_release(char *raw_studio_ptr)
     return (check == FMOD_OK);
 }
 
-
 // ============================================================================
 // Update
 // ============================================================================
@@ -109,14 +108,14 @@ gms_export double fmod_studio_system_flush_sample_loading(char *raw_studio_ptr)
 // ============================================================================
 
 // Returns loaded Studio Bank ptr or 0 if error
-gms_export double fmod_studio_system_load_bank_file(char *raw_studio_ptr, const char *path)
+gms_export double fmod_studio_system_load_bank_file(char *raw_studio_ptr, const char *path, double flags)
 {
     auto studio = (FMOD::Studio::System *)(raw_studio_ptr);
     double ret = 0;
 
     FMOD::Studio::Bank *bank;
 
-    check = studio->loadBankFile(path, FMOD_STUDIO_LOAD_BANK_NORMAL, &bank);
+    check = studio->loadBankFile(path, (FMOD_STUDIO_LOAD_BANK_FLAGS)flags, &bank);
     if (check == FMOD_OK)
         ret = (double)(uintptr_t)bank;
 

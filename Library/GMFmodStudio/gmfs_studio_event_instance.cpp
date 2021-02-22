@@ -4,6 +4,8 @@
 #include <iostream>
 #include <map>
 
+std::string dlsname;
+
 struct SoundCallbackData
 {
     std::string key;
@@ -156,7 +158,7 @@ FMOD_RESULT F_CALLBACK gmfms_audiotable_event_callback(
 
 }
 
-gms_export double gmfms_audiotable_event_release(char *inst_ptr)
+gms_export double gmfms_progevent_audiotable_release(char *inst_ptr)
 {
     auto inst = (FMOD::Studio::EventInstance *)inst_ptr;
     if (audiotable_evdata.count(inst_ptr) > 0)
@@ -169,7 +171,7 @@ gms_export double gmfms_audiotable_event_release(char *inst_ptr)
     return (check == FMOD_OK) ? 0 : -1;
 }
 
-gms_export double gmfms_audiotable_event_get_sound(char *inst_ptr)
+gms_export double gmfms_progevent_audiotable_get_sound(char *inst_ptr)
 {
     double ret = 0;
     if (audiotable_evdata.count(inst_ptr) > 0)
@@ -181,7 +183,7 @@ gms_export double gmfms_audiotable_event_get_sound(char *inst_ptr)
     return ret;
 }
 
-gms_export double gmfms_audiotable_event_change_key(char *inst_ptr, char *new_key)
+gms_export double gmfms_progevent_audiotable_change_key(char *inst_ptr, char *new_key)
 {
     if (((FMOD::Studio::EventInstance *)inst_ptr)->isValid() &&
         audiotable_evdata.count(inst_ptr) > 0)
@@ -322,6 +324,20 @@ FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback(
     map.SendAsyncEvent();
 
     return FMOD_OK;
+}
+
+gms_export double fmod_studio_evdesc_set_callback(char *ptr, double callback_mask)
+{
+    auto desc = (FMOD::Studio::EventDescription *)ptr;
+    double ret = -1;
+    if (desc && desc->isValid())
+    {
+        check = desc->setCallback(fmod_studio_evinst_callback,
+            (FMOD_STUDIO_EVENT_CALLBACK_TYPE)callback_mask);
+        if (check == FMOD_OK) ret = 0;
+    }
+
+    return ret;
 }
 
 // ============================================================================

@@ -1,8 +1,8 @@
 
 studio = new GMFMS_System(); /// @is GMFMS_System
 studio.initialize(128, FMOD_STUDIO_INIT_LIVEUPDATE, 0);
-studio.loadBankFile(working_directory + "soundbanks/Desktop/Master_ENG.bank");
-studio.loadBankFile(working_directory + "soundbanks/Desktop/Master_ENG.strings.bank");
+studio.loadBankFile(working_directory + "soundbanks/Desktop/Master_ENG.bank", FMOD_STUDIO_LOAD_BANK_NONBLOCKING);
+studio.loadBankFile(working_directory + "soundbanks/Desktop/Master_ENG.strings.bank", FMOD_STUDIO_LOAD_BANK_NONBLOCKING);
 desc = studio.getEvent("event:/Music");
 audioTableDesc = studio.getEvent("event:/AudioTable");
 

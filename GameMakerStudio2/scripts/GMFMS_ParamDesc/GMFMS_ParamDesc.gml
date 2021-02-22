@@ -31,6 +31,11 @@ function GMFMS_ParamDesc() constructor
 		flags = buf.read(buffer_u32);
 	}
 	
+	if (argument_count == 1 && instanceof(argument[0]) == "GMFMS_Buffer")
+	{
+		readFromBuffer(argument[0]);	
+	}
+	
 	/// @func log()
 	/// @desc Logs a debug message with this ParameterDescription's data.
 	/// @returns {void}

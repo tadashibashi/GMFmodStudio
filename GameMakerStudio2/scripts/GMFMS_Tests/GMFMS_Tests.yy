@@ -6,7 +6,7 @@
     "path": "folders/Scripts/GMFmodStudio.yy",
   },
   "resourceVersion": "1.0",
-  "name": "gmfs_test",
+  "name": "GMFMS_Tests",
   "tags": [],
   "resourceType": "GMScript",
 }
