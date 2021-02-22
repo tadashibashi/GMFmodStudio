@@ -4,6 +4,12 @@
 #include <iostream>
 #include <map>
 
+struct SoundCallbackData
+{
+    std::string key;
+    FMOD::Sound *sound = nullptr;
+};
+
 FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback_audiotable(
     FMOD_STUDIO_EVENT_CALLBACK_TYPE type,
     FMOD_STUDIO_EVENTINSTANCE *inst,
@@ -80,7 +86,7 @@ FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback_audiotable(
     return FMOD_OK;
 }
 
-std::map<char *, std::string>audiotable_evdata;
+std::map<char *, SoundCallbackData>audiotable_evdata;
 
 // General callback handler for EventInstances
 FMOD_RESULT F_CALLBACK gmfms_audiotable_event_callback(
@@ -101,7 +107,7 @@ FMOD_RESULT F_CALLBACK gmfms_audiotable_event_callback(
         }
 
         FMOD_STUDIO_SOUND_INFO info;
-        result = studio->getSoundInfo(audiotable_evdata[(char *)inst].c_str(), &info);
+        result = studio->getSoundInfo(audiotable_evdata[(char *)inst].key.c_str(), &info);
         if (result != FMOD_OK)
         {
             std::cerr << "gmfms audiotable callback error, while getting soundinfo: " << FMOD_ErrorString(result);
@@ -128,11 +134,14 @@ FMOD_RESULT F_CALLBACK gmfms_audiotable_event_callback(
 
         props->sound = (FMOD_SOUND *)sound;
         props->subsoundIndex = info.subsoundindex;
-
+        
+        audiotable_evdata[(char *)inst].sound = sound;
         return result;
     }
     else if (type == FMOD_STUDIO_EVENT_CALLBACK_DESTROY_PROGRAMMER_SOUND)
     {
+        audiotable_evdata[(char *)inst].sound = nullptr;
+
         result = FMOD_Sound_Release(props->sound);
         return result;
     }
@@ -160,12 +169,24 @@ gms_export double gmfms_audiotable_event_release(char *inst_ptr)
     return (check == FMOD_OK) ? 0 : -1;
 }
 
+gms_export double gmfms_audiotable_event_get_sound(char *inst_ptr)
+{
+    double ret = 0;
+    if (audiotable_evdata.count(inst_ptr) > 0)
+    {
+        if (audiotable_evdata[inst_ptr].sound)
+            ret = (double)(uintptr_t)audiotable_evdata[inst_ptr].sound;
+    }
+
+    return ret;
+}
+
 gms_export double gmfms_audiotable_event_change_key(char *inst_ptr, char *new_key)
 {
     if (((FMOD::Studio::EventInstance *)inst_ptr)->isValid() &&
         audiotable_evdata.count(inst_ptr) > 0)
     {
-        audiotable_evdata[inst_ptr] = new_key;
+        audiotable_evdata[inst_ptr].key = new_key;
         return 0;
     }
     else
@@ -220,7 +241,8 @@ gms_export double gmfms_audiotable_event_create(char *studio_ptr, char *key, cha
     }
 
     // good to go, set the data
-    audiotable_evdata[(char *)inst] = std::string(key);
+    audiotable_evdata[(char *)inst].key = std::string(key);
+    audiotable_evdata[(char *)inst].sound = nullptr;
 
     return (double)(uintptr_t)inst;
 }

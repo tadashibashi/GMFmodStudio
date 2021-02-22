@@ -591,10 +591,6 @@ gms_export double fmod_studio_system_get_paramdesc_by_index(char *ptr, double in
 }
 
 
-
-
-// TODO: Parameter functions
-
 // ============================================================================
 // VCA
 // ============================================================================
@@ -842,7 +838,7 @@ gms_export double fmod_studio_system_lookup_id(char *ptr, char *evpath, char *gm
 
 // Lookup the path for a particular GUID and write it into the buffer.
 // Returns path string or empty string if an error. Note: if a strings bank is not loaded, this will return empty as well.
-gms_export const char *fmod_studio_system_lookup_path(char *ptr, char *evpath, char *gmbuf)
+gms_export const char *fmod_studio_system_lookup_path(char *ptr, char *gmbuf)
 {
     auto studio = (FMOD::Studio::System *)ptr;
     static std::string str;
