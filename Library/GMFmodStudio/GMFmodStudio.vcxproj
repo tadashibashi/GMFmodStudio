@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="gmfs_api.cpp" />
+    <ClCompile Include="gmfs_sound.cpp" />
     <ClCompile Include="gmfs_studio_command_replay.cpp" />
     <ClCompile Include="gmfs_common.cpp" />
     <ClCompile Include="gmfs_studio_bus.cpp" />

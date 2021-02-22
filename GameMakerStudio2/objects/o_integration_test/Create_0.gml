@@ -27,9 +27,10 @@ tabletest = studio.createAudioTableInst("event:/AudioTable", "Explode");
 
 fmod_studio_system_start_command_capture(studio.studio_, working_directory + "commandtest.file", 0);
 
-var sound = ptr(fmod_system_create_midi_sound(studio.core_, 
+soundspeed = 1;
+sound = ptr(fmod_system_create_midi_sound(studio.core_, 
 	working_directory + "disney.mid", working_directory + "Fury.dls", 0));
-//fmod_system_play_sound(studio.core_, sound);
+
 
 
 image_xscale = 4;

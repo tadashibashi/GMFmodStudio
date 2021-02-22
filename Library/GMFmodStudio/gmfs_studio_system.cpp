@@ -543,7 +543,6 @@ gms_export double fmod_studio_system_get_paramdesc_by_index(char *ptr, double in
     // flag that checks if the user has queried the parameter descriptions or not yet.
     static bool queried;
 
-    
     if (studio && studio->isValid())
     {
         // Set the global var storage of paramdescs once

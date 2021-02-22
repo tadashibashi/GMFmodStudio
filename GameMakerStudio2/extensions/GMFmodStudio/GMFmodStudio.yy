@@ -469,6 +469,10 @@
             1,
             1,
           ],"resourceVersion":"1.0","name":"gmfms_audiotable_event_change_key","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_sound_set_music_speed","kind":1,"help":"fmod_sound_set_music_speed(sound, speed)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            2,
+          ],"resourceVersion":"1.0","name":"fmod_sound_set_music_speed","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[
         {"value":"0","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_PLAYING","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"1","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_SUSTAINING","tags":[],"resourceType":"GMExtensionConstant",},
@@ -674,6 +678,7 @@
         {"name":"gmfms_audiotable_event_create","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"gmfms_audiotable_event_release","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"gmfms_audiotable_event_change_key","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_sound_set_music_speed","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",

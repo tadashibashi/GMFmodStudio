@@ -37,6 +37,8 @@
     {"isDnD":false,"eventNum":65,"eventType":9,"collisionObjectId":null,"parent":{"name":"o_integration_test","path":"objects/o_integration_test/o_integration_test.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":48,"eventType":9,"collisionObjectId":null,"parent":{"name":"o_integration_test","path":"objects/o_integration_test/o_integration_test.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":49,"eventType":9,"collisionObjectId":null,"parent":{"name":"o_integration_test","path":"objects/o_integration_test/o_integration_test.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":71,"eventType":5,"collisionObjectId":null,"parent":{"name":"o_integration_test","path":"objects/o_integration_test/o_integration_test.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":72,"eventType":5,"collisionObjectId":null,"parent":{"name":"o_integration_test","path":"objects/o_integration_test/o_integration_test.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],

@@ -45,6 +45,9 @@
     <ClCompile Include="gmfs_studio_command_replay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gmfs_sound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gmfs_buffer.h">
