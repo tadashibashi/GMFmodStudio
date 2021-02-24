@@ -6,7 +6,7 @@ function GMFMS_EvDesc() constructor
 	// Takes a double and converts it to a ptr, assigning it to the internal handle.
 	static assign = function(handle)
 	{
-		desc_ = GMFMS_HandleToPtr(handle);
+		desc_ = GMFMS_Ptr(handle);
 	};
 	
 	if (argument_count == 1 && is_real(argument[0]))

@@ -34,4 +34,4 @@ function runTests(_tests)
 	}
 }
 
-runTests([o_GMFMS_Test_StudioSystem]);
+runTests([o_GMFMS_Test_StudioSystem, o_GMFMS_Test_EventDescription]);

@@ -1,7 +1,7 @@
-//timer += delta_time / 1000000;
+timer += delta_time / 1000000;
 
-//if (timer > 20)
-//	finish();
+if (timer > 1)
+	finish();
 	
 //if (!stopped && timer > 15)
 //{

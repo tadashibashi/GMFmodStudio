@@ -149,9 +149,9 @@ function GMFMS_GetBuffer()
 	return global.__fmod_studio_extension_buffer;
 }
 
-/// @function GMFMS_HandleToPtr(handle)
+/// @func GMFMS_Ptr(handle)
 /// @returns {any}
-function GMFMS_HandleToPtr(handle)
+function GMFMS_Ptr(handle)
 {
 	if (typeof(handle) == "struct") { // HTML5 behavior
 		return handle;

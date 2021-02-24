@@ -71,7 +71,7 @@ function GMFMS_Test(_name, _tests) constructor
 		
 
 		
-		studio = GMFMS_HandleToPtr(fmod_studio_system_create());
+		studio = GMFMS_Ptr(fmod_studio_system_create());
 		fmod_studio_system_initialize(studio, 1024, FMOD_STUDIO_INIT_NORMAL, 0);
 		
 		currentTestObj = instance_create_depth(0, 0, 0, tests[currentTest]);

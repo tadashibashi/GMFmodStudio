@@ -8,7 +8,7 @@ function GMFMS_EvInst(_handle) constructor
 	{
 		if (inst_ != pointer_null) // clean up first
 			release();
-		inst_ = GMFMS_HandleToPtr(handle);
+		inst_ = GMFMS_Ptr(handle);
 	};
 	
 	if (is_real(_handle))

@@ -7,7 +7,7 @@ if (checkedupdate == false)
 	if (map[?"fmodCallbackType"] == "StudioSystem")
 	{
 		GMFMS_Assert(
-			fmod_studio_system_is_valid(GMFMS_HandleToPtr(map[?"system"])),
+			fmod_studio_system_is_valid(GMFMS_Ptr(map[?"system"])),
 			true,
 			"StudioSystem Callback: system");
 		GMFMS_Assert(

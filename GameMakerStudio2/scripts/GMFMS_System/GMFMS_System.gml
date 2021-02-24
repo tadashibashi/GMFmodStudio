@@ -1,8 +1,8 @@
 function GMFMS_System() constructor
 {
 	// "Private" variables
-	studio_ = GMFMS_HandleToPtr(fmod_studio_system_create());
-	core_ = GMFMS_HandleToPtr(fmod_studio_system_get_core_system(studio_));
+	studio_ = GMFMS_Ptr(fmod_studio_system_create());
+	core_ = GMFMS_Ptr(fmod_studio_system_get_core_system(studio_));
 	
 	// Initializes the FMOD Studio object. Must be called before performing any
 	// other functions.
