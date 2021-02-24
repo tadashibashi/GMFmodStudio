@@ -21,6 +21,11 @@ function GMFMS_GUID() constructor
 		}
 	}
 	
+	if (argument_count == 1 && instanceof(argument[0]) == "GMFMS_Buffer")
+	{
+		readFromBuffer(argument[0]);	
+	}
+	
 	/// @desc Dumps data into a buffer in sequence u32, u16, u16, u8[8]
 	/// Overwrites GMFMS_Buffer object data starting at beginning of buffer.
 	static writeToBuffer = function(buf/*: GMFMS_Buffer*/)

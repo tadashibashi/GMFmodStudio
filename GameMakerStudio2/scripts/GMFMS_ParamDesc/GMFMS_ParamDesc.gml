@@ -1,5 +1,5 @@
 
-
+/// @func GMFMS_ParamDesc([buf: GMFMS_Buffer])
 function GMFMS_ParamDesc() constructor
 {
 	// Name of the parameter
@@ -17,11 +17,12 @@ function GMFMS_ParamDesc() constructor
 	// The FMOD_STUDIO_PARAMTER_FLAGS properties.
 	flags = 0; /// @is {number}
 	
-	/// @func readFromBuffer()
+	/// @func readFromBuffer(buf: GMFMS_Buffer)
 	/// @param {GMFMS_Buffer} buf Buffer to retrieve assignment data from.
 	/// @returns {void}
 	static readFromBuffer = function(buf/*: GMFMS_Buffer*/)
 	{
+
 		name = buf.readCharStar();
 		pid.readFromBuffer(buf);
 		minimum = buf.read(buffer_f32);

@@ -420,7 +420,8 @@ gms_export double fmod_studio_system_get_parameter_by_name_final(char *ptr, char
     return ret;
 }
 
-gms_export double fmod_studio_studio_set_parameter_by_id(char *ptr, char *gmbuf, double value, double ignoreseekspeed)
+// Note: Buffer must contain a series of values: uint32_t, uint32_t, float for each param id + value
+gms_export double fmod_studio_system_set_parameter_by_id(char *ptr, char *gmbuf, double value, double ignoreseekspeed)
 {
     auto studio = (FMOD::Studio::System *)ptr;
     double ret = -1;
@@ -442,7 +443,7 @@ gms_export double fmod_studio_studio_set_parameter_by_id(char *ptr, char *gmbuf,
 }
 
 // buffer must be uin32_t, uint32_t, float for each set of ParameterID + value.
-gms_export double fmod_studio_studio_set_parameters_by_ids(char *ptr, char *gmbuf, double count, double ignoreseekspeed)
+gms_export double fmod_studio_system_set_parameters_by_ids(char *ptr, char *gmbuf, double count, double ignoreseekspeed)
 {
     auto studio = (FMOD::Studio::System *)ptr;
     double ret = -1;
@@ -471,7 +472,7 @@ gms_export double fmod_studio_studio_set_parameters_by_ids(char *ptr, char *gmbu
     return ret;
 }
 
-gms_export double fmod_studio_studio_get_parameter_by_id(char *ptr, char *gmbuf)
+gms_export double fmod_studio_system_get_parameter_by_id(char *ptr, char *gmbuf)
 {
     auto studio = (FMOD::Studio::System *)ptr;
     double ret = -1;
@@ -493,7 +494,7 @@ gms_export double fmod_studio_studio_get_parameter_by_id(char *ptr, char *gmbuf)
     return ret;
 }
 
-gms_export double fmod_studio_studio_get_parameter_by_id_final(char *ptr, char *gmbuf)
+gms_export double fmod_studio_system_get_parameter_by_id_final(char *ptr, char *gmbuf)
 {
     auto studio = (FMOD::Studio::System *)ptr;
     double ret = -1;
@@ -548,19 +549,22 @@ gms_export double fmod_studio_system_get_paramdesc_by_index(char *ptr, double in
         if (!queried)
         {
             int count;
-            studio->getParameterDescriptionCount(&count);
+            FMOD_RESULT result;
+            result = studio->getParameterDescriptionCount(&count);
 
-            FMOD_STUDIO_PARAMETER_DESCRIPTION *params = new FMOD_STUDIO_PARAMETER_DESCRIPTION[count];
-            studio->getParameterDescriptionList(params, count, nullptr);
-
-            for (int i = 0; i < count; ++i)
+            if (result == FMOD_OK && count > 0)
             {
+                FMOD_STUDIO_PARAMETER_DESCRIPTION *params = new FMOD_STUDIO_PARAMETER_DESCRIPTION[count];
+                result = studio->getParameterDescriptionList(params, count, &count);
                 
-                fmod_studio_global_params.emplace_back(params[i]);
+                for (int i = 0; i < count; ++i)
+                {
+                    fmod_studio_global_params.push_back(params[i]);
+                }
+ 
+                queried = true;
+                delete[] params;
             }
-
-            queried = true;
-            delete[] params;
         }
 
         if (index >= fmod_studio_global_params.size())
@@ -570,20 +574,18 @@ gms_export double fmod_studio_system_get_paramdesc_by_index(char *ptr, double in
         }
 
         FMOD_STUDIO_PARAMETER_DESCRIPTION &param = fmod_studio_global_params[(int)index];
-        if (check == FMOD_OK)
-        {
-            Buffer buf(gmbuf);
-            buf.write_char_star(param.name);
-            buf.write<uint32_t>(param.id.data1);
-            buf.write<uint32_t>(param.id.data2);
-            buf.write(param.minimum);
-            buf.write(param.maximum);
-            buf.write(param.defaultvalue);
-            buf.write<uint32_t>(param.type);
-            buf.write<uint32_t>(param.flags);
 
-            ret = 0;
-        }
+        Buffer buf(gmbuf);
+        buf.write_char_star(param.name);
+        buf.write<uint32_t>(param.id.data1);
+        buf.write<uint32_t>(param.id.data2);
+        buf.write(param.minimum);
+        buf.write(param.maximum);
+        buf.write(param.defaultvalue);
+        buf.write<uint32_t>(param.type);
+        buf.write<uint32_t>(param.flags);
+
+        ret = 0;
     }
     
     return ret;

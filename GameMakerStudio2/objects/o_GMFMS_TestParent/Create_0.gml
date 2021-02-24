@@ -1,15 +1,17 @@
 // Create and initialize the FMOD Studio System for testing
+checkedupdate = false;
+
 studio = ptr(fmod_studio_system_create());
 
-check = fmod_studio_system_initialize(
+GMFMS_Assert(fmod_studio_system_is_valid(studio), true, "Studio System Create");
+
+fmod_studio_system_initialize(
 	studio, 
 	1024, 
 	FMOD_STUDIO_INIT_NORMAL, 
 	FMOD_INIT_NORMAL);
 	
-if (check != 0)
-	throw "FMOD Studio Initialization Error: " + GMFMS_GetErrorString();
-
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "Studio System Initialize");
 
 onFinish = [];
 

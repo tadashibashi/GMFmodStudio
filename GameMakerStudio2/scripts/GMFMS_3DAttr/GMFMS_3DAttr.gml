@@ -14,6 +14,11 @@ function GMFMS_3DAttr() constructor
         forward.readFromBuffer(buf);
         up.readFromBuffer(buf);
     };
+	
+	if (argument_count == 1 && instanceof(argument[0]) == "GMFMS_Buffer")
+	{
+			readFromBuffer(argument[0]);
+	}
     
     static writeToBuffer = function(buf/*: GMFMS_Buffer*/)
     {

@@ -45,7 +45,7 @@ public:
     }
 
     // Write a pointer to the c-string into the buffer (GM uses helper function 
-    // __gmfmod_interpret_string(double ptr) to get this string)
+    // GMFMS_InterpretString(double ptr) to get this string)
     void write_char_star(const char *str)
     {
         *(uint64_t *)pos = (uintptr_t)str;

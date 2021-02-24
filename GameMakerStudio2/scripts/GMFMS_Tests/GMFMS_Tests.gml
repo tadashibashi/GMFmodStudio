@@ -16,6 +16,36 @@ function GMFMS_Assert(actual, expected, testname)
 	}
 }
 
+function GMFMS_Performance() constructor
+{
+	tests = {};
+	
+	static start = function(name)
+	{
+		if (name == undefined)
+		{
+			tests.__default = get_timer();		
+		}
+		else
+		{
+			variable_struct_set(tests, name, get_timer());
+		}
+	};
+	
+	static stop = function(name)
+	{
+		if (name == undefined)
+		{
+			show_debug_message("Test took " + string((get_timer() - tests.__default) * 0.001) + "ms");	
+		}
+		else
+		{
+			show_debug_message("[" + name +"] took: " + string((get_timer() - variable_struct_get(tests, name)) * 0.001) + "ms");	
+			variable_struct_remove(tests, name);
+		}
+	};
+}
+
 function GMFMS_Test(_name, _tests) constructor
 {
 	name = _name;

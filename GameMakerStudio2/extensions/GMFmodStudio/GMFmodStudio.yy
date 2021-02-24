@@ -541,26 +541,26 @@
             1,
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_system_get_parameter_by_name_final","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_studio_set_parameter_by_id","kind":1,"help":"fmod_studio_studio_set_parameter_by_id(studio, id_bufaddr, value, ignoreseek)","hidden":false,"returnType":1,"argCount":0,"args":[
+        {"externalName":"fmod_studio_system_set_parameter_by_id","kind":1,"help":"fmod_studio_system_set_parameter_by_id(studio, id_bufaddr, value, ignoreseek)","hidden":false,"returnType":1,"argCount":0,"args":[
             1,
             1,
             2,
             2,
-          ],"resourceVersion":"1.0","name":"fmod_studio_studio_set_parameter_by_id","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_studio_set_parameters_by_ids","kind":1,"help":"fmod_studio_studio_set_parameters_by_ids(studio, buf, count, ignoreseekspeed)","hidden":false,"returnType":2,"argCount":0,"args":[
+          ],"resourceVersion":"1.0","name":"fmod_studio_system_set_parameter_by_id","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_system_set_parameters_by_ids","kind":1,"help":"fmod_studio_system_set_parameters_by_ids(studio, buf, count, ignoreseekspeed)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             1,
             2,
             2,
-          ],"resourceVersion":"1.0","name":"fmod_studio_studio_set_parameters_by_ids","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_studio_get_parameter_by_id","kind":1,"help":"fmod_studio_studio_get_parameter_by_id(studio, pid_buf)","hidden":false,"returnType":2,"argCount":0,"args":[
+          ],"resourceVersion":"1.0","name":"fmod_studio_system_set_parameters_by_ids","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_system_get_parameter_by_id","kind":1,"help":"fmod_studio_system_get_parameter_by_id(studio, pid_buf)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             1,
-          ],"resourceVersion":"1.0","name":"fmod_studio_studio_get_parameter_by_id","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_studio_get_parameter_by_id_final","kind":1,"help":"fmod_studio_studio_get_parameter_by_id_final(studio, pid_buf)","hidden":false,"returnType":2,"argCount":0,"args":[
+          ],"resourceVersion":"1.0","name":"fmod_studio_system_get_parameter_by_id","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_system_get_parameter_by_id_final","kind":1,"help":"fmod_studio_system_get_parameter_by_id_final(studio, pid_buf)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             1,
-          ],"resourceVersion":"1.0","name":"fmod_studio_studio_get_parameter_by_id_final","tags":[],"resourceType":"GMExtensionFunction",},
+          ],"resourceVersion":"1.0","name":"fmod_studio_system_get_parameter_by_id_final","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_system_get_paramdesc_count","kind":1,"help":"fmod_studio_system_get_paramdesc_count(studio)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_system_get_paramdesc_count","tags":[],"resourceType":"GMExtensionFunction",},
@@ -883,10 +883,10 @@
         {"name":"fmod_studio_system_set_parameter_by_name","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_get_parameter_by_name","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_get_parameter_by_name_final","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
-        {"name":"fmod_studio_studio_set_parameter_by_id","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
-        {"name":"fmod_studio_studio_set_parameters_by_ids","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
-        {"name":"fmod_studio_studio_get_parameter_by_id","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
-        {"name":"fmod_studio_studio_get_parameter_by_id_final","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_system_set_parameter_by_id","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_system_set_parameters_by_ids","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_system_get_parameter_by_id","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_system_get_parameter_by_id_final","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_get_paramdesc_count","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_get_paramdesc_by_index","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_get_vca","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},

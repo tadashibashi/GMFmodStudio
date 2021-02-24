@@ -8,14 +8,11 @@ gms_export double fmod_studio_bank_get_loading_state(char *ptr)
     auto bank = (FMOD::Studio::Bank *)ptr;
     double ret = -1;
 
-    if (bank && bank->isValid())
-    {
-        FMOD_STUDIO_LOADING_STATE state;
-        check = bank->getLoadingState(&state);
+    FMOD_STUDIO_LOADING_STATE state;
+    check = bank->getLoadingState(&state);
 
-        if (check == FMOD_OK)
-            ret = static_cast<double>(state);
-    }
+    if (check == FMOD_OK)
+        ret = static_cast<double>(state);
 
     return ret;
 }
