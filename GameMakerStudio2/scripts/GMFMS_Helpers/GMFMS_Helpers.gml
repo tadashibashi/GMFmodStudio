@@ -65,11 +65,17 @@ function GMFMS_Buffer(size, alignment) constructor
 		return buffer_tell(buffer_);	
 	};
 	
+	/// @func read(data_type)
+	/// @desc Returns a piece of data from the buffer and moves the head past that position.
+	/// @param {buffer_type} data_type 
 	static read = function(data_type)
 	{
 		return buffer_read(buffer_, data_type);	
 	};
 	
+	/// @func readCharStar()
+	/// @desc Interprets a const char * from C++ code to a GML string.
+	/// @returns {string}
 	static readCharStar = function()
 	{
 		// read the pointer (should convert to 64bit uint on dll-side)
@@ -77,11 +83,19 @@ function GMFMS_Buffer(size, alignment) constructor
 		return GMFMS_InterpretString(charPtr);
 	};
 	
+	/// @func write(data_type, value)
+	/// @desc Writes data into the buffer and moves the head past that point.
+	/// @param {buffer_type} type the type of data to write
+	/// @param {any} value the data to write
 	static write = function(type, value)
 	{
 		buffer_write(buffer_, type, value);	
 	};
 	
+	/// @func seek(base_pos, rel_bytes)
+	/// @desc Moves the position of the head to the corresponding position.
+	/// @param base the base position to seek from
+	/// @param {int} rel_bytes the bytes relative to the base position.
 	static seek = function(base, rel_bytes)
 	{
 		buffer_seek(buffer_, base, rel_bytes);	

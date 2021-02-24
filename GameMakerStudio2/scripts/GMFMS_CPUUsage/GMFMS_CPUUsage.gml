@@ -20,7 +20,7 @@ function GMFMS_CPUUsage() constructor
 		studiousage =   buf.read(buffer_f32);
 	};
 	
-	if (argument_count == 1 && instanceof(argument[0] == "GMFMS_Buffer"))
+	if (argument_count == 1 && instanceof(argument[0]) == "GMFMS_Buffer")
 	{
 		readFromBuffer(argument[0]);	
 	}

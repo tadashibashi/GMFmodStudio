@@ -1,6 +1,6 @@
 function GMFMS_AdvSettings() constructor
 {
-	commandqueusize = -1;         /// @is {int} uint_32_t
+	commandqueuesize = -1;         /// @is {int} uint_32_t
 	handleinitialsize = -1;       /// @is {int} uint_32_t
 	studioupdateperiod = -1;      /// @is {int} int_32_t
 	idlesampledatapoolsize = -1;  /// @is {int} int32_t
@@ -12,7 +12,7 @@ function GMFMS_AdvSettings() constructor
 	/// @returns {void}
 	static readFromBuffer = function(buf)
 	{
-		commandqueusize = buf.read(buffer_u32);
+		commandqueuesize = buf.read(buffer_u32);
 		handleinitialsize = buf.read(buffer_u32);
 		studioupdateperiod = buf.read(buffer_s32);
 		idlesampledatapoolsize = buf.read(buffer_s32);
@@ -20,9 +20,9 @@ function GMFMS_AdvSettings() constructor
 		encryptionkey = buf.read(buffer_string);
 	};
 	
-	if (argument_count == 1 && instanceof(argument[0] == "GMFMS_Buffer"))
+	if (argument_count == 1 && instanceof(argument[0]) == "GMFMS_Buffer")
 	{
-		readFromBuffer(argument[0]);	
+		readFromBuffer(argument[0]);
 	}
 	
 	/// @function writeToBuffer(buf: GMFMS_Buffer)
@@ -30,7 +30,7 @@ function GMFMS_AdvSettings() constructor
 	/// @returns {void}
 	static writeToBuffer = function(buf)
 	{
-		buf.write(buffer_u32, commandqueusize);
+		buf.write(buffer_u32, commandqueuesize);
 		buf.write(buffer_u32, handleinitialsize);
 		buf.write(buffer_s32, studioupdateperiod);
 		buf.write(buffer_s32, idlesampledatapoolsize);
@@ -44,7 +44,7 @@ function GMFMS_AdvSettings() constructor
 	static log = function()
 	{
 		show_debug_message("===== GMFMS_AdvSettings Log =====");	
-		show_debug_message("commandqueusize: " + string(commandqueusize));	
+		show_debug_message("commandqueuesize: " + string(commandqueuesize));	
 		show_debug_message("handleinitialsize: " + string(handleinitialsize));	
 		show_debug_message("studioupdateperiod: " + string(studioupdateperiod));	
 		show_debug_message("idlesampledatapoolsize: " + string(idlesampledatapoolsize));	

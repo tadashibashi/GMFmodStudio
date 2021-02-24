@@ -14,7 +14,7 @@ function GMFMS_BufUsage() constructor
 		studiohandle.readFromBuffer(buf);
 	};
 	
-	if (argument_count == 1 && instanceof(argument[0] == "GMFMS_Buffer"))
+	if (argument_count == 1 && instanceof(argument[0]) == "GMFMS_Buffer")
 	{
 		readFromBuffer(argument[0]);	
 	}

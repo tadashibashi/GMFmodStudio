@@ -23,12 +23,13 @@
   "eventList": [
     {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"parent":{"name":"o_GMFMS_Test_StudioSystem","path":"objects/o_GMFMS_Test_StudioSystem/o_GMFMS_Test_StudioSystem.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,"parent":{"name":"o_GMFMS_Test_StudioSystem","path":"objects/o_GMFMS_Test_StudioSystem/o_GMFMS_Test_StudioSystem.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":70,"eventType":7,"collisionObjectId":null,"parent":{"name":"o_GMFMS_Test_StudioSystem","path":"objects/o_GMFMS_Test_StudioSystem/o_GMFMS_Test_StudioSystem.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],
   "parent": {
     "name": "StudioSystem",
-    "path": "folders/Objects/gmfs_tests/StudioSystem.yy",
+    "path": "folders/Objects/GMFMS_Tests/StudioSystem.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_GMFMS_Test_StudioSystem",

@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <iostream>
 
 // Helper object that interfaces with a GMS2-generated buffer.
 class Buffer
@@ -26,7 +27,6 @@ public:
         char *ret = pos;
         while (*pos++ != '\0');
 
-        ++pos;
         return ret;
     }
 

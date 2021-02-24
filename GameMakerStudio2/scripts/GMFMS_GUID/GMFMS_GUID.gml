@@ -1,3 +1,4 @@
+/// @func GMFMS_GUID([buf: GMFMS_Buffer])
 function GMFMS_GUID() constructor
 {
 	// members

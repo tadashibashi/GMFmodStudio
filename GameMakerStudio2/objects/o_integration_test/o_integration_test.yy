@@ -43,8 +43,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "gmfs_tests",
-    "path": "folders/Objects/gmfs_tests.yy",
+    "name": "GMFMS_Tests",
+    "path": "folders/Objects/GMFMS_Tests.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_integration_test",

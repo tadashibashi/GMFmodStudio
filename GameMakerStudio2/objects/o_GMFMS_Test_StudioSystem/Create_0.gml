@@ -420,6 +420,120 @@ vca = GMFMS_HandleToPtr(fmod_studio_system_get_vca_by_id(studio, buf.getAddress(
 GMFMS_Assert(GMFMS_GetError() == FMOD_OK && fmod_studio_vca_is_valid(vca),
 	true, "StudioSystem Get VCA by ID");
 
+// ----------------------------------------------------------------------------
+// StudioSystem Command Capture Start, Stop, Load
+// functions: 
+//    fmod_studio_system_start_command_capture
+//    fmod_studio_system_stop_command_capture
+//    fmod_studio_system_load_command_replay
+// ----------------------------------------------------------------------------
+fmod_studio_system_start_command_capture(studio, 
+	working_directory + "commandcapture", FMOD_STUDIO_COMMANDCAPTURE_NORMAL)
+
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Start Command Capture");
+
+fmod_studio_system_stop_command_capture(studio);
+
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Stop Command Capture");
+
+crep = GMFMS_HandleToPtr(fmod_studio_system_load_command_replay(studio,
+	working_directory + "commandcapture", FMOD_STUDIO_COMMANDREPLAY_NORMAL));
+
+GMFMS_Assert(fmod_studio_comreplay_is_valid(crep), true, 
+	"StudioSystem Load Command Replay");
+
+// ----------------------------------------------------------------------------
+// StudioSystem Get Buffer Usage
+// functions: 
+//    fmod_studio_system_get_buffer_usage
+// ----------------------------------------------------------------------------
+buf.seekReset();
+fmod_studio_system_get_buffer_usage(studio, buf.getAddress());
+var buf_usage = new GMFMS_BufUsage(buf);
+
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get Buffer Usage");
+
+buf_usage.log();
+
+delete buf_usage;
+// ----------------------------------------------------------------------------
+// StudioSystem Reset Buffer Usage
+// functions: 
+//    fmod_studio_system_reset_buffer_usage
+// ----------------------------------------------------------------------------
+fmod_studio_system_reset_buffer_usage(studio);
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Reset Buffer Usage");
+
+// ----------------------------------------------------------------------------
+// StudioSystem Get CPU Usage
+// functions: 
+//    fmod_studio_system_get_cpu_usage
+// ----------------------------------------------------------------------------
+buf.seekReset();
+fmod_studio_system_get_cpu_usage(studio, buf.getAddress());
+var cpu_usage = new GMFMS_CPUUsage(buf);
+
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get CPU Usage");
+
+cpu_usage.log();
+
+delete cpu_usage;
+
+// ----------------------------------------------------------------------------
+// StudioSystem Get Memory Usage
+// functions: 
+//    fmod_studio_system_get_memory_usage
+// ----------------------------------------------------------------------------
+buf.seekReset();
+fmod_studio_system_get_memory_usage(studio, buf.getAddress());
+var mem_usage = new GMFMS_MemUsage(buf);
+
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get Memory Usage");
+
+mem_usage.log();
+
+delete mem_usage;
+
+// ----------------------------------------------------------------------------
+// StudioSystem Set Callback
+// functions: 
+//    fmod_studio_system_set_callback
+// ----------------------------------------------------------------------------
+fmod_studio_system_set_callback(studio, FMOD_STUDIO_SYSTEM_CALLBACK_PREUPDATE);
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Set Callback");
+
+// ----------------------------------------------------------------------------
+// StudioSystem Get Core System
+// functions: 
+//    fmod_studio_system_get_core_system
+// ----------------------------------------------------------------------------
+core = GMFMS_HandleToPtr(fmod_studio_system_get_core_system(studio));
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get Core System");
+
+// ----------------------------------------------------------------------------
+// StudioSystem Lookup ID/Path
+// functions: 
+//    fmod_studio_system_lookup_id
+//    fmod_studio_system_lookup_path
+// ----------------------------------------------------------------------------
+buf.seekReset();
+fmod_studio_system_lookup_id(studio, "event:/Music", buf.getAddress());
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Lookup ID: no errors");
+guid = new GMFMS_GUID(buf);
+
+buf.seekReset();
+guid.writeToBuffer(buf);
+var evmusic = GMFMS_HandleToPtr(
+	fmod_studio_system_get_event_by_id(studio, buf.getAddress()));
+
+GMFMS_Assert(fmod_studio_evdesc_is_valid(evmusic), true,
+	"StudioSystem Lookup ID: valid id");
+
+GMFMS_Assert(fmod_studio_system_lookup_path(studio, buf.getAddress()),
+	"event:/Music", "StudioSystem Lookup Path: path matches");
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, 
+	"StudioSystem Lookup Path: no errors");
+
 //// Move these tests elsewhere
 //// ----------------------------------------------------------------------------
 //// Create Event Instance from Event Description

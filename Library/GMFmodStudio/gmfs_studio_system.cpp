@@ -655,19 +655,23 @@ gms_export double fmod_studio_system_get_advanced_settings(char *raw_studio_ptr,
     auto studio = (FMOD::Studio::System *)(raw_studio_ptr);
     
     FMOD_STUDIO_ADVANCEDSETTINGS settings;
-
+    settings.cbsize = sizeof(FMOD_STUDIO_ADVANCEDSETTINGS);
     check = studio->getAdvancedSettings(&settings);
-
+    std::cout << "Get Advanced settings error: \"" << FMOD_ErrorString(check) << '\"' << std::endl;
+    if (settings.encryptionkey)
+        std::cout << "commandqueuesize: \"" << settings.encryptionkey << '\"' << std::endl;
     if (check == FMOD_OK)
     {
         Buffer buf(gm_buffer);
         buf.write<uint32_t>(settings.commandqueuesize);
         buf.write<uint32_t>(settings.handleinitialsize);
-        buf.write<uint32_t>(settings.studioupdateperiod);
-        buf.write<uint32_t>(settings.idlesampledatapoolsize);
+        buf.write<int32_t>(settings.studioupdateperiod);
+        buf.write<int32_t>(settings.idlesampledatapoolsize);
         buf.write<uint32_t>(settings.streamingscheduledelay);
-        buf.write_string(settings.encryptionkey);
-        
+        if (settings.encryptionkey)
+            buf.write_string(settings.encryptionkey);
+        else
+            buf.write_string("");
     }
 
     return (check == FMOD_OK) ? 0 : -1;
