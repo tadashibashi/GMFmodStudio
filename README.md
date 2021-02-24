@@ -20,6 +20,8 @@ FMOD Core API may be supported
   * Download FMOD Studio API for Windows
   * Copy the contents of the api/core/lib (both x86 and x64 folders) into GMFmodStudio/Library/fmod/lib
   * Copy the contents of the api/studio/lib (both x86 and x64 folders) into GMFmodStudio/Library/fmod/lib
+  * Drop the fmod.dll and fmodstudio.dll files into the folder GMFmodStudio/GameMakerStudio2/datafiles/
+  * For x64 versions of the dlls, append the filenames with "x64", resulting in "fmod_x64.dll" and "fmodstudio_x64.dll"
   * Build Visual Studio project for both Win32 and x64 platforms.
   * Check that the dll files have successfully built in the directory GMFmodStudio/GameMakerStudio2/extensions/GMFmodStudio/
 2. (Optional) Build FMOD Studio test banks (Studio version 2.01.04)
