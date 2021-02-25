@@ -1,11 +1,19 @@
-/// @func GMFMS_GUID([buf: GMFMS_Buffer])
+/// @file A GML representation of the FMOD_GUID object. Helpful to manage buffer
+/// transfer to and from the GMFmodStudio extension.
+/// @copyright Aaron Ishibashi, 2021.
+
+/// @struct GMFMS_GUID([buf: GMFMS_Buffer])
+/// @param {[GMFMS_Buffer]}
 function GMFMS_GUID() constructor
 {
-	// members
+	// ===== Initialization ======================================================
+	
 	data1 = 0; /// @is {int} unsigned int32
 	data2 = 0; /// @is {int} unsigned int16
 	data3 = 0; /// @is {int} unsigned int16
 	data4 = array_create(8, 0); /// @is {Array<int>} unsigned int8
+	// ---------------------------------------------------------------------------
+	
 	
 	/// @desc Assigns this GMFMS_GUID from an GMFMS_Buffer object
 	/// GMFMS_Buffer buf should have its head currently pointed where the next 
@@ -20,7 +28,7 @@ function GMFMS_GUID() constructor
 		{
 			data4[i] = buf.read(buffer_u8);	
 		}
-	}
+	};
 	
 	if (argument_count == 1 && instanceof(argument[0]) == "GMFMS_Buffer")
 	{
@@ -39,7 +47,7 @@ function GMFMS_GUID() constructor
 		{
 			buf.write(buffer_u8, data4[i]);	
 		}
-	}
+	};
 	
 	static log = function()
 	{
@@ -49,8 +57,10 @@ function GMFMS_GUID() constructor
 		show_debug_message("Data3: " + string(data3));
 		for (var i = 0; i < 8; ++i)
 			show_debug_message("Data4[" + string(i) + "]: " + string(data4[i]));
-	}
+	};
 }
 
+// GMEdit Hints ===============================================================
 /// @hint GMFMS_GUID:readFromBuffer(buf: GMFMS_Buffer)->void Assigns data to this GMFMS_GUID from a buffer
 /// @hint GMFMS_GUID:writeToBuffer(buf: GMFMS_Buffer)->void Sends data from this GMFMS_GUID into a buffer
+/// @hint GMFMS_GUID:log()->void Log struct data to the console.

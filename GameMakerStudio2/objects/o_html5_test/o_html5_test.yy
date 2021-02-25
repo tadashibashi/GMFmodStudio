@@ -24,8 +24,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Objects",
-    "path": "folders/Objects.yy",
+    "name": "GMFMS_Tests",
+    "path": "folders/Objects/GMFMS_Tests.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_html5_test",

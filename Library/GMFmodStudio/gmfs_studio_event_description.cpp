@@ -468,7 +468,7 @@ gms_export double fmod_studio_evdesc_get_user_property(char *evt_ptr, const char
 {
     auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
     double ret = -1;
-
+    
     if (desc && desc->isValid())
     {
         FMOD_STUDIO_USER_PROPERTY prop;

@@ -13,6 +13,9 @@ fmod_studio_system_load_bank_file(studio,
 evdmusic = GMFMS_Ptr(fmod_studio_system_get_event(studio, "event:/Music"));
 evdblip = GMFMS_Ptr(fmod_studio_system_get_event(studio, "event:/UIBlip"));
 
+GMFMS_Assert(fmod_studio_evdesc_is_valid(evdmusic), true, "EvDesc Is Valid 1");
+GMFMS_Assert(fmod_studio_evdesc_is_valid(evdblip), true, "EvDesc Is Valid 2");
+
 // ----------------------------------------------------------------------------
 // EvDesc Create Instance
 // ----------------------------------------------------------------------------
@@ -53,7 +56,7 @@ GMFMS_Assert(fmod_studio_evdesc_get_instance_count(evdmusic), 0,
 // ----------------------------------------------------------------------------
 // EvDesc Get Instance List
 // ----------------------------------------------------------------------------
-var buf = GMFMS_GetBuffer();
+var buf/*: GMFMS_Buffer*/ = GMFMS_GetBuffer();
 
 var inst1 = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
 var inst2 = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
@@ -205,3 +208,223 @@ GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EvDesc get sound size: no errors");
 GMFMS_Assert(fmod_studio_evdesc_get_sound_size(evdblip), 0,
 	"EvDesc get sound size: 2D event");
 GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EvDesc get sound size: no errors");
+
+// ----------------------------------------------------------------------------
+// EvDesc Get ParamDesc Count
+// ----------------------------------------------------------------------------
+GMFMS_Assert(fmod_studio_evdesc_get_paramdesc_count(evdmusic), 2,
+	"EvDesc Get ParamDesc Count: music event");
+GMFMS_Assert(fmod_studio_evdesc_get_paramdesc_count(evdblip), 1,
+	"EvDesc Get ParamDesc Count: sfx event");
+
+// ----------------------------------------------------------------------------
+// EvDesc Get ParamDesc By Name
+// ----------------------------------------------------------------------------
+buf = GMFMS_GetBuffer();
+fmod_studio_evdesc_get_paramdesc_by_name(evdmusic, "Pitch", buf.getAddress());
+
+var pdesc_pitch/*: GMFMS_ParamDesc*/ = new GMFMS_ParamDesc(buf);
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, 
+	"EvDesc Get ParamDesc by name: no errors.");
+GMFMS_Assert(pdesc_pitch.name, "Pitch", "EvDesc Get ParamDesc by name: name");
+GMFMS_Assert(pdesc_pitch.minimum, 0, "EvDesc Get ParamDesc by name: minimum");
+GMFMS_Assert(pdesc_pitch.maximum, 1, "EvDesc Get ParamDesc by name: maximum");
+GMFMS_Assert(instanceof(pdesc_pitch.pid), "GMFMS_ParamID", 
+	"EvDesc Get ParamDesc by name: pid type");
+GMFMS_Assert(pdesc_pitch.defaultvalue, 0.5, 
+	"EvDesc Get ParamDesc by name: defaultvalue");
+GMFMS_Assert(pdesc_pitch.flags, 0, "EvDesc Get ParamDesc: flags");
+delete pdesc_pitch;
+
+// ----------------------------------------------------------------------------
+// EvDesc Get ParamDesc By Index
+// ----------------------------------------------------------------------------
+buf = GMFMS_GetBuffer();
+fmod_studio_evdesc_get_paramdesc_by_index(evdmusic, 0, buf.getAddress());
+
+pdesc_pitch = new GMFMS_ParamDesc(buf);
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, 
+	"EvDesc Get ParamDesc by index: no errors.");
+GMFMS_Assert(pdesc_pitch.name, "RoomSize", "EvDesc Get ParamDesc by index: name");
+GMFMS_Assert(pdesc_pitch.minimum, 0, "EvDesc Get ParamDesc by index: minimum");
+GMFMS_Assert(pdesc_pitch.maximum, 10, "EvDesc Get ParamDesc by index: maximum");
+GMFMS_Assert(instanceof(pdesc_pitch.pid), "GMFMS_ParamID", 
+	"EvDesc Get ParamDesc by index: pid type");
+GMFMS_Assert(pdesc_pitch.defaultvalue, 0, 
+	"EvDesc Get ParamDesc by index: defaultvalue");
+GMFMS_Assert(pdesc_pitch.flags, 0, "EvDesc Get ParamDesc by index: flags");
+delete pdesc_pitch;
+
+// ----------------------------------------------------------------------------
+// EvDesc Get ParamDesc By ID
+// ----------------------------------------------------------------------------
+buf = GMFMS_GetBuffer();
+fmod_studio_evdesc_get_paramdesc_by_name(evdmusic, "Pitch", buf.getAddress());
+
+pdesc_pitch = new GMFMS_ParamDesc(buf);
+buf.seekReset();
+
+pdesc_pitch.pid.writeToBuffer(buf);
+buf.seekReset();
+
+fmod_studio_evdesc_get_paramdesc_by_id(evdmusic, buf.getAddress());
+
+var pdesc_fromid = new GMFMS_ParamDesc(buf);
+
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, 
+	"EvDesc Get ParamDesc by ID: no errors.");
+GMFMS_Assert(pdesc_fromid.name, pdesc_pitch.name, 
+	"EvDesc Get ParamDesc by ID: name");
+GMFMS_Assert(pdesc_fromid.minimum, pdesc_pitch.minimum, 
+	"EvDesc Get ParamDesc by ID: minimum");
+GMFMS_Assert(pdesc_fromid.maximum, pdesc_pitch.maximum, 
+	"EvDesc Get ParamDesc by ID: maximum");
+GMFMS_Assert(instanceof(pdesc_fromid.pid), instanceof(pdesc_pitch.pid), 
+	"EvDesc Get ParamDesc by ID: pid type");
+GMFMS_Assert(pdesc_fromid.defaultvalue, pdesc_pitch.defaultvalue,
+	"EvDesc Get ParamDesc by ID: defaultvalue");
+GMFMS_Assert(pdesc_fromid.flags, pdesc_pitch.flags, 
+	"EvDesc Get ParamDesc by ID: flags");
+
+delete pdesc_pitch;
+delete pdesc_fromid;
+
+// ----------------------------------------------------------------------------
+// EvDesc Get User Property
+// ----------------------------------------------------------------------------
+buf = GMFMS_GetBuffer();
+fmod_studio_evdesc_get_user_property(evdblip, "stringprop", buf.getAddress());
+
+var userprop/*: GMFMS_UserProp*/ = new GMFMS_UserProp(buf);
+
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, 
+	"EvDesc Get User Property String: no errors");
+GMFMS_Assert(userprop.name, "stringprop", 
+	"EvDesc Get User Property String: name");
+GMFMS_Assert(userprop.value, "Hello World!", 
+	"EvDesc Get User Property String: value");
+GMFMS_Assert(userprop.type, FMOD_STUDIO_USER_PROPERTY_TYPE_STRING,
+	"EvDesc Get User Property String: type");
+
+buf = GMFMS_GetBuffer();
+fmod_studio_evdesc_get_user_property(evdblip, "floatprop", buf.getAddress());
+
+userprop.readFromBuffer(buf);
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, 
+	"EvDesc Get User Property Float: no errors");
+GMFMS_Assert(userprop.name, "floatprop", 
+	"EvDesc Get User Property Float: name");
+GMFMS_Assert(userprop.value, 1.234, 
+	"EvDesc Get User Property Float: value");
+GMFMS_Assert(userprop.type, FMOD_STUDIO_USER_PROPERTY_TYPE_FLOAT,
+	"EvDesc Get User Property Float: type");
+
+delete userprop;
+
+// ----------------------------------------------------------------------------
+// EvDesc Get User Property By Index
+// ----------------------------------------------------------------------------
+buf = GMFMS_GetBuffer();
+fmod_studio_evdesc_get_user_property_by_index(evdblip, 0, buf.getAddress());
+
+userprop = new GMFMS_UserProp(buf);
+
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, 
+	"EvDesc Get User Property By Index: no errors");
+GMFMS_Assert(userprop.name, "boolprop", 
+	"EvDesc Get User Property By Index: name");
+GMFMS_Assert(userprop.value, 0, 
+	"EvDesc Get User Property By Index: value");
+GMFMS_Assert(userprop.type, FMOD_STUDIO_USER_PROPERTY_TYPE_FLOAT,
+	"EvDesc Get User Property By Index: type");
+
+delete userprop;
+
+// ----------------------------------------------------------------------------
+// EvDesc Get User Property Count
+// ----------------------------------------------------------------------------
+GMFMS_Assert(fmod_studio_evdesc_get_user_property_count(evdmusic), 2, 
+	"EvDesc Get User Property Count: props 1");
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, 
+	"EvDesc Get User Property Count: props 1, no errors");
+	
+GMFMS_Assert(fmod_studio_evdesc_get_user_property_count(evdblip), 4, 
+	"EvDesc Get User Property Count: props 2");
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, 
+	"EvDesc Get User Property Count: props 2, no errors");
+	
+// ----------------------------------------------------------------------------
+// EvDesc Get ID
+// ----------------------------------------------------------------------------
+buf = GMFMS_GetBuffer();
+fmod_studio_evdesc_get_id(evdmusic, buf.getAddress());
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EvDesc Get ID: no errors");
+
+var guid/*: GMFMS_GUID*/ = new GMFMS_GUID(buf);
+
+GMFMS_Assert(guid.data1, $4fa3eda1, "EvDesc Get ID: data1");
+GMFMS_Assert(guid.data2, $884b, "EvDesc Get ID: data2");
+GMFMS_Assert(guid.data3, $4305, "EvDesc Get ID: data3");
+GMFMS_Assert(guid.data4[0], $84, "EvDesc Get ID: data4[0]");
+GMFMS_Assert(guid.data4[1], $16, "EvDesc Get ID: data4[1]");
+GMFMS_Assert(guid.data4[2], $41, "EvDesc Get ID: data4[2]");
+GMFMS_Assert(guid.data4[3], $66, "EvDesc Get ID: data4[3]");
+GMFMS_Assert(guid.data4[4], $95, "EvDesc Get ID: data4[4]");
+GMFMS_Assert(guid.data4[5], $88, "EvDesc Get ID: data4[5]");
+GMFMS_Assert(guid.data4[6], $64, "EvDesc Get ID: data4[6]");
+GMFMS_Assert(guid.data4[7], $5d, "EvDesc Get ID: data4[7]");
+
+buf = GMFMS_GetBuffer();
+fmod_studio_evdesc_get_id(evdblip, buf.getAddress());
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EvDesc 2 Get ID: no errors");
+
+guid.readFromBuffer(buf);
+
+GMFMS_Assert(guid.data1, $66fd7e65, "EvDesc Get ID 2: data1");
+GMFMS_Assert(guid.data2, $d2f3, "EvDesc Get ID 2: data2");
+GMFMS_Assert(guid.data3, $4b7b, "EvDesc Get ID 2: data3");
+GMFMS_Assert(guid.data4[0], $bc, "EvDesc Get ID 2: data4[0]");
+GMFMS_Assert(guid.data4[1], $38, "EvDesc Get ID 2: data4[1]");
+GMFMS_Assert(guid.data4[2], $91, "EvDesc Get ID 2: data4[2]");
+GMFMS_Assert(guid.data4[3], $3c, "EvDesc Get ID 2: data4[3]");
+GMFMS_Assert(guid.data4[4], $0d, "EvDesc Get ID 2: data4[4]");
+GMFMS_Assert(guid.data4[5], $b7, "EvDesc Get ID 2: data4[5]");
+GMFMS_Assert(guid.data4[6], $10, "EvDesc Get ID 2: data4[6]");
+GMFMS_Assert(guid.data4[7], $9c, "EvDesc Get ID 2: data4[7]");
+
+delete guid;
+
+// ----------------------------------------------------------------------------
+// EvDesc Get Length
+// ----------------------------------------------------------------------------
+var length/*: number*/ = fmod_studio_evdesc_get_length(evdmusic)
+GMFMS_Assert(length > 60000 && length < 120000, true, "EvDesc Get Length");
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EvDesc Get Length: no errors");
+
+length = fmod_studio_evdesc_get_length(evdblip);
+GMFMS_Assert(length > 0 && length < 500, true, "EvDesc Get Length 2");
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EvDesc Get Length 2: no errors");
+
+// ----------------------------------------------------------------------------
+// EvDesc Get Path
+// ----------------------------------------------------------------------------
+GMFMS_Assert(fmod_studio_evdesc_get_path(evdmusic), "event:/Music",
+	"EvDesc Get Path: paths match");
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EvDesc Get Path: no errors");
+
+GMFMS_Assert(fmod_studio_evdesc_get_path(evdblip), "event:/UIBlip",
+	"EvDesc Get Path 2: paths match");
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EvDesc Get Path 2: no errors");
+
+// ----------------------------------------------------------------------------
+// EvDesc Set Callback
+// ----------------------------------------------------------------------------
+fmod_studio_evdesc_set_callback(evdmusic, 
+	FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_BEAT);
+GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EvDesc Set Callback: no errors");
+
+var inst = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
+
+fmod_studio_evinst_start(inst);
+
+timer = 0;

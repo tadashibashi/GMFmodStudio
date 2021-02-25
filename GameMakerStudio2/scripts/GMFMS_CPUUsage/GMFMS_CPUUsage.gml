@@ -1,5 +1,10 @@
-/// @func GMFMS_CPUUsage([buf]: GMFMS_Buffer)
-/// @desc Info for a single buffer in FMOD Studio. Implementation of the FMOD_STUDIO_CPU_USAGE object.
+/// @file Info for a single buffer in FMOD Studio. 
+/// Implementation of the FMOD_STUDIO_CPU_USAGE object.
+/// @copyright Aaron Ishibashi, 2021.
+
+/// @struct GMFMS_CPUUsage([buf]: GMFMS_Buffer)
+/// @param {GMFMS_Buffer} [buf] (optional) Buffer from which to initialize this
+// struct from.
 function GMFMS_CPUUsage() constructor
 {
 	dspusage =      -1;  /// @is {number} float
@@ -50,3 +55,8 @@ function GMFMS_CPUUsage() constructor
 		show_debug_message("studiousage: " + string(studiousage));	
 	};
 }
+
+// GMEdit Hints ===============================================================
+/// @hint GMFMS_CPUUsage:readFromBuffer(buf: GMFMS_Buffer)->void Reads data from a buffer and assigns it to this struct.
+/// @hint GMFMS_CPUUsage:writeToBuffer(buf: GMFMS_Buffer)->void Writes data from this struct into a buffer.
+/// @hint GMFMS_CPUUsage:log()->void Logs data from this struct to the console.

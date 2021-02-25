@@ -24,7 +24,9 @@
         {"externalName":"socialAsyncExample","kind":5,"help":"socialAsyncExample(str)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"socialAsyncExample","tags":[],"resourceType":"GMExtensionFunction",},
-      ],"constants":[],"ProxyFiles":[],"copyToTargets":32,"order":[
+      ],"constants":[
+        {"value":"","hidden":false,"resourceVersion":"1.0","name":"html5_test_Macro1","tags":[],"resourceType":"GMExtensionConstant",},
+      ],"ProxyFiles":[],"copyToTargets":32,"order":[
         {"name":"grab_object","path":"extensions/html5_test/html5_test.yy",},
         {"name":"use_object","path":"extensions/html5_test/html5_test.yy",},
         {"name":"socialAsyncExample","path":"extensions/html5_test/html5_test.yy",},

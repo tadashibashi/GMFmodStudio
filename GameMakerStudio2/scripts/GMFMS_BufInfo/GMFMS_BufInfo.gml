@@ -1,5 +1,10 @@
-/// @func GMFMS_BufInfo([buf]: GMFMS_Buffer)
-/// @desc Info for a single buffer in FMOD Studio. Implementation of the FMOD_STUDIO_BUFFER_INFO object.
+/// @file Info for a single buffer in FMOD Studio. Implementation of the 
+/// FMOD_STUDIO_BUFFER_INFO object.
+/// @copyright Aaron Ishibashi, 2021.
+
+/// @struct GMFMS_BufInfo([buf]: GMFMS_Buffer)
+/// @param {GMFMS_Buffer} [buf] (optional) Buffer to initialize data from.
+///
 function GMFMS_BufInfo() constructor
 {
 	currentusage = -1;  /// @is {int} int_32_t
@@ -20,7 +25,8 @@ function GMFMS_BufInfo() constructor
 		stalltime    = buf.read(buffer_f32);
 	};
 	
-	if (argument_count == 1 && instanceof(argument[0] == "GMFMS_Buffer"))
+	// Optional buffer initialization.
+	if (argument_count == 1 && instanceof(argument[0]) == "GMFMS_Buffer")
 	{
 		readFromBuffer(argument[0]);	
 	}
@@ -50,3 +56,8 @@ function GMFMS_BufInfo() constructor
 		show_debug_message("stalltime: " + string(stalltime));	
 	};
 }
+
+// GMEdit Hints ===============================================================
+/// @hint GMFMS_BufInfo:readFromBuffer(buf: GMFMS_Buffer)->void Reads data from a buffer and assigns it to this struct.
+/// @hint GMFMS_BufInfo:writeToBuffer(buf: GMFMS_Buffer)->void Writes this object's data into a buffer.
+/// @hint GMFMS_BufInfo:log()->void Logs this object's internal data to the console.

@@ -1,8 +1,10 @@
-/// @function GMFMS_Assert(actual, expected, testname)
-/// @description Test to help ensure software functionality
-/// @param {any} actual
-/// @param {any} expected
+/// @func GMFMS_Assert(actual: T, expected: T, testname: string)->void
+/// @template T
+/// @param {T} actual
+/// @param {T} expected
 /// @param {string} testname
+///
+/// @desc Test to help ensure software functions as expected.
 function GMFMS_Assert(actual, expected, testname)
 {
 	if (actual == expected)
@@ -16,10 +18,23 @@ function GMFMS_Assert(actual, expected, testname)
 	}
 }
 
+/// @struct GMFMS_Performance()
+///
+/// @desc This object tracks the performance time of your code and logs it to 
+/// the console.
+/// Set up tests using "start", indicating the name of the test, and end the
+/// time check with "stop", also indicating that same name.
 function GMFMS_Performance() constructor
 {
-	tests = {};
+	/// ===== Initialization =====================================================
 	
+	tests = {};
+	// ---------------------------------------------------------------------------
+	
+	/// @func start([name: string])->void
+	/// @param {string} name (optional) Name of the test to start.
+	///
+	/// @desc Starts a test.
 	static start = function(name)
 	{
 		if (name == undefined)
@@ -32,6 +47,11 @@ function GMFMS_Performance() constructor
 		}
 	};
 	
+	/// @func stop([name: string])->void
+	/// @param {string} name (optional) Name of the test to stop.
+	///
+	/// @desc Ends a test and logs the time it took to the console. The name
+	/// must match with the name you used in "start".
 	static stop = function(name)
 	{
 		if (name == undefined)
@@ -44,76 +64,13 @@ function GMFMS_Performance() constructor
 			variable_struct_remove(tests, name);
 		}
 	};
+	
+	static stopAllTests = function()
+	{
+		var names = variable_struct_get_names(self.tests);
+		
+	};
 }
 
-function GMFMS_Test(_name, _tests) constructor
-{
-	name = _name;
-	tests = _tests;
-	currentTest = 0;
-	studio = pointer_null;
-	currentTestObj = noone;
-	hasstarted = false;
-	
-	static resetTests = function()
-	{
-		endLastTest();
-		
-		currentTest = 0;
-		
-		startTest();
-	};
-	
-	static startTest = function()
-	{
-		if (studio != pointer_null)
-			endLastTest();
-		
-
-		
-		studio = GMFMS_Ptr(fmod_studio_system_create());
-		fmod_studio_system_initialize(studio, 1024, FMOD_STUDIO_INIT_NORMAL, 0);
-		
-		currentTestObj = instance_create_depth(0, 0, 0, tests[currentTest]);
-		currentTestObj.studio = studio;
-		
-		if (!hasstarted) hasstarted = true;
-		
-		currentTest++;
-	};
-	
-	static endLastTest = function()
-	{
-		if (currentTestObj != noone)
-		{
-			instance_destroy(currentTestObj);
-			currentTestObj = noone;
-		}
-		
-		if (studio != pointer_null)
-		{
-			fmod_studio_system_flush_commands(studio);
-			fmod_studio_system_unload_all(studio);
-			fmod_studio_system_release(studio);
-			
-			studio = pointer_null;
-		}
-	};
-	
-	static runNextTest = function()
-	{	
-		endLastTest();
-		
-		if (currentTest >= array_length(tests))
-		{
-			show_message("Tests for " + string(name) + " Finished!");
-			endLastTest();
-			return 1;
-		}
-		
-		startTest();
-		
-		return 0;
-	};
-
-}
+/// @hint GMFMS_Performance:start([name: string])->void Starts a test.
+/// @hint GMFMS_Performance:stop([name: string])->void Starts a test.

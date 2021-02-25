@@ -1,5 +1,10 @@
-/// @func GMFMS_BufUsage([buf]: GMFMS_Buffer)
-/// @desc Info for buffer usage in FMOD Studio. Implementation of the FMOD_STUDIO_BUFFER_USAGE object.
+/// @file Info for buffer usage in FMOD Studio. 
+/// Implementation of the FMOD_STUDIO_BUFFER_USAGE object.
+/// @copyright Aaron Ishibashi, 2021.
+
+/// @struct GMFMS_BufUsage([buf]: GMFMS_Buffer)
+/// @param {GMFMS_Buffer} [buf] (optional) Buffer with which to initialize this 
+/// object from.
 function GMFMS_BufUsage() constructor
 {
 	studiocommandqueue = new GMFMS_BufInfo();  /// @is {GMFMS_BufInfo}
@@ -40,3 +45,8 @@ function GMFMS_BufUsage() constructor
 		studiohandle.log();
 	};
 }
+
+// GMEdit Hints ===============================================================
+/// @hint GMFMS_BufUsage:readFromBuffer(buf: GMFMS_Buffer)->void Reads data from a buffer and assigns it to this struct.
+/// @hint GMFMS_BufUsage:writeFromBuffer(buf: GMFMS_Buffer)->void Writes data from this struct into a buffer.
+/// @hint GMFMS_BufUsage:log()->void Logs the data from this struct into the console.
