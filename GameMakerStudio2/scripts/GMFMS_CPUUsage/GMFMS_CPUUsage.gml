@@ -2,9 +2,9 @@
 /// Implementation of the FMOD_STUDIO_CPU_USAGE object.
 /// @copyright Aaron Ishibashi, 2021.
 
-/// @struct GMFMS_CPUUsage([buf]: GMFMS_Buffer)
+/// @struct GMFMS_CPUUsage([buf: GMFMS_Buffer])
 /// @param {GMFMS_Buffer} [buf] (optional) Buffer from which to initialize this
-// struct from.
+/// struct from.
 function GMFMS_CPUUsage() constructor
 {
 	dspusage =      -1;  /// @is {number} float
@@ -13,10 +13,10 @@ function GMFMS_CPUUsage() constructor
 	updateusage =   -1;  /// @is {number} float
 	studiousage =   -1;  /// @is {number} float
 	
-	/// @func readFromBuffer(buf: GMFMS_Buffer)
-	/// @desc Populates this object with the contents form a buffer.
+	/// @func readFromBuffer(buf: GMFMS_Buffer)->void
+	/// @desc Populates this object with the contents from a buffer.
 	/// @returns {void}
-	static readFromBuffer = function(buf)
+	static readFromBuffer = function(buf/*: GMFMS_Buffer*/)
 	{
 		dspusage =      buf.read(buffer_f32);
 		streamusage =   buf.read(buffer_f32);
@@ -30,11 +30,13 @@ function GMFMS_CPUUsage() constructor
 		readFromBuffer(argument[0]);	
 	}
 	
-	/// @func writeToBuffer(buf: GMFMS_Buffer)
-	/// @desc Writes this object's internal data to a buffer.
+	/// @func                    writeToBuffer(buf: GMFMS_Buffer)->void
+	/// @param   {GMFMS_Buffer}  buf The buffer to write to.
 	/// @returns {void}
-	static writeToBuffer = function(buf)
+	static writeToBuffer = function(buf/*: GMFMS_Buffer*/)
 	{
+		/// @description     Writes this object's internal data to a buffer.
+		///
 		buf.write(buffer_f32, dspusage);
 		buf.write(buffer_f32, streamusage);
 		buf.write(buffer_f32, geometryusage);
@@ -42,11 +44,12 @@ function GMFMS_CPUUsage() constructor
 		buf.write(buffer_f32, studiousage);
 	};
 	
-	/// @function log()
-	/// @description Logs this object's internal data to the console.
+	/// @func           log()->void
 	/// @returns {void}
 	static log = function()
 	{
+		/// @description    Logs this object's internal data to the console.
+		///
 		show_debug_message("===== GMFMS_CPUUsage Log =====");	
 		show_debug_message("dspusage: " + string(dspusage));	
 		show_debug_message("streamusage: " + string(streamusage));	

@@ -1,20 +1,16 @@
 #include "gmfs_common.h"
 #include <iostream>
 
+typedef FMOD::Studio::Bank StudioBank;
+
 // Gets the current loading state of a studio bank.
 // Returns the loading state enum value or -1 on error.
 gms_export double fmod_studio_bank_get_loading_state(char *ptr)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    double ret = -1;
-
-    FMOD_STUDIO_LOADING_STATE state;
-    check = bank->getLoadingState(&state);
-
-    if (check == FMOD_OK)
-        ret = static_cast<double>(state);
-
-    return ret;
+    FMOD_STUDIO_LOADING_STATE state{ };
+    check = ((StudioBank *)ptr)->getLoadingState(&state);
+    
+    return static_cast<double>(state);
 }
 
 // Loads non-streaming sample data for all events in the bank.
@@ -51,174 +47,131 @@ gms_export double fmod_studio_bank_unload_sample_data(char *ptr)
 // Returns the loading state enum value or -1 on error.
 gms_export double fmod_studio_bank_get_sample_loading_state(char *ptr)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    double ret = -1;
+    FMOD_STUDIO_LOADING_STATE state{ };
+    check = ((StudioBank *)ptr)->getSampleLoadingState(&state);
 
-    if (bank && bank->isValid())
-    {
-        FMOD_STUDIO_LOADING_STATE state;
-        check = bank->getSampleLoadingState(&state);
-
-        if (check == FMOD_OK)
-            ret = static_cast<double>(state);
-    }
-
-    return ret;
+    return static_cast<double>(state);
 }
 
 // Unloads the bank.
 // This will destroy all objects created from the bank, unload all sample
 // data inside the bank, and invalidate all API handles referring to the bank.
 // Returns 0 on success and -1 on error.
-gms_export double fmod_studio_bank_unload(char *ptr)
+gms_export void fmod_studio_bank_unload(char *ptr)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    double ret = -1;
-
-    if (bank && bank->isValid())
-    {
-        check = bank->unload();
-    }
-
-    return ret;
+    check = ((StudioBank *)ptr)->unload();
 }
 
 // Retrieves the number of busses in the bank.
 // Returns the number of busses or -1 on error.
 gms_export double fmod_studio_bank_get_bus_count(char *ptr)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    double ret = -1;
+    int count{ };
+    check = ((StudioBank *)ptr)->getBusCount(&count);
 
-    if (bank && bank->isValid())
-    {
-        int count;
-        check = bank->getBusCount(&count);
-        if (check == FMOD_OK)
-        {
-            ret = static_cast<double>(count);
-        }
-    }
-
-    return ret;
+    return static_cast<double>(count);
 }
 
 // Fills a buffer with an array of all the busses as ptrs cast to uint64.
 // Slow because of dynamic memory allocation.
-// Returns count written on success and -1 on error.
-gms_export double fmod_studio_bank_get_bus_list(char *evt_ptr, double capacity, char *gmbuf)
-{
-    double ret = -1;
-    auto bank = (FMOD::Studio::Bank *)evt_ptr;
-    if (!bank || !bank->isValid()) return ret;
-
-    int count;
-    bank->getBusCount(&count);
-    if (count > capacity)
-        count = (int)capacity;
-
-    FMOD::Studio::Bus **busses = new FMOD::Studio::Bus * [(int)count];
-    check = bank->getBusList(busses, count, &count);
-
-    if (check == FMOD_OK)
+// Returns count of busses written to the buffer.
+gms_export double fmod_studio_bank_get_bus_list(char *ptr, double capacity, char *gmbuf)
+{   
+    int count{ };
+    if (((StudioBank *)ptr)->isValid())
     {
-        ret = (double)count;
-        Buffer buf(gmbuf);
-        for (int i = 0; i < count; ++i)
+        
+        check = ((StudioBank *)ptr)->getBusCount(&count);
+        if (check != FMOD_OK) return count;
+
+        if (count > capacity)
+            count = (int)capacity;
+
+        FMOD::Studio::Bus **busses = new FMOD::Studio::Bus * [(int)count];
+        check = ((StudioBank *)ptr)->getBusList(busses, count, &count);
+
+        if (check == FMOD_OK)
         {
-            buf.write<uint64_t>((uint64_t)(uintptr_t)busses[i]);
+            Buffer buf(gmbuf);
+            for (int i = 0; i < count; ++i)
+            {
+                buf.write<uint64_t>((uint64_t)(uintptr_t)busses[i]);
+            }
         }
+
+        delete[] busses;
+    }
+    else
+    {
+        check = FMOD_ERR_INVALID_HANDLE;
     }
 
-    delete[] busses;
-    return ret;
+    return static_cast<double>(count);
 }
 
 // Returns the number of busses or -1 on error.
 gms_export double fmod_studio_bank_get_event_count(char *ptr)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    double ret = -1;
+    int count{ };
+    check = ((StudioBank *)ptr)->getEventCount(&count);
 
-    if (bank && bank->isValid())
-    {
-        int count;
-        check = bank->getBusCount(&count);
-        if (check == FMOD_OK)
-        {
-            ret = static_cast<double>(count);
-        }
-    }
-
-    return ret;
+    return static_cast<double>(count);
 }
 
 // Fills a buffer with an array of all the event descriptions as ptrs cast to uint64.
 // Slow because of dynamic memory allocation.
 // Returns count written on success and -1 on error.
-gms_export double fmod_studio_bank_get_event_list(char *evt_ptr, double capacity, char *gmbuf)
+gms_export double fmod_studio_bank_get_event_list(char *ptr, double capacity, char *gmbuf)
 {
-    double ret = -1;
-    auto bank = (FMOD::Studio::Bank *)evt_ptr;
-    if (!bank || !bank->isValid()) return ret;
-
-    int count;
-    bank->getBusCount(&count);
-    if (count > capacity)
-        count = (int)capacity;
-
-    FMOD::Studio::EventDescription **events = new FMOD::Studio::EventDescription * [(int)count];
-    check = bank->getEventList(events, count, &count);
-
-    if (check == FMOD_OK)
+    int count{ };
+    if (((StudioBank *)ptr)->isValid())
     {
-        ret = (double)count;
-        Buffer buf(gmbuf);
-        for (int i = 0; i < count; ++i)
+        ((StudioBank *)ptr)->getEventCount(&count);
+        if (count > capacity)
+            count = (int)capacity;
+
+        FMOD::Studio::EventDescription **events = new FMOD::Studio::EventDescription * [(int)count];
+        check = ((StudioBank *)ptr)->getEventList(events, count, &count);
+
+        if (check == FMOD_OK)
         {
-            buf.write<uint64_t>((uint64_t)(uintptr_t)events[i]);
+            Buffer buf(gmbuf);
+            for (int i = 0; i < count; ++i)
+            {
+                buf.write<uint64_t>((uint64_t)(uintptr_t)events[i]);
+            }
         }
+
+        delete[] events;
+    }
+    else
+    {
+        check = FMOD_ERR_INVALID_HANDLE;
     }
 
-    delete[] events;
-    return ret;
+    return static_cast<double>(count);
 }
 
 gms_export double fmod_studio_bank_get_string_count(char *ptr)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    double ret = -1;
-
-    if (bank && bank->isValid())
-    {
-        int count;
-        check = bank->getStringCount(&count);
-
-        if (check == FMOD_OK)
-        {
-            ret = static_cast<double>(count);
-        }
-    }
-
-    return ret;
+    int count{ };
+    check = ((StudioBank *)ptr)->getStringCount(&count);
+    
+    return static_cast<double>(count);
 }
 
 // Gets guid from string info. Returns 0 on success and -1 on error.
-gms_export double fmod_studio_bank_get_string_info_id(char *ptr, char *gmbuf, double index)
+gms_export void fmod_studio_bank_get_string_info_id(char *ptr, char *gmbuf, double index)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    double ret = -1;
 
-    if (bank && bank->isValid())
+    if (((StudioBank *)ptr)->isValid())
     {
-        FMOD_GUID id;
-        check = bank->getStringInfo((int)index, &id, nullptr, 0, nullptr);
+        FMOD_GUID id{ };
+        check = ((StudioBank *)ptr)->getStringInfo((int)index, &id, nullptr, 0, nullptr);
 
         Buffer buffer(gmbuf);
         if (check == FMOD_OK)
         {
-            ret = 0;
-
             buffer.write<uint32_t>(id.Data1);
             buffer.write<uint16_t>(id.Data2);
             buffer.write<uint16_t>(id.Data3);
@@ -229,42 +182,31 @@ gms_export double fmod_studio_bank_get_string_info_id(char *ptr, char *gmbuf, do
             }
         }
     }
-
-    return ret;
+    else
+    {
+        check = FMOD_ERR_INVALID_HANDLE;
+    }
 }
 
 // Gets path from string info index
-gms_export char *fmod_studio_bank_get_string_info_path(char *ptr, double index)
+gms_export const char *fmod_studio_bank_get_string_info_path(char *ptr, double index)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
     static std::string str;
 
-    if (bank && bank->isValid())
-    {
-        char buffer[PATH_MAX_LENGTH];
-        check = bank->getStringInfo((int)index, nullptr, buffer, PATH_MAX_LENGTH, nullptr);
-    }
+    char buffer[PATH_MAX_LENGTH];
+    check = ((StudioBank *)ptr)->getStringInfo(
+        (int)index, nullptr, buffer, PATH_MAX_LENGTH, nullptr);
 
-    return const_cast<char *>(str.c_str());
+    return str.c_str();
 }
 
 // Returns the number of busses or -1 on error.
 gms_export double fmod_studio_bank_get_vca_count(char *ptr)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    double ret = -1;
+    int count{ };
+    check = ((StudioBank *)ptr)->getVCACount(&count);
 
-    if (bank && bank->isValid())
-    {
-        int count;
-        check = bank->getVCACount(&count);
-        if (check == FMOD_OK)
-        {
-            ret = static_cast<double>(count);
-        }
-    }
-
-    return ret;
+    return static_cast<double>(count);
 }
 
 // Fills a buffer with an array of all the vcas as ptrs cast to uint64.
@@ -272,30 +214,33 @@ gms_export double fmod_studio_bank_get_vca_count(char *ptr)
 // Returns count written on success and -1 on error.
 gms_export double fmod_studio_bank_get_vca_list(char *ptr, double capacity, char *gmbuf)
 {
-    double ret = -1;
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    if (!bank || !bank->isValid()) return ret;
-
-    int count;
-    bank->getBusCount(&count);
-    if (count > capacity)
-        count = (int)capacity;
-
-    FMOD::Studio::VCA **vcas = new FMOD::Studio::VCA * [(int)count];
-    check = bank->getVCAList(vcas, count, &count);
-
-    if (check == FMOD_OK)
+    int count{ };
+    if (((StudioBank *)ptr)->isValid())
     {
-        ret = (double)count;
-        Buffer buf(gmbuf);
-        for (int i = 0; i < count; ++i)
+        ((StudioBank *)ptr)->getVCACount(&count);
+        if (count > capacity)
+            count = (int)capacity;
+
+        FMOD::Studio::VCA **vcas = new FMOD::Studio::VCA * [(int)count];
+        check = ((StudioBank *)ptr)->getVCAList(vcas, count, &count);
+
+        if (check == FMOD_OK)
         {
-            buf.write<uint64_t>((uint64_t)(uintptr_t)vcas[i]);
+            Buffer buf(gmbuf);
+            for (int i = 0; i < count; ++i)
+            {
+                buf.write<uint64_t>((uint64_t)(uintptr_t)vcas[i]);
+            }
         }
+
+        delete[] vcas;
+    }
+    else
+    {
+        check = FMOD_ERR_INVALID_HANDLE;
     }
 
-    delete[] vcas;
-    return ret;
+    return static_cast<double>(count);
 }
 
 gms_export double fmod_studio_bank_get_id(char *ptr, char *gmbuf)
@@ -314,6 +259,5 @@ gms_export char *fmod_studio_bank_get_path(char *ptr)
 
 gms_export double fmod_studio_bank_is_valid(char *ptr)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    return bank->isValid();
+    return ((StudioBank *)ptr)->isValid();
 }

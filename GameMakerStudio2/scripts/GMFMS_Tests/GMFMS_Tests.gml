@@ -1,32 +1,42 @@
-/// @func GMFMS_Assert(actual: T, expected: T, testname: string)->void
-/// @template T
-/// @param {T} actual
-/// @param {T} expected
-/// @param {string} testname
-///
-/// @desc Test to help ensure software functions as expected.
+global.__GMFMS_test_count = 0;
+global.__GMFMS_success_count = 0;
+
+/// @function          GMFMS_Assert(actual: T, expected: T, testname: string)->void;
+/// @template          T
+/// @param   {T}       actual
+/// @param   {T}       expected
+/// @param   {string}  testname
+/// @returns {void}
 function GMFMS_Assert(actual, expected, testname)
 {
+	/// @description    Compares actual value to the expected result. The results are logged to the console.
+	
 	if (actual == expected)
 	{
-		show_debug_message("[" + testname + "] PASSED.");	
+		//show_debug_message("[" + testname + "] PASSED.");
+		++global.__GMFMS_success_count;
 	}
 	else
 	{
 		show_debug_message("[" + testname + "] FAILED! Expected " + string(expected) +
 			", but got " + string(actual));
 	}
+	
+	++global.__GMFMS_test_count;
 }
 
+
+
 /// @struct GMFMS_Performance()
-///
-/// @desc This object tracks the performance time of your code and logs it to 
-/// the console.
-/// Set up tests using "start", indicating the name of the test, and end the
-/// time check with "stop", also indicating that same name.
 function GMFMS_Performance() constructor
 {
-	/// ===== Initialization =====================================================
+	/// @description     This object tracks the performance time of your code and logs it to 
+    ///                  the console.
+    ///                  Set up tests using "start", indicating the name of the test, and end the
+    ///                  time check with "stop", also indicating that same name.
+	
+	
+	// ===== Initialization =====================================================
 	
 	tests = {};
 	// ---------------------------------------------------------------------------

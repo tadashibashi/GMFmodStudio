@@ -4,24 +4,16 @@ function GMFMS_Buffer(size, alignment) constructor
 	buffer_ = buffer_create(size, buffer_fixed, alignment); /// @is {buffer}
 	
 	// ===== "Public" ============================================================
-	/// @function getSize()
-	/// @returns {int} the max size of the buffer in bytes.
-	static getSize = function()
-	{
-		var current_pos = buffer_tell(buffer_);
-		buffer_seek(buffer_, buffer_seek_end, 0);
-		var _size = buffer_tell(buffer_);
-		buffer_seek(buffer_, buffer_seek_start, current_pos);
-		
-		return _size;
-	};
 	
-	/// @function allocate(new_size)
-	/// @description Allocates memory to the buffer. New size must be greater than current and otherwise will be ignored.
-	/// @param {int} new_size the size in bytes to set the buffer to.
-	/// @returns {void}
+	/// @function         allocate(new_size)
+	/// @param    {int}   new_size The size in bytes to set the buffer to.
+	/// @returns  {void}
 	static allocate = function(new_size)
 	{
+			/// @description    Allocates memory to the buffer. 
+			///                 New size must be greater than current 
+			///                 and otherwise will be ignored.
+			
 		var old_size = self.getSize();
 		if (new_size > old_size)
 		{
@@ -42,6 +34,9 @@ function GMFMS_Buffer(size, alignment) constructor
 		}
 	};
 	
+	
+	
+	
 	/// @function getAlignment()
 	/// @returns the alignment of the buffer.
 	static getAlignment = function()
@@ -49,71 +44,140 @@ function GMFMS_Buffer(size, alignment) constructor
 		return buffer_get_alignment(buffer_);
 	};
 	
-	/// @function seekReset()
-	/// @description Resets the seek position to the buffer starting point.
-	/// @returns {void}
+	
+	
+	
+	/// @function       getSize()
+	/// @returns {int}  The max size of the buffer in bytes
+	static getSize = function()
+	{
+		/// @description   Calculates and returns the maximum size of the internal buffer.
+		///                The current buffer position is maintained.
+		
+		var current_pos = buffer_tell(buffer_);
+		buffer_seek(buffer_, buffer_seek_end, 0);
+		var _size = buffer_tell(buffer_);
+		buffer_seek(buffer_, buffer_seek_start, current_pos);
+		
+		return _size;
+	};
+	
+	
+	
+	
+	/// @function        seekReset()
+	/// @returns  {void}
 	static seekReset = function()
 	{
+		/// @description Resets the seek position to the buffer's starting point.
+		
 		buffer_seek(buffer_, buffer_seek_start, 0);	
 	};
 	
+	
+	
+	
 	/// @function tell()
-	/// @description Gets the current seek position of the buffer.
 	/// @returns {int} the current seek position.
 	static tell = function()
 	{
+		/// @description Gets the current seek position of the buffer.
+		
 		return buffer_tell(buffer_);	
 	};
 	
-	/// @func read(data_type)
-	/// @desc Returns a piece of data from the buffer and moves the head past that position.
-	/// @param {buffer_type} data_type 
+	
+	
+	
+	/// @function                 read(data_type)->
+	/// @param    {buffer_type}   data_type  The data type to read.
+	/// @returns  {string|number}
 	static read = function(data_type)
 	{
+			/// @desc   Returns data of the indicated type from the buffer. 
+			///         Moves the buffer position past that point according
+			///         to its alignment.
+			
 		return buffer_read(buffer_, data_type);	
 	};
 	
-	/// @func readCharStar()
-	/// @desc Interprets a const char * from C++ code to a GML string.
-	/// @returns {string}
+	
+	
+	
+	/// @function           readCharStar()->string
+	/// @returns   {string}
 	static readCharStar = function()
 	{
-		// read the pointer (should convert to 64bit uint on dll-side)
-		var charPtr = buffer_read(buffer_, buffer_u64);
-		return GMFMS_InterpretString(charPtr);
+		/// @description   Interprets a const char * from C++ code to a GML string.
+		///                This is first received as a 64bit uint from the dll-side
+	    ///				   and then copied into a GML string.
+		
+		var charPtr = buffer_read(buffer_, buffer_u64);  // grab the ptr from the buffer
+		return GMFMS_InterpretString(charPtr);           // interpret char * back in DLL to GML string.
 	};
 	
-	/// @func write(data_type, value)
-	/// @desc Writes data into the buffer and moves the head past that point.
-	/// @param {buffer_type} type the type of data to write
-	/// @param {any} value the data to write
+	
+	
+	
+	/// @function                  write(type, value)->void
+	/// @param    {buffer_type}    type   The type of data to write
+	/// @param    {string|number}  value  The data to write
+	/// @returns  {void}
 	static write = function(type, value)
 	{
+		/// @description   Writes data into the buffer and moves the buffer position past that point.
+		
 		buffer_write(buffer_, type, value);	
 	};
 	
-	/// @func seek(base_pos, rel_bytes)
-	/// @desc Moves the position of the head to the corresponding position.
-	/// @param base the base position to seek from
-	/// @param {int} rel_bytes the bytes relative to the base position.
-	static seek = function(base, rel_bytes)
+	
+	
+	
+	/// @function                    seek(base, bytes)
+	/// @param    {buffer_seek_base} base   the base position to seek from
+	/// @param    {int}              bytes  the bytes relative to the base position.
+	/// @returns  {void}
+	static seek = function(base, bytes)
 	{
-		buffer_seek(buffer_, base, rel_bytes);	
+		/// @description   Moves the position of the head to the corresponding position.
+		
+		buffer_seek(buffer_, base, bytes);	
 	};
 	
+	
+	
+	
+	/// @function           getAddress()->pointer
+	/// @returns  {pointer}
 	static getAddress = function()
 	{
+		/// @description   Gets the buffer's starting address as a pointer to send 
+		///                to a native extension. Make sure to call this when sending
+		///                to the GMFmodStudio extension.
 		return buffer_get_address(buffer_);	
 	};
 	
+	
+	
+	
+	/// @function         getBuffer()->buffer
+	/// @returns {buffer} 
 	static getBuffer = function()
 	{
+		/// @description Gets the internal GMS2 buffer index for debugging purposes.
+		
 		return buffer_;
 	};
 	
-	// Frees the buffer from memory. Use only when no longer using this object.
+	
+	
+	
+	/// @function       release()->void
+	/// @returns {void}
 	static release = function()
 	{
+		/// @description     Frees the buffer from memory. Use only when deleting this object
+		
 		buffer_delete(buffer_);	
 	};
 }
@@ -123,15 +187,14 @@ function GMFMS_Buffer(size, alignment) constructor
 /// @hint GMFMS_Buffer:allocate(new_size: int)->void Allocates a new larger memory size.
 /// @hint GMFMS_Buffer:read(type: buffer_type)->any Reads data from the buffer. Moves the read/write position.
 /// @hint GMFMS_Buffer:readCharStar()->string Interprets a const C-string sent from an extension.
-/// @hint GMFMS_Buffer:write(type: buffer_type, value: any)->void Write data into the buffer. Moves the read/write position.
-/// @hint GMFMS_Buffer:seek(base: buffer_seek_base, rel_bytes: int)->void Seek to a position within the buffer.
+/// @hint GMFMS_Buffer:write(type: buffer_type, value: string|number)->void Write data into the buffer. Moves the read/write position.
+/// @hint GMFMS_Buffer:seek(base: buffer_seek_base, bytes: int)->void Seek to a position within the buffer.
 /// @hint GMFMS_Buffer:seekReset()->void Seek back to the buffer's start position.
 /// @hint GMFMS_Buffer:tell()->int Tells the buffer's current read/write position.
 /// @hint GMFMS_Buffer:getSize()->int Gets the max size of the buffer in bytes.
 /// @hint GMFMS_Buffer:getAddress()->ptr Gets the address of this buffer.
 /// @hint GMFMS_Buffer:getAlignment()->int Gets the buffer's byte alignment.
 /// @hint GMFMS_Buffer:getBuffer()->buffer Gets the GameMaker Studio buffer.
-
 
 /// @func GMFMS_GetBuffer()
 /// @desc Gets the global buffer to be used for passing data back and forth between
@@ -149,8 +212,8 @@ function GMFMS_GetBuffer()
 	return global.__fmod_studio_extension_buffer;
 }
 
-/// @func GMFMS_Ptr(handle)
-/// @returns {any}
+/// @function                  GMFMS_Ptr(handle)
+/// @returns  {struct|pointer} Handles the conversion of pointers in HTML5/Windows
 function GMFMS_Ptr(handle)
 {
 	if (typeof(handle) == "struct") { // HTML5 behavior

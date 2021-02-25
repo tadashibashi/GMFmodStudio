@@ -1,37 +1,46 @@
-/// @file A GML representation of the FMOD_STUDIO_PARAMETER_DESCRIPTION object.
-/// Contains helper functions to manage buffer transfer to and from the 
-/// GMFmodStudio extension.
-/// @copyright Aaron Ishibashi, 2021.
-
-/// @struct GMFMS_ParamDesc([buf: GMFMS_Buffer])
-/// @param {[GMFMS_Buffer]}
+/// @struct                     GMFMS_ParamDesc([buf])
+/// @param   {[GMFMS_Buffer]}   [buf:GMFMS_Buffer] (optional) buffer to initialize this object from 
+/// @returns {GMFMS_ParamDesc}
 ///
 function GMFMS_ParamDesc() constructor
 {
-	// ===== Initialization ======================================================
+	/// @description     A GML representation of the FMOD_STUDIO_PARAMETER_DESCRIPTION object.
+	///                  Contains helper functions to manage buffer transfer to and from the 
+	///                  GMFmodStudio extension.
+	///
 	
-	// Name of the parameter
-	name = ""; /// @is {string}
-	// FMOD_STUDIO_PARAMETER_ID. Can be used to access this parameter in the future.
-	pid = new GMFMS_ParamID(); /// @is {GMFMS_ParamID}
+	// ===== Initialization ======================================================
+	// Name of this parameter
+	name =         "";                  /// @is {string}
+	
+	// FMOD_STUDIO_PARAMETER_ID, use this to access parameter get/set by id
+	pid =          new GMFMS_ParamID(); /// @is {GMFMS_ParamID}
+	
 	// Minimum value this parameter can be set to.
-	minimum = 0; /// @is {number}
+	minimum =      0;                   /// @is {number}
+	
 	// Maximum value this parameter can be set to.
-	maximum = 0; /// @is {number}
+	maximum =      0;                   /// @is {number}
+	
 	// Default value this parameter is set to.
-	defaultvalue = 0; /// @is {number}
+	defaultvalue = 0;                   /// @is {number}
+	
 	// The FMOD_STUIO_PARAMETER_TYPE.
-	type = 0; /// @is {number}
+	type =         0;                   /// @is {int}
+	
 	// The FMOD_STUDIO_PARAMTER_FLAGS properties.
-	flags = 0; /// @is {number}
+	flags =        0;                   /// @is {int}
+	
 	// ---------------------------------------------------------------------------
 	
-	/// @func readFromBuffer(buf: GMFMS_Buffer)
-	/// @param {GMFMS_Buffer} buf Buffer to retrieve assignment data from.
-	/// @returns {void}
+	/// @function                 readFromBuffer(buf: GMFMS_Buffer)->void
+	/// @param    {GMFMS_Buffer}  buf Buffer to retrieve assignment data from.
+	/// @returns  {void}
 	static readFromBuffer = function(buf/*: GMFMS_Buffer*/)
 	{
-
+		/// @description   Reads data from a buffer and assigns it to this struct.
+		///
+		
 		name = buf.readCharStar();
 		pid.readFromBuffer(buf);
 		minimum = buf.read(buffer_f32);
@@ -47,11 +56,13 @@ function GMFMS_ParamDesc() constructor
 		readFromBuffer(argument[0]);	
 	}
 	
-	/// @func log()
-	/// @desc Logs a debug message with this ParameterDescription's data.
+	/// @function        log()->void
 	/// @returns {void}
 	static log = function()
 	{
+		/// @description   Logs a debug message with this ParameterDescription's data.
+		///
+		
 		show_debug_message("===== GMFMS_ParamDesc Log =====");
 		show_debug_message("name: " + name);
 		show_debug_message("id: " + string(pid.data1) + ", " + string(pid.data2));
@@ -66,6 +77,7 @@ function GMFMS_ParamDesc() constructor
 }
 
 // GMEdit Hints ===============================================================
+/// @hint new GMFMS_ParamDesc([buf:GMFMS_Buffer])->GMFMS_ParamDesc
 /// @hint GMFMS_ParamDesc:readFromBuffer(buf: GMFMS_Buffer)->void Fill this object with info retrieved from a buffer.
 /// @hint GMFMS_ParamDesc:log()->void Log the data from this parameter description to the console.
 

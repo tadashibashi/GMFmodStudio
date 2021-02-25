@@ -1,6 +1,7 @@
 // Create and initialize the FMOD Studio System for testing
 checkedupdate = false;
 
+perf = new GMFMS_Performance();
 studio = ptr(fmod_studio_system_create());
 
 GMFMS_Assert(fmod_studio_system_is_valid(studio), true, "Studio System Create");
@@ -15,7 +16,7 @@ var buf = GMFMS_GetBuffer();
 fmod_studio_system_get_advanced_settings(studio, buf.getAddress());
 
 var advsettings = new GMFMS_AdvSettings(buf);
-show_debug_message(GMFMS_GetErrorString());
+
 GMFMS_Assert(
 	GMFMS_GetError(), FMOD_OK,
 	"StudioSystem Get Advanced Settings: No errors");

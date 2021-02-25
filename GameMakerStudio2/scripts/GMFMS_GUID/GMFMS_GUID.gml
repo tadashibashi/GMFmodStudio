@@ -1,25 +1,29 @@
-/// @file A GML representation of the FMOD_GUID object. Helpful to manage buffer
-/// transfer to and from the GMFmodStudio extension.
-/// @copyright Aaron Ishibashi, 2021.
-
-/// @struct GMFMS_GUID([buf: GMFMS_Buffer])
-/// @param {[GMFMS_Buffer]}
+/// @struct                GMFMS_GUID([buf: GMFMS_Buffer])
+/// @param {GMFMS_Buffer}  [buf:GMFMS_Buffer] buffer to initialize data from
 function GMFMS_GUID() constructor
 {
+	/// @description     A GML representation of the FMOD_GUID object. 
+    ///                  Contains helper functions to manage buffer transfer to 
+    ///                  and from the GMFmodStudio extension.
+
 	// ===== Initialization ======================================================
-	
 	data1 = 0; /// @is {int} unsigned int32
 	data2 = 0; /// @is {int} unsigned int16
 	data3 = 0; /// @is {int} unsigned int16
 	data4 = array_create(8, 0); /// @is {Array<int>} unsigned int8
 	// ---------------------------------------------------------------------------
-	
-	
-	/// @desc Assigns this GMFMS_GUID from an GMFMS_Buffer object
-	/// GMFMS_Buffer buf should have its head currently pointed where the next 
-	/// call to function "read" will read the first GUID data value.
+
+
+	/// @function                 readFromBuffer(buf: GMFMS_Buffer)->void
+	/// @param   {GMFMS_Buffer}   buf The buffer to read from.
+	/// @returns {void}
 	static readFromBuffer = function(buf/*: GMFMS_Buffer*/)
 	{
+		/// @description    Reads data from a buffer and assigns it to this struct.
+		///                 GMFMS_Buffer buf should have its position currently pointed where 
+		///                 the next call to "read" will return the first GUID data value.
+		///                 (This is automatically handled by GMFMS wrapper objects.)
+		
 		data1 = buf.read(buffer_u32);
 		data2 = buf.read(buffer_u16);
 		data3 = buf.read(buffer_u16);
@@ -30,15 +34,21 @@ function GMFMS_GUID() constructor
 		}
 	};
 	
+	// Optional buffer initialization handling.
 	if (argument_count == 1 && instanceof(argument[0]) == "GMFMS_Buffer")
 	{
 		readFromBuffer(argument[0]);	
 	}
 	
-	/// @desc Dumps data into a buffer in sequence u32, u16, u16, u8[8]
-	/// Overwrites GMFMS_Buffer object data starting at beginning of buffer.
+	
+	
+	/// @function                 writeToBuffer(buf: GMFMS_Buffer)->void
+	/// @param   {GMFMS_Buffer}   buf The buffer to write to.
+	/// @returns {void}
 	static writeToBuffer = function(buf/*: GMFMS_Buffer*/)
 	{
+		/// @description    Writes data from this struct into a buffer.
+
 		buf.write(buffer_u32, data1);
 		buf.write(buffer_u16, data2);
 		buf.write(buffer_u16, data3);
@@ -49,8 +59,13 @@ function GMFMS_GUID() constructor
 		}
 	};
 	
+	
+	/// @function                 log()->void
+	/// @returns {void}
 	static log = function()
 	{
+		/// @description    Logs struct data to the console.
+		
 		show_debug_message("==== FMOD_GUID Data ====");
 		show_debug_message("Data1: " + string(data1));
 		show_debug_message("Data2: " + string(data2));

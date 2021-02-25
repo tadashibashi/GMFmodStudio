@@ -4,8 +4,6 @@ timer = 0;
 checkedParamByName = false;
 stopped = false;
 
-perf = new GMFMS_Performance();
-
 /* ========================================================================== *
  * StudioSystem: Banks
  * ========================================================================== */
@@ -32,12 +30,15 @@ var loadingstate, strloadingstate;
 do {
 	loadingstate = fmod_studio_bank_get_loading_state(bank);
 	strloadingstate = fmod_studio_bank_get_loading_state(stringsbank);
-	show_debug_message("Waiting for banks to load. . . ");
 }
 until(loadingstate == FMOD_STUDIO_LOADING_STATE_LOADED &&
    strloadingstate == FMOD_STUDIO_LOADING_STATE_LOADED);
 
-show_debug_message("[Bank Files Loaded] PASSED.");
+GMFMS_Assert(
+	loadingstate == FMOD_STUDIO_LOADING_STATE_LOADED &&
+    strloadingstate == FMOD_STUDIO_LOADING_STATE_LOADED,
+    true,
+    "StudioSystem Load Bank Files");
 
 // ----------------------------------------------------------------------------
 // Bank Get ID
@@ -453,8 +454,6 @@ var buf_usage = new GMFMS_BufUsage(buf);
 
 GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get Buffer Usage");
 
-buf_usage.log();
-
 delete buf_usage;
 // ----------------------------------------------------------------------------
 // StudioSystem Reset Buffer Usage
@@ -475,8 +474,6 @@ var cpu_usage = new GMFMS_CPUUsage(buf);
 
 GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get CPU Usage");
 
-cpu_usage.log();
-
 delete cpu_usage;
 
 // ----------------------------------------------------------------------------
@@ -489,8 +486,6 @@ fmod_studio_system_get_memory_usage(studio, buf.getAddress());
 var mem_usage = new GMFMS_MemUsage(buf);
 
 GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get Memory Usage");
-
-mem_usage.log();
 
 delete mem_usage;
 

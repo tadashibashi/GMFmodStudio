@@ -2,6 +2,8 @@
 #include "gmfs_buffer.h"
 #include <iostream>
 
+typedef FMOD::Studio::EventDescription EvDesc;
+
 // ============================================================================
 // Instances
 // ============================================================================
@@ -10,94 +12,66 @@
  * Create Event Instance
  * Returns the event instance ptr or NULL if there was a problem creating it.
  */
-gms_export double fmod_studio_evdesc_create_instance(char *evt_ptr)
+gms_export double fmod_studio_evdesc_create_instance(char *ptr)
 {
-    // The event instance ptr to return
-    double ret = 0;
-
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    if (desc && desc->isValid())
-    {
-        FMOD::Studio::EventInstance *inst;
-        check = desc->createInstance(&inst);
-
-        if (check == FMOD_OK)
-            ret = (double)(uintptr_t)inst;
-    }
+    FMOD::Studio::EventInstance *inst{ };
+    check = ((EvDesc *)ptr)->createInstance(&inst);
     
-    return ret;
+    return (double)(uintptr_t)inst;
 }
 
 /*
  * Get Instance Count. 
  * Returns -1 if the event description pointer is not a valid event description pointer.
  */
-gms_export double fmod_studio_evdesc_get_instance_count(char *evt_ptr)
+gms_export double fmod_studio_evdesc_get_instance_count(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
+    int instance_count{ };
+    check = ((EvDesc *)ptr)->getInstanceCount(&instance_count);
 
-    if (desc && desc->isValid())
-    {
-        int instance_count;
-        check = desc->getInstanceCount(&instance_count);
-
-        return static_cast<double>(instance_count);
-    }
-    else
-    {
-        return -1;
-    }
+    return static_cast<double>(instance_count);
 }
 
 // Fills a buffer with an array of all the events instances as ptrs cast to uint64.
 // Slow because of dynamic memory allocation.
 // Returns count written on success and -1 on error.
-gms_export double fmod_studio_evdesc_get_instance_list(char *evt_ptr, double capacity, char *gmbuf)
+gms_export double fmod_studio_evdesc_get_instance_list(char *ptr, double capacity, char *gmbuf)
 {
-    double ret = -1;
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    if (!desc || !desc->isValid()) return ret;
+    int count{ };
 
-    int count;
-    desc->getInstanceCount(&count);
-    if (count > capacity)
-        count = (int)capacity;
-
-    FMOD::Studio::EventInstance **insts = new FMOD::Studio::EventInstance *[(int)count];
-    check = desc->getInstanceList(insts, count, &count);
-
-    if (check == FMOD_OK)
+    if (((EvDesc *)ptr)->isValid())
     {
-        ret = (double)count;
-        Buffer buf(gmbuf);
-        for (int i = 0; i < count; ++i)
+        check = ((EvDesc *)ptr)->getInstanceCount(&count);
+        if (check != FMOD_OK) return count;
+
+        if (count > capacity)
+            count = (int)capacity;
+
+        FMOD::Studio::EventInstance **insts = new FMOD::Studio::EventInstance *[(int)count];
+        check = ((EvDesc *)ptr)->getInstanceList(insts, count, &count);
+
+        if (check == FMOD_OK)
         {
-            buf.write<uint64_t>((uint64_t)(uintptr_t)insts[i]);
+            Buffer buf(gmbuf);
+            for (int i = 0; i < count; ++i)
+            {
+                buf.write<uint64_t>((uint64_t)(uintptr_t)insts[i]);
+            }
         }
+
+        delete[] insts;
     }
 
-    delete[] insts;
-    return ret;
+    return static_cast<double>(count);
 }
 
 /*
  * Release All Instances. 
  * Returns true or 1 on success, and false or 0 on failure.
  */
-gms_export double fmod_studio_evdesc_release_all_instances(char *evt_ptr)
+gms_export void fmod_studio_evdesc_release_all_instances(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    bool success = false;
-
-    if (desc && desc->isValid())
-    {
-        check = desc->releaseAllInstances();
-
-        if (check == FMOD_OK)
-            success = true;
-    }
-    
-    return static_cast<double>(success);
+    check = ((EvDesc *)ptr)->releaseAllInstances();
 }
 
 // ============================================================================
@@ -106,23 +80,12 @@ gms_export double fmod_studio_evdesc_release_all_instances(char *evt_ptr)
 
 /*
  * Loads all non-streaming sample data used by the event and any referenced event.
- * Returns true or 1 on success, and false or 0 on failure. This determines if 
- * the function succeeded or failed only. Sample loading happens 
- * asynchronously and must be checked via getSampleLoadingState to poll for 
- * when the data has loaded.
+ * Sample loading happens asynchronously and must be checked via 
+ * getSampleLoadingState to poll for when the data has loaded.
  */
-gms_export double fmod_studio_evdesc_load_sample_data(char *evt_ptr)
+gms_export void fmod_studio_evdesc_load_sample_data(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    bool success = false;
-
-    if (desc && desc->isValid())
-    {
-        check = desc->loadSampleData();
-        if (check == FMOD_OK) success = true;
-    }
-
-    return static_cast<double>(success);
+    check = ((EvDesc *)ptr)->loadSampleData();
 }
 
 /*
@@ -130,18 +93,9 @@ gms_export double fmod_studio_evdesc_load_sample_data(char *evt_ptr)
  * Sample data will not be unloaded until all instances of the event are released.
  * Returns true or 1 on success, and false or 0 on failure.
  */
-gms_export double fmod_studio_evdesc_unload_sample_data(char *evt_ptr)
+gms_export void fmod_studio_evdesc_unload_sample_data(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    bool success = false;
-
-    if (desc && desc->isValid())
-    {
-        check = desc->unloadSampleData();
-        if (check == FMOD_OK) success = true;
-    }
-
-    return static_cast<double>(success);
+    check = ((EvDesc *)ptr)->unloadSampleData();
 }
 
 /*
@@ -149,19 +103,12 @@ gms_export double fmod_studio_evdesc_unload_sample_data(char *evt_ptr)
  * Sample data will not be unloaded until all instances of the event are released.
  * Returns loading state enum on success or -1 on failure.
  */
-gms_export double fmod_studio_evdesc_get_sample_loading_state(char *evt_ptr)
+gms_export double fmod_studio_evdesc_get_sample_loading_state(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
+    FMOD_STUDIO_LOADING_STATE state{ };
+    check = ((EvDesc *)ptr)->getSampleLoadingState(&state);
 
-    if (desc && desc->isValid())
-    {
-        FMOD_STUDIO_LOADING_STATE state;
-        check = desc->getSampleLoadingState(&state);
-        if (check == FMOD_OK) ret = static_cast<double>(state);
-    }
-
-    return ret;
+    return static_cast<double>(state);
 }
 
 
@@ -173,140 +120,83 @@ gms_export double fmod_studio_evdesc_get_sample_loading_state(char *evt_ptr)
  * Checks if the EventDescription is 3D.
  * Returns true or false or -1 on error.
  */
-gms_export double fmod_studio_evdesc_is_3D(char *evt_ptr)
+gms_export double fmod_studio_evdesc_is_3D(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
+    bool is3D{ };
+    check = ((EvDesc *)ptr)->is3D(&is3D);
 
-    if (desc && desc->isValid())
-    {
-        bool is3D;
-        check = desc->is3D(&is3D);
-        if (check == FMOD_OK)
-            ret = static_cast<double>(is3D);
-    }
-
-    return ret;
+    return static_cast<double>(is3D);
 }
 
 /*
  * Checks if the EventDescription is a oneshot.
  * Returns true or false or -1 on error.
  */
-gms_export double fmod_studio_evdesc_is_oneshot(char *evt_ptr)
+gms_export double fmod_studio_evdesc_is_oneshot(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
+    bool isOneshot{ };
+    check = ((EvDesc *)ptr)->isOneshot(&isOneshot);
 
-    if (desc && desc->isValid())
-    {
-        bool isOneshot;
-        check = desc->isOneshot(&isOneshot);
-        if (check == FMOD_OK)
-            ret = static_cast<double>(isOneshot);
-    }
-
-    return ret;
+    return static_cast<double>(isOneshot);
 }
 
 /*
  * Checks if the EventDescription is a snapshot.
  * Returns true or false or -1 on error.
  */
-gms_export double fmod_studio_evdesc_is_snapshot(char *evt_ptr)
+gms_export double fmod_studio_evdesc_is_snapshot(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
-
-    if (desc && desc->isValid())
-    {
-        bool isSnapshot;
-        check = desc->isSnapshot(&isSnapshot);
-        if (check == FMOD_OK)
-            ret = static_cast<double>(isSnapshot);
-    }
-
-    return ret;
+    bool isSnapshot{ };
+    check = ((EvDesc *)ptr)->isSnapshot(&isSnapshot);
+    return static_cast<double>(isSnapshot);
 }
 
 /*
  * Checks if the EventDescription is a stream.
  * Returns true or false or -1 on error.
  */
-gms_export double fmod_studio_evdesc_is_stream(char *evt_ptr)
+gms_export double fmod_studio_evdesc_is_stream(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
+    bool isStream{ };
+    check = ((EvDesc *)ptr)->isStream(&isStream);
 
-    if (desc && desc->isValid())
-    {
-        bool isStream;
-        check = desc->isStream(&isStream);
-        if (check == FMOD_OK)
-            ret = static_cast<double>(isStream);
-    }
-
-    return ret;
+    return static_cast<double>(isStream);
 }
 
 /*
  * Checks if the EventDescription has any sustain points.
  * Returns true or false or -1 on error.
  */
-gms_export double fmod_studio_evdesc_has_cue(char *evt_ptr)
+gms_export double fmod_studio_evdesc_has_cue(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
+    bool hasCue{ };
+    check = ((EvDesc *)ptr)->hasCue(&hasCue);
 
-    if (desc && desc->isValid())
-    {
-        bool hasCue;
-        check = desc->hasCue(&hasCue);
-        if (check == FMOD_OK)
-            ret = static_cast<double>(hasCue);
-    }
-
-    return ret;
+    return static_cast<double>(hasCue);
 }
 
 /*
  * Get the EventDescription's maximum distance for 3D attenuation.
  * Returns maximum distance or -1 on error.
  */
-gms_export double fmod_studio_evdesc_get_max_distance(char *evt_ptr)
+gms_export double fmod_studio_evdesc_get_max_distance(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
+    float maxdist{ };
+    check = ((EvDesc *)ptr)->getMaximumDistance(&maxdist);
 
-    if (desc && desc->isValid())
-    {
-        float maxdist;
-        check = desc->getMaximumDistance(&maxdist);
-        if (check == FMOD_OK)
-            ret = static_cast<double>(maxdist);
-    }
-
-    return ret;
+    return static_cast<double>(maxdist);
 }
 
 /*
  * Get the EventDescription's minimum distance for 3D attenuation.
  * Returns minimum distance or -1 on error.
  */
-gms_export double fmod_studio_evdesc_get_min_distance(char *evt_ptr)
+gms_export double fmod_studio_evdesc_get_min_distance(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
+    float mindist{ };
+    check = ((EvDesc *)ptr)->getMinimumDistance(&mindist);
 
-    if (desc && desc->isValid())
-    {
-        float mindist;
-        check = desc->getMinimumDistance(&mindist);
-        if (check == FMOD_OK)
-            ret = static_cast<double>(mindist);
-    }
-
-    return ret;
+    return static_cast<double>(mindist);
 }
 
 /*
@@ -316,56 +206,35 @@ gms_export double fmod_studio_evdesc_get_min_distance(char *evt_ptr)
  * Spatializers or 3D Object Spatializers.
  * Returns sound size or -1 on error.
  */
-gms_export double fmod_studio_evdesc_get_sound_size(char *evt_ptr)
+gms_export double fmod_studio_evdesc_get_sound_size(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
+    float size{ };
+    check = ((EvDesc *)ptr)->getSoundSize(&size);
 
-    if (desc && desc->isValid())
-    {
-        float size;
-        check = desc->getSoundSize(&size);
-        if (check == FMOD_OK)
-            ret = static_cast<double>(size);
-    }
-
-    return ret;
+    return static_cast<double>(size);
 }
 
 // ============================================================================
 // Parameters
 // ============================================================================
 
-gms_export double fmod_studio_evdesc_get_paramdesc_count(char *evt_ptr)
+gms_export double fmod_studio_evdesc_get_paramdesc_count(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    int ret = -1;
+    int count{ };
+    check = ((EvDesc *)ptr)->getParameterDescriptionCount(&count);
 
-    if (desc && desc->isValid())
-    {
-        int count;
-        check = desc->getParameterDescriptionCount(&count);
-        if (check == FMOD_OK)
-        {
-            ret = count;
-        }
-    }
-
-    return static_cast<double>(ret);
+    return static_cast<double>(count);
 }
 
 
 // Fills a gm buffer with information for a parameter description.
 // Returns 0 on success and -1 on error.
-gms_export double fmod_studio_evdesc_get_paramdesc_by_name(char *evt_ptr, char *name, char *buf_address)
+gms_export void fmod_studio_evdesc_get_paramdesc_by_name(char *ptr, char *name, char *buf_address)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
-
-    if (desc && desc->isValid())
+    if (((EvDesc *)ptr)->isValid())
     {
         FMOD_STUDIO_PARAMETER_DESCRIPTION param;
-        check = desc->getParameterDescriptionByName(name, &param);
+        check = ((EvDesc *)ptr)->getParameterDescriptionByName(name, &param);
         if (check == FMOD_OK)
         {
             Buffer buf(buf_address);
@@ -377,27 +246,23 @@ gms_export double fmod_studio_evdesc_get_paramdesc_by_name(char *evt_ptr, char *
             buf.write(param.defaultvalue);
             buf.write<uint32_t>(param.type);
             buf.write<uint32_t>(param.flags);
-
-            ret = 0;
         }
     }
-
-    return ret;
+    else
+    {
+        check = FMOD_ERR_INVALID_HANDLE;
+    }
 }
-
 
 
 // Fills a gm buffer with information for a parameter description.
 // Returns 0 on success and -1 on error.
-gms_export double fmod_studio_evdesc_get_paramdesc_by_index(char *evt_ptr, double index, char *buf_address)
+gms_export void fmod_studio_evdesc_get_paramdesc_by_index(char *ptr, double index, char *buf_address)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
-
-    if (desc && desc->isValid())
+    if (((EvDesc *)ptr)->isValid())
     {
-        FMOD_STUDIO_PARAMETER_DESCRIPTION param;
-        check = desc->getParameterDescriptionByIndex(static_cast<int>(index), &param);
+        FMOD_STUDIO_PARAMETER_DESCRIPTION param{ };
+        check = ((EvDesc *)ptr)->getParameterDescriptionByIndex(static_cast<int>(index), &param);
         if (check == FMOD_OK)
         {
             Buffer buf(buf_address);
@@ -409,22 +274,20 @@ gms_export double fmod_studio_evdesc_get_paramdesc_by_index(char *evt_ptr, doubl
             buf.write(param.defaultvalue);
             buf.write<uint32_t>(param.type);
             buf.write<uint32_t>(param.flags);
-
-            ret = 0;
         }
     }
-
-    return ret;
+    else
+    {
+        check = FMOD_ERR_INVALID_HANDLE;
+    }
 }
 
 // Fills a gm buffer with information for a parameter description.
 // Returns 0 on success and -1 on error.
-gms_export double fmod_studio_evdesc_get_paramdesc_by_id(char *evt_ptr, char *buf_address)
+gms_export void fmod_studio_evdesc_get_paramdesc_by_id(char *ptr, char *buf_address)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
 
-    if (desc && desc->isValid())
+    if (((EvDesc *)ptr)->isValid())
     {
         Buffer buf(buf_address);
         FMOD_STUDIO_PARAMETER_ID id;
@@ -432,8 +295,8 @@ gms_export double fmod_studio_evdesc_get_paramdesc_by_id(char *evt_ptr, char *bu
         id.data1 = buf.read<uint32_t>();
         id.data2 = buf.read<uint32_t>();
 
-        FMOD_STUDIO_PARAMETER_DESCRIPTION param;
-        check = desc->getParameterDescriptionByID(id, &param);
+        FMOD_STUDIO_PARAMETER_DESCRIPTION param{ };
+        check = ((EvDesc *)ptr)->getParameterDescriptionByID(id, &param);
 
         if (check == FMOD_OK)
         {
@@ -446,15 +309,13 @@ gms_export double fmod_studio_evdesc_get_paramdesc_by_id(char *evt_ptr, char *bu
             buf.write(param.defaultvalue);
             buf.write<uint32_t>(param.type);
             buf.write<uint32_t>(param.flags);
-
-            ret = 0;
         }
     }
-
-    return ret;
+    else
+    {
+        check = FMOD_ERR_INVALID_HANDLE;
+    }
 }
-
-
 
 // ============================================================================
 // User Properties
@@ -464,19 +325,14 @@ gms_export double fmod_studio_evdesc_get_paramdesc_by_id(char *evt_ptr, char *bu
  * Retrieves the data of the user property.
  * Returns 0 on success and -1 on error.
  */
-gms_export double fmod_studio_evdesc_get_user_property(char *evt_ptr, const char *name, char *gmbuf)
-{
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
-    
-    if (desc && desc->isValid())
+gms_export void fmod_studio_evdesc_get_user_property(char *ptr, const char *name, char *gmbuf)
+{   
+    if (((EvDesc *)ptr)->isValid())
     {
         FMOD_STUDIO_USER_PROPERTY prop;
-        check = desc->getUserProperty(name, &prop);
+        check = ((EvDesc *)ptr)->getUserProperty(name, &prop);
         if (check == FMOD_OK)
         {
-            ret = 0;
-
             Buffer buf(gmbuf);
             buf.write_char_star(prop.name);
             buf.write((uint32_t)prop.type);
@@ -495,33 +351,26 @@ gms_export double fmod_studio_evdesc_get_user_property(char *evt_ptr, const char
                 buf.write_char_star(prop.stringvalue);
                 break;
             default:
-                std::cerr << "Tried to get the value of user property \"" << prop.name << 
-                    ", but the type of property was not supported.\n";
+                std::cerr << "GMFMS Internal Error! Tried to get the value of user property \"" 
+                    << prop.name << ", but the type of property was not supported.\n";
                 break;
             }
         }
     }
-
-    return ret;
 }
 
 /*
  * Retrieves the data of the user property at the indicated index.
  * Returns 0 on success and -1 on error.
  */
-gms_export double fmod_studio_evdesc_get_user_property_by_index(char *evt_ptr, double index, char *gmbuf)
+gms_export void fmod_studio_evdesc_get_user_property_by_index(char *ptr, double index, char *gmbuf)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
-
-    if (desc && desc->isValid())
+    if (((EvDesc *)ptr)->isValid())
     {
-        FMOD_STUDIO_USER_PROPERTY prop;
-        check = desc->getUserPropertyByIndex(static_cast<int>(index), &prop);
+        FMOD_STUDIO_USER_PROPERTY prop{ };
+        check = ((EvDesc *)ptr)->getUserPropertyByIndex(static_cast<int>(index), &prop);
         if (check == FMOD_OK)
         {
-            ret = 0;
-
             Buffer buf(gmbuf);
             buf.write_char_star(prop.name);
             buf.write((uint32_t)prop.type);
@@ -546,49 +395,37 @@ gms_export double fmod_studio_evdesc_get_user_property_by_index(char *evt_ptr, d
             }
         }
     }
-
-    return ret;
+    else
+    {
+        check = FMOD_ERR_INVALID_HANDLE;
+    }
 }
 
 /*
  * Retrieves the number of user properties attached to an event description.
  * Returns the number of properties or -1 on error.
  */
-gms_export double fmod_studio_evdesc_get_user_property_count(char *evt_ptr)
+gms_export double fmod_studio_evdesc_get_user_property_count(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
+    int count{ };
+    check = ((EvDesc *)ptr)->getUserPropertyCount(&count);
 
-    if (desc && desc->isValid())
-    {
-        int count;
-        check = desc->getUserPropertyCount(&count);
-        if (check == FMOD_OK)
-            ret = static_cast<double>(count);
-    }
-
-    return ret;
+    return static_cast<double>(count);
 }
 
 // ============================================================================
 // General
 // ============================================================================
 
-gms_export double fmod_studio_evdesc_get_id(char *evt_ptr, char *gm_buf)
+gms_export void fmod_studio_evdesc_get_id(char *ptr, char *gm_buf)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    auto buffer = Buffer(gm_buf);
-
-    double ret = -1;
-
-    if (desc && desc->isValid())
+    if (((EvDesc *)ptr)->isValid())
     {
-        FMOD_GUID id;
-        check = desc->getID(&id);
+        FMOD_GUID id{ };
+        check = ((EvDesc *)ptr)->getID(&id);
         if (check == FMOD_OK)
         {
-            ret = 0;
-
+            Buffer buffer(gm_buf);
             buffer.write<uint32_t>(id.Data1);
             buffer.write<uint16_t>(id.Data2);
             buffer.write<uint16_t>(id.Data3);
@@ -599,61 +436,50 @@ gms_export double fmod_studio_evdesc_get_id(char *evt_ptr, char *gm_buf)
             }
         }
     }
-
-    return ret;
 }
 
 /*
  * Gets the length of the EventDescription in milliseconds.
  * Returns length or -1 on error.
  */
-gms_export double fmod_studio_evdesc_get_length(char *evt_ptr)
+gms_export double fmod_studio_evdesc_get_length(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    double ret = -1;
+    int length{ };
+    check = ((EvDesc *)ptr)->getLength(&length);
 
-    if (desc && desc->isValid())
-    {
-        int length;
-        check = desc->getLength(&length);
-        if (check == FMOD_OK)
-        {
-            ret = static_cast<double>(length);
-        }
-    }
-
-    return ret;
+    return static_cast<double>(length);
 }
 
 /*
  * Gets the path of the EventDescription.
  * Returns path or nullptr on error.
  */
-gms_export char *fmod_studio_evdesc_get_path(char *evt_ptr)
+gms_export const char *fmod_studio_evdesc_get_path(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
     static std::string ret;
 
-    if (desc && desc->isValid())
+    if (((EvDesc *)ptr)->isValid())
     {
         char path[100];
-        check = desc->getPath(path, 100, nullptr);
+        check = ((EvDesc *)ptr)->getPath(path, 100, nullptr);
         if (check == FMOD_OK)
         {
             ret.assign(path);
         }
     }
+    else
+    {
+        check = FMOD_ERR_INVALID_HANDLE;
+    }
 
-    return const_cast<char *>(ret.c_str());
+    return ret.c_str();
 }
 
 /*
  * Checks if the EventDescription reference is valid.
  * Returns true or false.
  */
-gms_export double fmod_studio_evdesc_is_valid(char *evt_ptr)
+gms_export double fmod_studio_evdesc_is_valid(char *ptr)
 {
-    auto desc = (FMOD::Studio::EventDescription *)evt_ptr;
-    return (desc && desc->isValid());
+    return (((EvDesc *)ptr)->isValid());
 }
-

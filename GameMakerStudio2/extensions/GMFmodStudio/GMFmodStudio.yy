@@ -214,7 +214,7 @@
             2,
             2,
           ],"resourceVersion":"1.0","name":"fmod_studio_evinst_set_property","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_evinst_get_property","kind":1,"help":"fmod_studio_evinst_get_property","hidden":false,"returnType":2,"argCount":0,"args":[
+        {"externalName":"fmod_studio_evinst_get_property","kind":1,"help":"fmod_studio_evinst_get_property(evinst, propindex)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             2,
           ],"resourceVersion":"1.0","name":"fmod_studio_evinst_get_property","tags":[],"resourceType":"GMExtensionFunction",},
@@ -432,7 +432,7 @@
         {"externalName":"fmod_studio_comreplay_get_system","kind":1,"help":"fmod_studio_comreplay_get_system(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_get_system","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_comreplay_is_valid","kind":1,"help":"fmod_studio_comreplay_is_valid","hidden":false,"returnType":2,"argCount":0,"args":[
+        {"externalName":"fmod_studio_comreplay_is_valid","kind":1,"help":"fmod_studio_comreplay_is_valid(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_comreplay_is_valid","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_comreplay_release","kind":1,"help":"fmod_studio_comreplay_release(comreplay)","hidden":false,"returnType":2,"argCount":0,"args":[
@@ -589,7 +589,7 @@
         {"externalName":"fmod_studio_system_reset_buffer_usage","kind":1,"help":"fmod_studio_system_reset_buffer_usage(studio)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_system_reset_buffer_usage","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_system_get_cpu_usage","kind":1,"help":"fmod_studio_system_get_cpu_usage","hidden":false,"returnType":2,"argCount":0,"args":[
+        {"externalName":"fmod_studio_system_get_cpu_usage","kind":1,"help":"fmod_studio_system_get_cpu_usage(studio, buf)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_system_get_cpu_usage","tags":[],"resourceType":"GMExtensionFunction",},
