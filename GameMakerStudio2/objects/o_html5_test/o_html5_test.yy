@@ -24,8 +24,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "GMFmodStudio",
-    "path": "GMFmodStudio.yyp",
+    "name": "HTML5 Tests",
+    "path": "folders/Objects/HTML5 Tests.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_html5_test",

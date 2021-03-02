@@ -1,3 +1,7 @@
 /// @description Insert description here
 // You can write your code in this editor
-x += 20;
+
+timer++;
+
+if (timer > fps * 5)
+	test();

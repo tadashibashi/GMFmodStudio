@@ -28,8 +28,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "GMFmodStudio",
-    "path": "GMFmodStudio.yyp",
+    "name": "GMFMS_Tests",
+    "path": "folders/Objects/GMFMS_Tests.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_GMFMS_Test_EventDescription",

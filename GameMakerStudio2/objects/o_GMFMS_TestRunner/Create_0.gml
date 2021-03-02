@@ -52,4 +52,5 @@ function runTests(_tests)
 runTests([
 	o_GMFMS_Test_StudioSystem, 
 	o_GMFMS_Test_EventDescription,
-	o_GMFMS_Test_EventInstance]);
+	o_GMFMS_Test_EventInstance,
+	o_GMFMS_Test_CommandReplay]);
