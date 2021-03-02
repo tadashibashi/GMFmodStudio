@@ -1,20 +1,14 @@
 #include "gmfs_common.h"
 #include <iostream>
 
-gms_export double fmod_studio_comreplay_set_bank_path(char *ptr, char *path)
+typedef FMOD::Studio::CommandReplay CommReplay;
+
+gms_export void fmod_studio_comreplay_set_bank_path(char *ptr, char *path)
 {
     static std::string str;
     str.assign(path);
-    double ret = -1;
 
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        check = com->setBankPath(str.c_str());
-        if (check == FMOD_OK) ret = 0;
-    }
-
-    return ret;
+    check = ((CommReplay *)ptr)->setBankPath(str.c_str());
 }
 
 FMOD_RESULT F_CALLBACK fmod_studio_comreplay_create_instance_callback(
@@ -40,20 +34,10 @@ FMOD_RESULT F_CALLBACK fmod_studio_comreplay_create_instance_callback(
     return FMOD_OK;
 }
 
-gms_export double fmod_studio_comreplay_set_create_instance_callback(char *ptr)
+gms_export void fmod_studio_comreplay_set_create_instance_callback(char *ptr)
 {
-    double ret = -1;
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    
-    if (com && com->isValid())
-    {
-         check = com->setCreateInstanceCallback(
-                (FMOD_STUDIO_COMMANDREPLAY_CREATE_INSTANCE_CALLBACK)fmod_studio_comreplay_create_instance_callback);
-
-         if (check == FMOD_OK) ret = 0;
-    }
-
-    return ret;
+    check = ((CommReplay *)ptr)->setCreateInstanceCallback(
+        (FMOD_STUDIO_COMMANDREPLAY_CREATE_INSTANCE_CALLBACK)fmod_studio_comreplay_create_instance_callback);
 }
 
 FMOD_RESULT F_CALLBACK fmod_studio_comreplay_frame_callback(
@@ -74,20 +58,10 @@ FMOD_RESULT F_CALLBACK fmod_studio_comreplay_frame_callback(
     return FMOD_OK;
 }
 
-gms_export double fmod_studio_comreplay_set_frame_callback(char *ptr)
+gms_export void fmod_studio_comreplay_set_frame_callback(char *ptr)
 {
-    double ret = -1;
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-
-    if (com && com->isValid())
-    {
-        check = com->setFrameCallback(
-            (FMOD_STUDIO_COMMANDREPLAY_FRAME_CALLBACK)fmod_studio_comreplay_frame_callback);
-
-        if (check == FMOD_OK) ret = 0;
-    }
-
-    return ret;
+    check = ((CommReplay *)ptr)->setFrameCallback(
+        (FMOD_STUDIO_COMMANDREPLAY_FRAME_CALLBACK)fmod_studio_comreplay_frame_callback);
 }
 
 FMOD_RESULT F_CALLBACK fmod_studio_comreplay_load_bank_callback(
@@ -119,188 +93,89 @@ FMOD_RESULT F_CALLBACK fmod_studio_comreplay_load_bank_callback(
     return FMOD_OK;
 }
 
-gms_export double fmod_studio_comreplay_set_load_bank_callback(char *ptr)
+gms_export void fmod_studio_comreplay_set_load_bank_callback(char *ptr)
 {
-    double ret = -1;
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-
-    if (com && com->isValid())
-    {
-        check = com->setLoadBankCallback(
-            (FMOD_STUDIO_COMMANDREPLAY_LOAD_BANK_CALLBACK)fmod_studio_comreplay_load_bank_callback);
-
-        if (check == FMOD_OK) ret = 0;
-    }
-
-    return ret;
+    check = ((CommReplay *)ptr)->setLoadBankCallback(
+        (FMOD_STUDIO_COMMANDREPLAY_LOAD_BANK_CALLBACK)fmod_studio_comreplay_load_bank_callback);
 }
 
-gms_export double fmod_studio_comreplay_start(char *ptr)
+gms_export void fmod_studio_comreplay_start(char *ptr)
 {
-    double ret = -1;
-
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        check = com->start();
-        if (check == FMOD_OK) ret = 0;
-    }
-
-    return ret;
+    check = ((CommReplay *)ptr)->start();
 }
 
-gms_export double fmod_studio_comreplay_stop(char *ptr)
+gms_export void fmod_studio_comreplay_stop(char *ptr)
 {
-    double ret = -1;
-
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        check = com->stop();
-        if (check == FMOD_OK) ret = 0;
-    }
-
-    return ret;
+    check = ((CommReplay *)ptr)->stop();
 }
 
 gms_export double fmod_studio_comreplay_get_current_command_index(char *ptr)
 {
-    double ret = -1;
+    int command{ };
+    check = ((CommReplay *)ptr)->getCurrentCommand(&command, nullptr);
 
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        int command;
-        check = com->getCurrentCommand(&command, nullptr);
-        if (check == FMOD_OK) ret = (double)command;
-    }
-
-    return ret;
+    return static_cast<double>(command);
 }
 
 gms_export double fmod_studio_comreplay_get_current_command_time(char *ptr)
 {
-    double ret = -1;
+    float time{ };
+    check = ((CommReplay *)ptr)->getCurrentCommand(nullptr, &time);
 
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        float time;
-        check = com->getCurrentCommand(nullptr, &time);
-        if (check == FMOD_OK) ret = (double)time;
-    }
-
-    return ret;
+    return static_cast<double>(time);
 }
 
 gms_export double fmod_studio_comreplay_get_playback_state(char *ptr)
 {
-    double ret = -1;
+    FMOD_STUDIO_PLAYBACK_STATE state{ };
+    check = ((CommReplay *)ptr)->getPlaybackState(&state);
 
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        FMOD_STUDIO_PLAYBACK_STATE state;
-        check = com->getPlaybackState(&state);
-        if (check == FMOD_OK) ret = (double)state;
-    }
-
-    return ret;
+    return static_cast<double>(state);
 }
 
-gms_export double fmod_studio_comreplay_set_paused(char *ptr, double paused)
+gms_export void fmod_studio_comreplay_set_paused(char *ptr, double paused)
 {
-    double ret = -1;
-
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        check = com->setPaused((bool)paused);
-        if (check == FMOD_OK) ret = 0;
-    }
-
-    return ret;
+    check = ((CommReplay *)ptr)->setPaused((bool)paused);
 }
 
 gms_export double fmod_studio_comreplay_get_paused(char *ptr)
 {
-    double ret = -1;
+    bool paused{ };
+    check = ((CommReplay *)ptr)->getPaused(&paused);
 
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        bool paused;
-        check = com->getPaused(&paused);
-        if (check == FMOD_OK) ret = (double)paused;
-    }
-
-    return ret;
+    return static_cast<double>(paused);
 }
 
-gms_export double fmod_studio_comreplay_seek_to_command(char *ptr, double commandindex)
+gms_export void fmod_studio_comreplay_seek_to_command(char *ptr, double commandindex)
 {
-    double ret = -1;
-
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        check = com->seekToCommand((int)commandindex);
-        if (check == FMOD_OK) ret = 0;
-    }
-
-    return ret;
+    check = ((CommReplay *)ptr)->seekToCommand((int)commandindex);;
 }
 
-gms_export double fmod_studio_comreplay_seek_to_time(char *ptr, double time)
+gms_export void fmod_studio_comreplay_seek_to_time(char *ptr, double time)
 {
-    double ret = -1;
-
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        check = com->seekToTime((float)time);
-        if (check == FMOD_OK) ret = 0;
-    }
-
-    return ret;
+    check = ((CommReplay *)ptr)->seekToTime((float)time);
 }
 
 gms_export double fmod_studio_comreplay_get_command_at_time(char *ptr, double time)
 {
-    double ret = -1;
+    int command{ };
+    check = ((CommReplay *)ptr)->getCommandAtTime((float)time, &command);
 
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        int command;
-        check = com->getCommandAtTime((float)time, &command);
-        if (check == FMOD_OK) ret = (double)command;
-    }
-
-    return ret;
+    return static_cast<double>(command);
 }
 
 gms_export double fmod_studio_comreplay_get_command_count(char *ptr)
 {
-    double ret = -1;
+    int count{ };
+    check = ((CommReplay *)ptr)->getCommandCount(&count);
 
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        int count;
-        check = com->getCommandCount(&count);
-        if (check == FMOD_OK) ret = (double)count;
-    }
-
-    return ret;
+    return static_cast<double>(count);
 }
 
-gms_export double fmod_studio_comreplay_get_command_info(char *ptr, double commandindex, char *gmbuf)
+gms_export void fmod_studio_comreplay_get_command_info(char *ptr, double commandindex, char *gmbuf)
 {
-    double ret = -1;
-
     auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
+    if (com->isValid())
     {
         FMOD_STUDIO_COMMAND_INFO info;
         check = com->getCommandInfo((int)commandindex, &info);
@@ -314,11 +189,11 @@ gms_export double fmod_studio_comreplay_get_command_info(char *ptr, double comma
         buf.write<uint32_t>(info.outputtype);
         buf.write<uint32_t>(info.instancehandle);
         buf.write<uint32_t>(info.outputhandle);
-        
-        if (check == FMOD_OK) ret = 0;
     }
-
-    return ret;
+    else
+    {
+        check = FMOD_ERR_INVALID_HANDLE;
+    }
 }
 
 gms_export const char *fmod_studio_comreplay_get_command_string(char *ptr, double commandindex)
@@ -339,52 +214,28 @@ gms_export const char *fmod_studio_comreplay_get_command_string(char *ptr, doubl
 // Retrieves total playback time, or -1 on error.
 gms_export double fmod_studio_comreplay_get_length(char *ptr)
 {
-    double ret = -1;
+    float time{ };
+    check = ((CommReplay *)ptr)->getLength(&time);
 
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        float time;
-        check = com->getLength(&time);
-        if (check == FMOD_OK) ret = (double)time;
-    }
-
-    return ret;
+    return static_cast<double>(time);
 }
 
 gms_export double fmod_studio_comreplay_get_system(char *ptr)
 {
-    double ret = 0;
+    FMOD::Studio::System *sys{ };
+    check = ((CommReplay *)ptr)->getSystem(&sys);
 
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        FMOD::Studio::System *sys;
-        check = com->getSystem(&sys);
-        if (check == FMOD_OK) ret = (double)(uintptr_t)sys;
-    }
-
-    return ret;
+    return (double)(uintptr_t)sys;
 }
 
 // Get User data, not implemented
 
 gms_export double fmod_studio_comreplay_is_valid(char *ptr)
 {
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    return com->isValid();
+    return ((CommReplay *)ptr)->isValid();
 }
 
-gms_export double fmod_studio_comreplay_release(char *ptr)
+gms_export void fmod_studio_comreplay_release(char *ptr)
 {
-    double ret = -1;
-
-    auto com = (FMOD::Studio::CommandReplay *)ptr;
-    if (com && com->isValid())
-    {
-        check = com->release();
-        if (check == FMOD_OK) ret = 0;
-    }
-
-    return ret;
+    check = ((CommReplay *)ptr)->release();
 }

@@ -126,10 +126,261 @@ GMFMS_Assert(fmod_studio_evinst_get_timeline_position(evimusic),
 // ----------------------------------------------------------------------------
 // EvInst Set/Get Volume
 // ----------------------------------------------------------------------------
+fmod_studio_evinst_set_volume(evimusic, .5);
+GMFMS_Check("EvInst Set Volume: no errors");
+GMFMS_Assert(fmod_studio_evinst_get_volume(evimusic), .5,
+	"EvInst Get Volume matches");
+
+fmod_studio_system_flush_commands(studio);
+GMFMS_Assert(fmod_studio_evinst_get_volume_final(evimusic), .5,
+	"EvInst Get Volume Final: test 1");
+GMFMS_Check("EvInst get volume final: no errors");
+
+fmod_studio_evinst_set_volume(evimusic, 1);
+
+fmod_studio_system_flush_commands(studio);
+GMFMS_Assert(fmod_studio_evinst_get_volume_final(evimusic), 1,
+	"EvInst Get Volume Final: test 2");
+	
+
+// ----------------------------------------------------------------------------
+// EvInst Is Virtual
+// ----------------------------------------------------------------------------
+
+// Is Virtual Error Check
+GMFMS_Assert(fmod_studio_evinst_is_virtual(evimusic), false, 
+	"EvInst Is Virtual: false");
+GMFMS_Check("EvInst Is Virtual: no errors");
+
+// Music Instance has a 1-voice limitation with stealing set to "virtualize"
+// Any additional instances started will steal the current one by virtualizing it.
+var virttest_inst = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
+fmod_studio_evinst_start(virttest_inst);
+fmod_studio_evinst_start(evimusic);
+fmod_studio_system_flush_commands(studio);
+GMFMS_Assert(fmod_studio_evinst_is_virtual(evimusic), false, "EvInst Is Virtual: false");
+GMFMS_Assert(fmod_studio_evinst_is_virtual(virttest_inst), true, "EvInst Is Virtual: true");
+
+fmod_studio_evinst_stop(evimusic, FMOD_STUDIO_STOP_IMMEDIATE);
+fmod_studio_evinst_stop(virttest_inst, FMOD_STUDIO_STOP_IMMEDIATE);
+fmod_studio_evinst_release(virttest_inst);
+
+fmod_studio_system_flush_commands(studio);
 
 
+// ----------------------------------------------------------------------------
+// EvInst Set/Get 3D Attributes
+// ----------------------------------------------------------------------------
+var buf = GMFMS_GetBuffer();
+var attr = new GMFMS_3DAttr();
+attr.position.x = 1;
+attr.position.y = 2;
+attr.position.z = 3;
+attr.velocity.x = 4;
+attr.velocity.y = 5;
+attr.velocity.z = 6;
+attr.forward.x  = 0;
+attr.forward.y  = 0;
+attr.forward.z  = 1;
+attr.up.x       = 0;
+attr.up.y       = 1;
+attr.up.z       = 0;
+attr.writeToBuffer(buf);
+fmod_studio_evinst_set_3D_attributes(evimusic, buf.getAddress());
+GMFMS_Check("EvInst Set3DAttributes: no errors");
+
+buf.seekReset();
+fmod_studio_evinst_get_3D_attributes(evimusic, buf.getAddress());
+GMFMS_Check("EvInst Get3DAttributes: no errors");
+
+var getattr = new GMFMS_3DAttr(buf);
+GMFMS_Assert(getattr.position.x, attr.position.x, "EvInst Get3DAttr: position.x");
+GMFMS_Assert(getattr.position.y, attr.position.y, "EvInst Get3DAttr: position.y");
+GMFMS_Assert(getattr.position.z, attr.position.z, "EvInst Get3DAttr: position.z");
+GMFMS_Assert(getattr.velocity.x, attr.velocity.x, "EvInst Get3DAttr: velocity.x");
+GMFMS_Assert(getattr.velocity.y, attr.velocity.y, "EvInst Get3DAttr: velocity.y");
+GMFMS_Assert(getattr.velocity.z, attr.velocity.z, "EvInst Get3DAttr: velocity.z");
+GMFMS_Assert(getattr.forward.x, attr.forward.x, "EvInst Get3DAttr: forward.x");
+GMFMS_Assert(getattr.forward.y, attr.forward.y, "EvInst Get3DAttr: forward.y");
+GMFMS_Assert(getattr.forward.z, attr.forward.z, "EvInst Get3DAttr: forward.z");
+GMFMS_Assert(getattr.up.x, attr.up.x, "EvInst Get3DAttr: up.x");
+GMFMS_Assert(getattr.up.y, attr.up.y, "EvInst Get3DAttr: up.y");
+GMFMS_Assert(getattr.up.z, attr.up.z, "EvInst Get3DAttr: up.z");
+
+delete getattr;
+delete attr;
+
+// ----------------------------------------------------------------------------
+// EvInst Set/Get Listener Mask
+// ----------------------------------------------------------------------------
+/*
+To create the mask you must perform bitwise OR and shift operations, the basic 
+form is 1 << listener_index ORd together with other required listener indices.
+For example to create a mask for listener index 0 and 2 the calculation would 
+be mask = (1 << 0) | (1 << 2), to include all listeners use the default mask of 0xFFFFFFFF.
+*/
+var mask = (1 << 0) | (1 << 2) | (1 << 3);
+
+fmod_studio_evinst_set_listener_mask(evimusic, mask);
+GMFMS_Check("EvInst Set Listener Mask: no errors");
+
+GMFMS_Assert(fmod_studio_evinst_get_listener_mask(evimusic), mask,
+	"EvInst Get Listener Mask matches");
+GMFMS_Check("EvInst Get Listener Mask: no errors");
+
+// ----------------------------------------------------------------------------
+// EvInst Set/Get Parameter
+// ----------------------------------------------------------------------------
+// by Name
+fmod_studio_evinst_set_parameter_by_name(evimusic, "RoomSize", .5);
+GMFMS_Check("EvInst Set Parameter by Name: no errors");
+
+GMFMS_Assert(fmod_studio_evinst_get_parameter_by_name(evimusic, "RoomSize"), .5,
+	"EvInst Get Parameter by Name");
+
+GMFMS_Assert(fmod_studio_evinst_get_parameter_by_name_final(evimusic, "RoomSize"),
+	0, "EvInst Get Parameter by Name final: command not flushed");
+GMFMS_Check("EvInst Set Parameter by Name Final: no errors");
+
+fmod_studio_system_flush_commands(studio);
+
+GMFMS_Assert(fmod_studio_evinst_get_parameter_by_name_final(evimusic, "RoomSize") > 0,
+	true, "EvInst Get Parameter by Name final: command was flushed");
+
+fmod_studio_evinst_set_parameter_by_name(evimusic, "RoomSize", 0);
+fmod_studio_system_flush_commands(studio);
+
+// by ID
+buf = GMFMS_GetBuffer();
+fmod_studio_evdesc_get_paramdesc_by_name(evdmusic, "RoomSize", buf.getAddress());
+GMFMS_Check("EvDesc Get Param Desc By Name: no errors");
+
+var pdesc/*: GMFMS_ParamDesc*/ = new GMFMS_ParamDesc(buf);
+buf.seekReset();
+pdesc.pid.writeToBuffer(buf);
+
+fmod_studio_evinst_set_parameter_by_id(evimusic, buf.getAddress(), .123);
+GMFMS_Check("EvInst Set Parameter by ID: no errors");
+
+GMFMS_Assert(
+	fmod_studio_evinst_get_parameter_by_id(evimusic, buf.getAddress()), 
+	.123, 
+	"EvInst Get Parameter by ID matches");
+GMFMS_Check("EvInst Get Paramter by ID: no errors");
+
+// final
+GMFMS_Assert(
+	fmod_studio_evinst_get_parameter_by_id_final(evimusic, buf.getAddress()),
+	0,
+	"EvInst Get Parameter by ID final: command not flushed");
+
+fmod_studio_system_flush_commands(studio);
+
+GMFMS_Assert(
+	fmod_studio_evinst_get_parameter_by_id_final(evimusic, buf.getAddress()) > 0,
+	true,
+	"EvInst Get Parameter by ID final: command was flushed");
+	
+fmod_studio_evinst_set_parameter_by_id(evimusic, buf.getAddress(), 0);
+
+
+// set params by IDs
+buf = GMFMS_GetBuffer();
+fmod_studio_evdesc_get_paramdesc_by_name(evdmusic, "Pitch", buf.getAddress());
+GMFMS_Check("EvDesc Get Param Desc By Name: no errors");
+
+var pdesc2/*: GMFMS_ParamDesc*/ = new GMFMS_ParamDesc(buf);
+
+buf.seekReset();
+pdesc.pid.writeToBuffer(buf);
+buf.write(buffer_f32, .789);
+pdesc2.pid.writeToBuffer(buf);
+buf.write(buffer_f32, .012);
+
+fmod_studio_evinst_set_parameters_by_ids(evimusic, buf.getAddress(), 2, false);
+GMFMS_Check("EvInst Set Params by IDs: no errors");
+
+buf.seekReset();
+pdesc.pid.writeToBuffer(buf);
+GMFMS_Assert(fmod_studio_evinst_get_parameter_by_id(evimusic, buf.getAddress()),
+	.789, "EvInst Set Params by IDs, first value matches");
+
+buf.seekReset();
+pdesc2.pid.writeToBuffer(buf);
+GMFMS_Assert(fmod_studio_evinst_get_parameter_by_id(evimusic, buf.getAddress()),
+	.012, "EvInst Set Params by IDs, second value matches");
+
+// ----------------------------------------------------------------------------
+// EvInst Get Channel Group
+// ----------------------------------------------------------------------------
+GMFMS_Assert(fmod_studio_evinst_get_channel_group(evimusic) != 0, true,
+	"EvInst Get Channel Group: valid channel group retrieved");
+GMFMS_Check("EvInst Get Channel Group: no errors");
+
+// ----------------------------------------------------------------------------
+// EvInst Set/Get Core Reverb Level
+// ----------------------------------------------------------------------------
+fmod_studio_evinst_set_reverb_level(evimusic, 0, .7654);
+GMFMS_Check("EvInst Set Reverb Level: no errors");
+
+GMFMS_Assert(fmod_studio_evinst_get_reverb_level(evimusic), .7654, 
+	"EvInst Get Reverb Level matches");
+GMFMS_Check("EvInst Get Reverb Level: no errors");
+
+// ----------------------------------------------------------------------------
+// EvInst Get CPU Usage
+// FMOD_INIT_PROFILE_ENABLE with System::init is required to call these functions!
+// ----------------------------------------------------------------------------
+fmod_studio_evinst_get_cpu_usage_exclusive(evimusic);
+GMFMS_Check("EvInst Get CPU Usage Exclusive: no errors");
+
+fmod_studio_evinst_get_cpu_usage_inclusive(evimusic);
+GMFMS_Check("EvInst Get CPU Usage Inclusive: no errors");
+
+// ----------------------------------------------------------------------------
+// EvInst Get Memory Usage
+// ----------------------------------------------------------------------------
+buf = GMFMS_GetBuffer();
+fmod_studio_evinst_get_memory_usage(evimusic, buf.getAddress());
+GMFMS_Check("EvInst Get Memory Usage: no errors");
+
+var memusage = new GMFMS_MemUsage(buf);
+
+GMFMS_Assert(memusage.exclusive != -1, true, 
+	"EvInst Get Memory Usage: exclusive");
+GMFMS_Assert(memusage.inclusive != -1, true, 
+	"EvInst Get Memory Usage: inclusive");
+GMFMS_Assert(memusage.sampledata != -1, true, 
+	"EvInst Get Memory Usage: sampledata");
+
+// ----------------------------------------------------------------------------
+// EvInst Get Description
+// ----------------------------------------------------------------------------
+GMFMS_Assert(GMFMS_Ptr(fmod_studio_evinst_get_description(evimusic)), evdmusic,
+	"EvInst Get Description: matches");
+GMFMS_Check("EvInst Get Description: no errors");
 
 timer = 0;
 
+// ----------------------------------------------------------------------------
+// EvInst Release
+// ----------------------------------------------------------------------------
+fmod_studio_evinst_release(evimusic);
+GMFMS_Check("EvInst Release: no errors");
 
+fmod_studio_system_flush_commands(studio);
 
+GMFMS_Assert(fmod_studio_evinst_is_valid(evimusic), false, 
+	"EvInst Release succeeded");
+
+evimusic = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
+
+///////////////////////////////////////////////////////////////////////////////
+// ----------------------------------------------------------------------------
+// EvInst Set Callback
+// ----------------------------------------------------------------------------
+fmod_studio_evinst_set_callback(evimusic, 
+	FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_BEAT);
+GMFMS_Check("EvInst Set Callback: no errors");
+// Testing Music callback by playing the instance
+fmod_studio_evinst_start(evimusic);

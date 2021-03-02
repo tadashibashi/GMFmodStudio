@@ -253,7 +253,7 @@
             1,
             2,
           ],"resourceVersion":"1.0","name":"fmod_studio_evinst_set_parameter_by_id","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_evinst_set_parameters_by_ids","kind":1,"help":"fmod_studio_evinst_set_parameters_by_ids","hidden":false,"returnType":2,"argCount":0,"args":[
+        {"externalName":"fmod_studio_evinst_set_parameters_by_ids","kind":1,"help":"fmod_studio_evinst_set_parameters_by_ids(evinst, buf, paramcount, ignoreseek)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             1,
             2,
@@ -682,6 +682,9 @@
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_evdesc_is_valid","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"gmfms_get_error","kind":1,"help":"GMFMS_GetError()","hidden":false,"returnType":2,"argCount":0,"args":[],"resourceVersion":"1.0","name":"GMFMS_GetError","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_evinst_get_volume_final","kind":1,"help":"fmod_studio_evinst_get_volume_final(evinst)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_evinst_get_volume_final","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[
         {"value":"0","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_PLAYING","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"1","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_SUSTAINING","tags":[],"resourceType":"GMExtensionConstant",},
@@ -1040,6 +1043,7 @@
         {"name":"fmod_studio_evdesc_set_callback","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_evdesc_is_valid","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"GMFMS_GetError","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_evinst_get_volume_final","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",

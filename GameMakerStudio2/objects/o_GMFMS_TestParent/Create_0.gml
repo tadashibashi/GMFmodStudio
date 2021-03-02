@@ -45,8 +45,8 @@ GMFMS_Assert(
 fmod_studio_system_initialize(
 	studio, 
 	1024, 
-	FMOD_STUDIO_INIT_NORMAL, 
-	FMOD_INIT_NORMAL);
+	FMOD_STUDIO_INIT_LIVEUPDATE, 
+	FMOD_INIT_PROFILE_ENABLE);
 	
 GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "Studio System Initialize");
 

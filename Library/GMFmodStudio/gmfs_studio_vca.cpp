@@ -1,37 +1,19 @@
 #include "gmfs_common.h"
 #include <string>
 
-gms_export double fmod_studio_vca_set_volume(char *ptr, double volume)
+typedef FMOD::Studio::VCA StudioVCA;
+
+gms_export void fmod_studio_vca_set_volume(char *ptr, double volume)
 {
-    auto vca = (FMOD::Studio::VCA *)ptr;
-    double ret = -1;
-
-    if (vca && vca->isValid())
-    {
-        check = vca->setVolume((float)volume);
-
-        if (check == FMOD_OK)
-            ret = 0;
-    }
-
-    return ret;
+    check = ((StudioVCA *)ptr)->setVolume((float)volume);
 }
 
 gms_export double fmod_studio_vca_get_volume(char *ptr)
 {
-    auto vca = (FMOD::Studio::VCA *)ptr;
-    double ret = -1;
+    float volume{ };
+    check = ((StudioVCA *)ptr)->getVolume(&volume);
 
-    if (vca && vca->isValid())
-    {
-        float volume;
-        check = vca->getVolume(&volume);
-
-        if (check == FMOD_OK)
-            ret = (double)volume;
-    }
-
-    return ret;
+    return static_cast<double>(volume);
 }
 
 gms_export double fmod_studio_vca_get_id(char *ptr, char *gmbuf)
@@ -46,6 +28,5 @@ gms_export char *fmod_studio_vca_get_path(char *ptr)
 
 gms_export double fmod_studio_vca_is_valid(char *ptr)
 {
-    auto vca = (FMOD::Studio::VCA *)ptr;
-    return vca->isValid();
+    return ((StudioVCA *)ptr)->isValid();
 }

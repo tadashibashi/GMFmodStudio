@@ -499,6 +499,14 @@ gms_export double fmod_studio_evinst_get_volume(char *ptr)
     return static_cast<double>(volume);
 }
 
+gms_export double fmod_studio_evinst_get_volume_final(char *ptr)
+{
+    float final{ };
+    check = ((EvInst *)ptr)->getVolume(nullptr, &final);
+
+    return static_cast<double>(final);
+}
+
 /*
  * Returns whether or not instance is virtual.
  */
@@ -764,8 +772,8 @@ gms_export double fmod_studio_evinst_get_reverb_level(char *ptr, double index)
 // Returns time as microseconds on success and -1 on error.
 gms_export double fmod_studio_evinst_get_cpu_usage_exclusive(char *ptr)
 {
-    unsigned int microsecs;
-    check = ((EvInst *)ptr)->getCPUUsage(&microsecs, nullptr);
+    unsigned int microsecs, nothing;
+    check = ((EvInst *)ptr)->getCPUUsage(&microsecs, &nothing);
 
     return static_cast<double>(microsecs);
 }
@@ -774,8 +782,8 @@ gms_export double fmod_studio_evinst_get_cpu_usage_exclusive(char *ptr)
 // Returns time as microseconds on success and -1 on error.
 gms_export double fmod_studio_evinst_get_cpu_usage_inclusive(char *ptr)
 {
-    unsigned int microsecs;
-    check = ((EvInst *)ptr)->getCPUUsage(nullptr, &microsecs);
+    unsigned int microsecs, nothing;
+    check = ((EvInst *)ptr)->getCPUUsage(&nothing, &microsecs);
 
     return static_cast<double>(microsecs);
 }
