@@ -6,7 +6,7 @@
     "path": "folders/Scripts/GMFmodStudio/GMFMS_Structs.yy",
   },
   "resourceVersion": "1.0",
-  "name": "GMFMS_3DAttr",
+  "name": "GMFMOD_AdvancedSettings",
   "tags": [],
   "resourceType": "GMScript",
 }

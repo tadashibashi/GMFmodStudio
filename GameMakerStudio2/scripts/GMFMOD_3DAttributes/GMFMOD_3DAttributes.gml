@@ -4,10 +4,10 @@
 /// This struct is used to pass 3D positional data to and from FMOD Studio.
 /// @copyright Aaron Ishibashi, 2021.
 
-/// @struct GMFMS_3DAttr([buffer])
+/// @struct GMFMOD_3DAttributes([buffer])
 /// @param {GMFMS_Buffer} [buffer] Buffer to initialize data from.
 ///
-function GMFMS_3DAttr() constructor 
+function GMFMOD_3DAttributes() constructor 
 {
 	// ===== Initialization ======================================================
 	
@@ -51,7 +51,7 @@ function GMFMS_3DAttr() constructor
     /// @desc Log the data from this struct to the console.
 	static log = function()
 	{
-		show_debug_message("===== GMFMS_3DAttr Log =====");
+		show_debug_message("===== GMFMOD_3DAttributes Log =====");
 		position.log();	
 		velocity.log();
 		forward.log();
@@ -60,6 +60,6 @@ function GMFMS_3DAttr() constructor
 }
 
 // GMEdit Hints ===============================================================
-/// @hint GMFMS_3DAttr:readFromBuffer(buf: GMFMS_Buffer)->void Populates the data of this struct from a buffer.
-/// @hint GMFMS_3DAttr:writeToBuffer(buf: GMFMS_Buffer)->void Populates a buffer with data from this struct.
-/// @hint GMFMS_3DAttr:log()->void Logs the data of this struct to the console.
+/// @hint GMFMOD_3DAttributes:readFromBuffer(buf: GMFMS_Buffer)->void Populates the data of this struct from a buffer.
+/// @hint GMFMOD_3DAttributes:writeToBuffer(buf: GMFMS_Buffer)->void Populates a buffer with data from this struct.
+/// @hint GMFMOD_3DAttributes:log()->void Logs the data of this struct to the console.

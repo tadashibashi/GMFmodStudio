@@ -60,28 +60,28 @@ function GMFMS_EvInst(_handle) constructor
 		return fmod_studio_evinst_set_pitch(inst_, multiplier);	
 	};
 	
-	/// @function get3DAttributes([_3D_attr]: GMFMS_3DAttr)
+	/// @function get3DAttributes([_3D_attr]: GMFMOD_3DAttributes)
 	/// @description Gets the current 3D attributes of this event instance. If no argument is provided, a new object will be created. 
-	/// @param {GMFMS_3DAttr} _3D_attr (optional) 3D attributes object to populate with data.
-	/// @returns {GMFMS_3DAttr} the 3D attributes object
+	/// @param {GMFMOD_3DAttributes} _3D_attr (optional) 3D attributes object to populate with data.
+	/// @returns {GMFMOD_3DAttributes} the 3D attributes object
 	static get3DAttributes = function(_3D_attr)
 	{
 		var buf = GMFMS_GetBuffer();
 		fmod_studio_evinst_get_3D_attributes(inst_, buf.getAddress());
 		
-		if (instanceof(_3D_attr) == "GMFMS_3DAttr")
+		if (instanceof(_3D_attr) == "GMFMOD_3DAttributes")
 		{
 			_3D_attr.readFromBuffer(buf);
 		}
 		else
 		{
-			_3D_attr = new GMFMS_3DAttr(buf);
+			_3D_attr = new GMFMOD_3DAttributes(buf);
 		}
 		
 		return _3D_attr;
 	};
 	
-	/// @function set3DAttributes(_3D_attr: GMFMS_3DAttr)
+	/// @function set3DAttributes(_3D_attr: GMFMOD_3DAttributes)
 	/// @returns {void}
 	static set3DAttributes = function(_3D_attr)
 	{

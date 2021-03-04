@@ -73,9 +73,27 @@ function GMFMS_GUID() constructor
 		for (var i = 0; i < 8; ++i)
 			show_debug_message("Data4[" + string(i) + "]: " + string(data4[i]));
 	};
+	
+	/// @function        equals(guid: GMFMS_GUID)->bool
+	/// @returns  {bool}
+	static equals = function(guid)
+	{
+		/// @description    Checks if another guid obtains the same value
+		
+		if (instanceof(guid) != "GMFMS_Buffer")
+			return false;
+		return (data1 == guid.data1 && data2 == guid.data2 &&
+				data3 == guid.data3 && 
+				data4[0] == guid.data4[0] && data4[1] == guid.data4[1] &&
+				data4[2] == guid.data4[2] && data4[3] == guid.data4[3] &&
+				data4[4] == guid.data4[4] && data4[5] == guid.data4[5] &&
+				data4[6] == guid.data4[6] && data4[7] == guid.data4[7]
+				);
+	}
 }
 
 // GMEdit Hints ===============================================================
 /// @hint GMFMS_GUID:readFromBuffer(buf: GMFMS_Buffer)->void Assigns data to this GMFMS_GUID from a buffer
 /// @hint GMFMS_GUID:writeToBuffer(buf: GMFMS_Buffer)->void Sends data from this GMFMS_GUID into a buffer
 /// @hint GMFMS_GUID:log()->void Log struct data to the console.
+/// @hint GMFMS_GUID:equals(guid: GMFMS_GUID)->bool Checks if another guid contains the same value

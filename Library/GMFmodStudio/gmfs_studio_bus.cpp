@@ -29,6 +29,14 @@ gms_export double fmod_studio_bus_get_volume(char *ptr)
     return static_cast<double>(volume);
 }
 
+gms_export double fmod_studio_bus_get_volume_final(char *ptr)
+{
+    float volume{ };
+    check = ((StudioBus *)ptr)->getVolume(nullptr, &volume);
+
+    return static_cast<double>(volume);
+}
+
 gms_export void fmod_studio_bus_set_mute(char *ptr, double mute)
 {
     check = ((StudioBus *)ptr)->setMute((bool)mute);
@@ -94,6 +102,20 @@ gms_export double fmod_studio_bus_get_memory_usage_exclusive(char *ptr, char *gm
     check = ((StudioBus *)ptr)->getCPUUsage(&microsecs, &dummy);
 
     return static_cast<double>(microsecs);
+}
+
+// Fills buffer with retrieved memory usage. Returns 0 on success and -1 on error.
+gms_export void fmod_studio_bus_get_memory_usage(char *ptr, char *gmbuf)
+{
+    FMOD_STUDIO_MEMORY_USAGE usage{};
+    check = ((StudioBus *)ptr)->getMemoryUsage(&usage);
+    if (check == FMOD_OK)
+    {
+        Buffer buf(gmbuf);
+        buf.write<int32_t>(usage.exclusive);
+        buf.write<int32_t>(usage.inclusive);
+        buf.write<int32_t>(usage.sampledata);
+    }
 }
 
 gms_export double fmod_studio_bus_get_id(char *ptr, char *gmbuf)

@@ -1,4 +1,4 @@
-/// @file A GML representation of the FMOD_STUDIO_COMMAND_INFO struct.
+o/// @file A GML representation of the FMOD_STUDIO_COMMAND_INFO struct.
 /// Contains helper functions to manage buffer transfer to and from the 
 /// GMFmodStudio extension.
 /// @copyright Aaron Ishibashi, 2021.

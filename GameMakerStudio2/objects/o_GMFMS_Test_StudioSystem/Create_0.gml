@@ -162,7 +162,7 @@ GMFMS_Assert(fmod_studio_bank_get_sample_loading_state(bank),
 buf.seekReset();
 fmod_studio_system_set_listener_attributes(studio, 0, buf.getAddress());
 
-var listenerattr = new GMFMS_3DAttr();
+var listenerattr = new GMFMOD_3DAttributes();
 
 fmod_studio_system_get_listener_attributes(studio, 0, buf.getAddress());
 listenerattr.readFromBuffer(buf);
@@ -325,7 +325,7 @@ var paramdesc = new GMFMS_ParamDesc(buf);
 
 GMFMS_Assert(
 	paramdesc.name == "Weather" && paramdesc.maximum == 3 && 
-		paramdesc.minimum == 0 && paramdesc.defaultvalue = 0 &&
+		paramdesc.minimum == 0 && paramdesc.defaultvalue = 1.78 &&
 		paramdesc.flags == FMOD_STUDIO_PARAMETER_GLOBAL &&
 		paramdesc.pid.data1 >= 0 && paramdesc.pid.data2 >= 0,
 	true, 

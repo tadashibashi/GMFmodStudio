@@ -15,7 +15,7 @@ GMFMS_Assert(fmod_studio_system_is_valid(studio), true, "Studio System Create");
 var buf = GMFMS_GetBuffer();
 fmod_studio_system_get_advanced_settings(studio, buf.getAddress());
 
-var advsettings = new GMFMS_AdvSettings(buf);
+var advsettings = new GMFMOD_AdvancedSettings(buf);
 
 GMFMS_Assert(
 	GMFMS_GetError(), FMOD_OK,

@@ -5,10 +5,10 @@
 /// initialized to configure memory and streaming settings.
 /// @copyright Aaron Ishibashi, 2021.
 
-/// @struct GMFMS_AdvSettings([buffer: GMFMS_Buffer])
+/// @struct GMFMOD_AdvancedSettings([buffer: GMFMS_Buffer])
 /// @param {GMFMS_Buffer} [buffer] (optional) Buffer to initialize data from.
 ///
-function GMFMS_AdvSettings() constructor
+function GMFMOD_AdvancedSettings() constructor
 {
 	// ===== Initialization ======================================================
 
@@ -61,7 +61,7 @@ function GMFMS_AdvSettings() constructor
 	/// @returns {void}
 	static log = function()
 	{
-		show_debug_message("===== GMFMS_AdvSettings Log =====");	
+		show_debug_message("===== GMFMOD_AdvancedSettings Log =====");	
 		show_debug_message("commandqueuesize: " + string(commandqueuesize));	
 		show_debug_message("handleinitialsize: " + string(handleinitialsize));	
 		show_debug_message("studioupdateperiod: " + string(studioupdateperiod));	
@@ -72,6 +72,6 @@ function GMFMS_AdvSettings() constructor
 }
 
 // GMEdit Hints ===============================================================
-/// @hint GMFMS_AdvSettings:readFromBuffer(buf: GMFMS_Buffer)->void Reads data from a buffer and assigns it to this struct.
-/// @hint GMFMS_AdvSettings:writeToBuffer(buf: GMFMS_Buffer)->void Writes the data from this struct into a buffer.
-/// @hint GMFMS_AdvSettings:log()->void Logs this object's data to the console.
+/// @hint GMFMOD_AdvancedSettings:readFromBuffer(buf: GMFMS_Buffer)->void Reads data from a buffer and assigns it to this struct.
+/// @hint GMFMOD_AdvancedSettings:writeToBuffer(buf: GMFMS_Buffer)->void Writes the data from this struct into a buffer.
+/// @hint GMFMOD_AdvancedSettings:log()->void Logs this object's data to the console.

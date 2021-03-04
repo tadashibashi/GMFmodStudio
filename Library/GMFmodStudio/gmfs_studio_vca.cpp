@@ -16,6 +16,14 @@ gms_export double fmod_studio_vca_get_volume(char *ptr)
     return static_cast<double>(volume);
 }
 
+gms_export double fmod_studio_vca_get_volume_final(char *ptr)
+{
+    float volume{ }, dummy;
+    check = ((StudioVCA *)ptr)->getVolume(&dummy, &volume);
+
+    return static_cast<double>(volume);
+}
+
 gms_export double fmod_studio_vca_get_id(char *ptr, char *gmbuf)
 {
     return fmod_studio_obj_get_id<FMOD::Studio::VCA>(ptr, gmbuf);

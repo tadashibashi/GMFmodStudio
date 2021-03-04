@@ -6,6 +6,7 @@ function GMFMS_System() constructor
 	
 	// Initializes the FMOD Studio object. Must be called before performing any
 	// other functions.
+	/// @function initialize(max_channels, studio_flags, flags)
 	/// @param {int} max_channels the max number of channels to initialize fmod studio with.
 	/// @param {int} studio_flags the flags to initialize FMOD Studio System with.
 	/// @param {int} flags the flags to initialize FMOD System with.

@@ -172,7 +172,7 @@ fmod_studio_system_flush_commands(studio);
 // EvInst Set/Get 3D Attributes
 // ----------------------------------------------------------------------------
 var buf = GMFMS_GetBuffer();
-var attr = new GMFMS_3DAttr();
+var attr = new GMFMOD_3DAttributes();
 attr.position.x = 1;
 attr.position.y = 2;
 attr.position.z = 3;
@@ -193,7 +193,7 @@ buf.seekReset();
 fmod_studio_evinst_get_3D_attributes(evimusic, buf.getAddress());
 GMFMS_Check("EvInst Get3DAttributes: no errors");
 
-var getattr = new GMFMS_3DAttr(buf);
+var getattr = new GMFMOD_3DAttributes(buf);
 GMFMS_Assert(getattr.position.x, attr.position.x, "EvInst Get3DAttr: position.x");
 GMFMS_Assert(getattr.position.y, attr.position.y, "EvInst Get3DAttr: position.y");
 GMFMS_Assert(getattr.position.z, attr.position.z, "EvInst Get3DAttr: position.z");

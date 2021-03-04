@@ -48,8 +48,11 @@
 			<value>volume</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>-8.5</value>
 		</property>
+		<relationship name="automators">
+			<destination>{4f5433cd-15f7-4a6f-ab91-ae1d3d0e1ab8}</destination>
+		</relationship>
 		<relationship name="automatableObject">
 			<destination>{498278ec-60ce-42c9-ad6d-9697f5b90840}</destination>
 		</relationship>
@@ -60,8 +63,49 @@
 		</relationship>
 	</object>
 	<object class="SnapshotTrack" id="{b06cc0bd-3eea-42d7-a9d0-5ca031b7fd9f}">
+		<relationship name="automationTracks">
+			<destination>{afce83a7-cf4a-4f1c-93d3-3503a78956e7}</destination>
+		</relationship>
 		<relationship name="mixerStrip">
 			<destination>{498278ec-60ce-42c9-ad6d-9697f5b90840}</destination>
 		</relationship>
+	</object>
+	<object class="Automator" id="{4f5433cd-15f7-4a6f-ab91-ae1d3d0e1ab8}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>value</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{6046853d-919b-46eb-b3b5-f9fead2ab25f}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationTrack" id="{afce83a7-cf4a-4f1c-93d3-3503a78956e7}">
+		<relationship name="automator">
+			<destination>{4f5433cd-15f7-4a6f-ab91-ae1d3d0e1ab8}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationCurve" id="{6046853d-919b-46eb-b3b5-f9fead2ab25f}">
+		<relationship name="parameter">
+			<destination>{4d952288-03c0-4b1a-9814-ed07c7d5ab76}</destination>
+		</relationship>
+		<relationship name="automationPoints">
+			<destination>{f75510b8-b70a-4e49-b9bd-5e48a6885d24}</destination>
+			<destination>{ff46a202-d0dd-40c6-9cc0-fe25ef16c91a}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationPoint" id="{f75510b8-b70a-4e49-b9bd-5e48a6885d24}">
+		<property name="position">
+			<value>0</value>
+		</property>
+		<property name="value">
+			<value>-38</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{ff46a202-d0dd-40c6-9cc0-fe25ef16c91a}">
+		<property name="position">
+			<value>3</value>
+		</property>
+		<property name="value">
+			<value>0</value>
+		</property>
 	</object>
 </objects>

@@ -53,4 +53,7 @@ runTests([
 	o_GMFMS_Test_StudioSystem, 
 	o_GMFMS_Test_EventDescription,
 	o_GMFMS_Test_EventInstance,
-	o_GMFMS_Test_CommandReplay]);
+	o_GMFMS_Test_CommandReplay,
+	o_GMFMS_Test_Bus,
+	o_GMFMS_Test_Bank,
+	o_GMFMS_Test_VCA]);
