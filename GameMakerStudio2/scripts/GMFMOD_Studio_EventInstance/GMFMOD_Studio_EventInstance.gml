@@ -1,17 +1,26 @@
-/// @function GMFMS_EvInst([handle]: int)
+/// @function GMFMOD_Studio_EventInstance([handle]: int)
 /// @param {int} handle (optional) default: pointer_null. You can assign this value later via assign function.
-function GMFMS_EvInst(_handle) constructor
+function GMFMOD_Studio_EventInstance(_handle) constructor
 {
 	inst_ = pointer_null; 
 	
 	static assign = function(handle)
 	{
-		if (inst_ != pointer_null) // clean up first
-			release();
-		inst_ = GMFMOD_Ptr(handle);
+		var inst = GMFMOD_Ptr(handle);
+		if (fmod_studio_evinst_is_valid(inst))
+		{
+			if (inst_ != pointer_null) // clean up first
+				release();
+			inst_ = inst;
+		}
+		else
+		{
+			show_debug_message("GMFMOD Error: Attempted to assign an invalid handle to " 
+				+ "a " + instanceof(self) + " object!");	
+		}
 	};
 	
-	if (is_real(_handle))
+	if (is_numeric(_handle))
 	{
 		assign(_handle);	
 	}

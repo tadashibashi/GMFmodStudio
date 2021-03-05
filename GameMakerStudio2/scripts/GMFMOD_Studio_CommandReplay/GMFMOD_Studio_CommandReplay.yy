@@ -6,7 +6,7 @@
     "path": "folders/Scripts/GMFmodStudio/GMFMS_Wrappers.yy",
   },
   "resourceVersion": "1.0",
-  "name": "GMFMS_EvDesc",
+  "name": "GMFMOD_Studio_CommandReplay",
   "tags": [],
   "resourceType": "GMScript",
 }

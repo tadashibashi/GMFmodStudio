@@ -6,7 +6,7 @@
     "path": "folders/Scripts/GMFmodStudio/GMFMS_Wrappers.yy",
   },
   "resourceVersion": "1.0",
-  "name": "GMFMS_System",
+  "name": "GMFMOD_Studio_Bus",
   "tags": [],
   "resourceType": "GMScript",
 }

@@ -6,11 +6,14 @@ function GMFMOD_Studio_EventDescription() constructor
 {
 	desc_ = pointer_null; /// @is {pointer}
 	
-	// Takes a double and converts it to a ptr, assigning it to the internal handle.
-	
 	static assign = function(handle)
 	{
-		desc_ = /*#cast*/ GMFMOD_Ptr(handle);
+		var desc = /*#cast*/ GMFMOD_Ptr(handle);
+		if (fmod_studio_evdesc_is_valid(desc))
+			desc_ = desc;
+		else
+			show_debug_message("GMFMOD Error: Attempted to assign an invalid handle to " 
+				+ "a " + instanceof(self) + " object!");
 	};
 	
 	if (argument_count == 1 && is_real(argument[0]))
@@ -18,18 +21,19 @@ function GMFMOD_Studio_EventDescription() constructor
 		assign(argument[0]);	
 	}
 	
-	/// @function createInstance([inst]: GMFMS_EvInst)
-	/// @param {GMFMS_EvInst} [evinst] (optional). If not provided, a new GMFMS_EvInst object will be created and returned.
+	/// @function createInstance([inst]: GMFMOD_Studio_EventInstance)
+	/// @param {GMFMOD_Studio_EventInstance} [evinst] (optional). If not provided, a new GMFMOD_Studio_EventInstance object will be created and returned.
+	/// @returns {GMFMOD_Studio_EventInstance}
 	static createInstance = function(evinst)
 	{
 		// Create new instance and get the real handle
 		var inst_handle = fmod_studio_evdesc_create_instance(desc_);
 
 		// Wrap instance handle in GMFMS object
-		if (instanceof(evinst) == "GMFMS_EvInst")    // use provided instance struct
+		if (instanceof(evinst) == "GMFMOD_Studio_EventInstance")    // use provided instance struct
 			return evinst.assign(inst_handle);
 		else                                       // create new instance struct
-			return new GMFMS_EvInst(inst_handle); 
+			return new GMFMOD_Studio_EventInstance(inst_handle); 
 	};
 	
 	static getInstanceCount = function()
@@ -37,28 +41,37 @@ function GMFMOD_Studio_EventDescription() constructor
 		return fmod_studio_evdesc_get_instance_count(desc_);	
 	};
 	
-	static getInstanceList = function(arr/*: Array<GMFMS_EvInst>*/)
-	{
+	static getInstanceList = function(arr/*: Array<GMFMOD_Studio_EventInstance>*/)
+	{	
 		var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
-		var count = fmod_studio_evdesc_get_instance_list(desc_, buf.getSize()/8, buf.getAddress());
+		var count = fmod_studio_evdesc_get_instance_count(desc_);
+		buf.allocate(count * 8); // allow 8 bytes per pointer
 		
-		if (is_array(arr))  // Array provided, modify this one.
+		fmod_studio_evdesc_get_instance_list(desc_, buf.getSize()/8, buf.getAddress());
+
+		if (GMFMOD_GetError() == FMOD_OK)
 		{
-			array_resize(arr, count);
-		
+			if (is_array(arr))  // Array provided, modify this one.
+			{
+				array_resize(arr, count);
+			}
+			else                // Array not provided, create a new one.
+			{
+				arr = array_create(count);
+			}
+			
 			for (var i = 0; i < count; ++i)
 			{
-				arr[@i] = new GMFMS_EvInst(buf.read(buffer_u64));
+					arr[@i] = new GMFMOD_Studio_EventInstance(buf.read(buffer_u64));
 			}
 		}
-		else                   // Array not provided, create a new one.
+		else
 		{
-			arr = array_create(count);
+			arr = [];	
 		}
 
-		
 		return arr;
-	}
+	};
 	
 	// Returns a GMFMOD_GUID struct for future reference
 	static getID = function()

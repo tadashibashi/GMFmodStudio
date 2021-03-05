@@ -104,7 +104,7 @@ function GMFMOD_Studio_System() constructor
 	static createAudioTableInst = function(prog_ev_path, key)
 	{
 		var evhandle = gmfms_audiotable_event_create(studio_, key, prog_ev_path);
-		return new GMFMS_EvInst_AudioTable(evhandle);
+		return new GMFMOD_Studio_EventInstance_AudioTable(evhandle);
 	};
 }
 
