@@ -6,7 +6,7 @@ event_inherited();
 //     get_loading_state
 //     unload
 // ============================================================================
-bank = GMFMS_Ptr(fmod_studio_system_load_bank_file(studio, 
+bank = GMFMOD_Ptr(fmod_studio_system_load_bank_file(studio, 
 	working_directory + "soundbanks/Desktop/Master_ENG.bank",
 	FMOD_STUDIO_LOAD_BANK_NORMAL));
 GMFMS_Check("Loading Master_ENG.bank");
@@ -36,7 +36,7 @@ GMFMS_Check("Getting Loading State: no errors");
 fmod_studio_system_flush_commands(studio);
 GMFMS_Check("Unloading Bank: flushing commands");
 
-bank = GMFMS_Ptr(fmod_studio_system_load_bank_file(studio, 
+bank = GMFMOD_Ptr(fmod_studio_system_load_bank_file(studio, 
 	working_directory + "soundbanks/Desktop/Master_ENG.bank",
 	FMOD_STUDIO_LOAD_BANK_NORMAL));
 GMFMS_Check("Loading Master_ENG.bank");
@@ -91,14 +91,14 @@ GMFMS_Assert(
 var buscount = fmod_studio_bank_get_bus_count(bank);
 GMFMS_Check("Bank Get Bus Count: no errors");
 
-var buf = GMFMS_GetBuffer();
+var buf = GMFMOD_GetBuffer();
 fmod_studio_bank_get_bus_list(bank, buf.getSize()/8, buf.getAddress());
 GMFMS_Check("Get Bus List: no errors");
 
 for (var i = 0; i < buscount; ++i)
 {
     GMFMS_Assert(
-        fmod_studio_bus_is_valid(GMFMS_Ptr(buf.read(buffer_u64))), 
+        fmod_studio_bus_is_valid(GMFMOD_Ptr(buf.read(buffer_u64))), 
         true,
         "Bus retrieved is valid");
 }
@@ -112,14 +112,14 @@ for (var i = 0; i < buscount; ++i)
 var eventcount = fmod_studio_bank_get_event_count(bank);
 GMFMS_Check("Bank Get Event Count: no errors");
 
-var buf = GMFMS_GetBuffer();
+var buf = GMFMOD_GetBuffer();
 fmod_studio_bank_get_event_list(bank, buf.getSize()/8, buf.getAddress());
 GMFMS_Check("Get Event List: no errors");
 
 for (var i = 0; i < eventcount; ++i)
 {
     GMFMS_Assert(
-        fmod_studio_evdesc_is_valid(GMFMS_Ptr(buf.read(buffer_u64))), 
+        fmod_studio_evdesc_is_valid(GMFMOD_Ptr(buf.read(buffer_u64))), 
         true,
         "Event retrieved is valid");
 }
@@ -133,14 +133,14 @@ for (var i = 0; i < eventcount; ++i)
 var vcacount = fmod_studio_bank_get_vca_count(bank);
 GMFMS_Check("Bank Get Vca Count: no errors");
 
-var buf = GMFMS_GetBuffer();
+var buf = GMFMOD_GetBuffer();
 fmod_studio_bank_get_vca_list(bank, buf.getSize()/8, buf.getAddress());
 GMFMS_Check("Get vca List: no errors");
 
 for (var i = 0; i < vcacount; ++i)
 {
     GMFMS_Assert(
-        fmod_studio_vca_is_valid(GMFMS_Ptr(buf.read(buffer_u64))), 
+        fmod_studio_vca_is_valid(GMFMOD_Ptr(buf.read(buffer_u64))), 
         true,
         "vca retrieved is valid");
 }
@@ -155,9 +155,9 @@ for (var i = 0; i < vcacount; ++i)
 var strcount = fmod_studio_bank_get_string_count(bank);
 GMFMS_Check("Get string count: no errors");
 
-var guid = new GMFMS_GUID();
-var guid2 = new GMFMS_GUID();
-var buf = GMFMS_GetBuffer();
+var guid = new GMFMOD_GUID();
+var guid2 = new GMFMOD_GUID();
+var buf = GMFMOD_GetBuffer();
 for (var i = 0; i < strcount; ++i)
 {
     var path = fmod_studio_bank_get_string_info_path(bank, i);
@@ -191,8 +191,8 @@ delete guid2;
 // functions:
 //     get_id
 // ============================================================================
-var buf = GMFMS_GetBuffer();
-var guid = new GMFMS_GUID();
+var buf = GMFMOD_GetBuffer();
+var guid = new GMFMOD_GUID();
 
 fmod_studio_bank_get_id(bank, buf.getAddress());
 GMFMS_Check("Bank Get ID: no errors");

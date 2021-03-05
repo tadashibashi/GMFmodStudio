@@ -4,7 +4,7 @@ if (map[?"fmodCallbackType"] == "EventInstance")
 {
 	if (map[?"type"] == FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_BEAT)
 	{
-		var inst = GMFMS_Ptr(map[?"inst"]);
+		var inst = GMFMOD_Ptr(map[?"inst"]);
 		GMFMS_Assert(is_real(map[?"beat"]), true, "EvDesc Set Callback: Timeline Beat");
 		GMFMS_Assert(fmod_studio_evinst_is_valid(inst), true, 
 			"EvDesc Set Callback: Timeline Beat valid instance");

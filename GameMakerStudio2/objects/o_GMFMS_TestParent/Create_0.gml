@@ -1,8 +1,8 @@
 // Create and initialize the FMOD Studio System for testing
 checkedupdate = false;
 
-perf = new GMFMS_Performance();
-studio = ptr(fmod_studio_system_create());
+perf = new GMFMOD_Performance();
+studio = GMFMOD_Ptr(fmod_studio_system_create());
 
 GMFMS_Assert(fmod_studio_system_is_valid(studio), true, "Studio System Create");
 
@@ -12,13 +12,13 @@ GMFMS_Assert(fmod_studio_system_is_valid(studio), true, "Studio System Create");
 //    fmod_studio_system_get_advanced_settings
 //    fmod_studio_system_set_advanced_settings
 // ----------------------------------------------------------------------------
-var buf = GMFMS_GetBuffer();
+var buf = GMFMOD_GetBuffer();
 fmod_studio_system_get_advanced_settings(studio, buf.getAddress());
 
-var advsettings = new GMFMOD_AdvancedSettings(buf);
+var advsettings = new GMFMOD_STUDIO_ADVANCED_SETTINGS(buf);
 
 GMFMS_Assert(
-	GMFMS_GetError(), FMOD_OK,
+	GMFMOD_GetError(), FMOD_OK,
 	"StudioSystem Get Advanced Settings: No errors");
 GMFMS_Assert(
 	advsettings.commandqueuesize, 32768,
@@ -39,7 +39,7 @@ advsettings.writeToBuffer(buf);
 
 fmod_studio_system_set_advanced_settings(studio, buf.getAddress());
 GMFMS_Assert(
-	GMFMS_GetError(), FMOD_OK,
+	GMFMOD_GetError(), FMOD_OK,
 	"StudioSystem Set Advanced Settings");
 
 fmod_studio_system_initialize(
@@ -48,7 +48,7 @@ fmod_studio_system_initialize(
 	FMOD_STUDIO_INIT_LIVEUPDATE, 
 	FMOD_INIT_PROFILE_ENABLE);
 	
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "Studio System Initialize");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "Studio System Initialize");
 
 onFinish = [];
 

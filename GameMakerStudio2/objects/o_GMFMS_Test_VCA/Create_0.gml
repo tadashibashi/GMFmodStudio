@@ -10,7 +10,7 @@ fmod_studio_system_load_bank_file(studio,
 	working_directory + "soundbanks/Desktop/Master_ENG.strings.bank",
 	FMOD_STUDIO_LOAD_BANK_NORMAL);
 
-vca = GMFMS_Ptr(fmod_studio_system_get_vca(studio, "vca:/TestVCA"));
+vca = GMFMOD_Ptr(fmod_studio_system_get_vca(studio, "vca:/TestVCA"));
 GMFMS_Check("Getting VCA");
 
 GMFMS_Assert(fmod_studio_vca_is_valid(vca), true, "VCA is valid");
@@ -40,11 +40,11 @@ GMFMS_Check("VCA get volume final: no errors");
 // ============================================================================
 // Vca Get Id
 // ============================================================================
-var buf = GMFMS_GetBuffer();
+var buf = GMFMOD_GetBuffer();
 fmod_studio_vca_get_id(vca, buf.getAddress());
 GMFMS_Check("VCA Get ID: no errors");
 
-var guid = new GMFMS_GUID(buf);
+var guid = new GMFMOD_GUID(buf);
 
 GMFMS_Assert(guid.data1, $498278ec, "Vca Get ID: data1");
 GMFMS_Assert(guid.data2, $60ce, "Vca Get ID: data2");

@@ -23,7 +23,7 @@
             2,
             2,
           ],"resourceVersion":"1.0","name":"fmod_studio_system_initialize","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"gmfms_get_error_string","kind":1,"help":"GMFMS_GetErrorString()","hidden":false,"returnType":1,"argCount":0,"args":[],"resourceVersion":"1.0","name":"GMFMS_GetErrorString","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"gmfms_get_error_string","kind":1,"help":"GMFMS_GetErrorString()","hidden":false,"returnType":1,"argCount":0,"args":[],"resourceVersion":"1.0","name":"GMFMOD_GetErrorString","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_system_update","kind":1,"help":"fmod_studio_system_update(studio_system)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_system_update","tags":[],"resourceType":"GMExtensionFunction",},
@@ -45,7 +45,7 @@
         {"externalName":"fmod_studio_evdesc_get_path","kind":1,"help":"fmod_studio_evdesc_get_path(evdesc)","hidden":false,"returnType":1,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_evdesc_get_path","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_system_create","kind":1,"help":"fmod_studio_system_create()","hidden":false,"returnType":2,"argCount":0,"args":[],"resourceVersion":"1.0","name":"fmod_studio_system_create","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_system_create","kind":1,"help":"__GMFMOD_Studio_System_Create()","hidden":false,"returnType":2,"argCount":0,"args":[],"resourceVersion":"1.0","name":"fmod_studio_system_create","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_system_get_core_system","kind":1,"help":"fmod_studio_system_get_core_system(studio_system)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_system_get_core_system","tags":[],"resourceType":"GMExtensionFunction",},
@@ -94,7 +94,7 @@
           ],"resourceVersion":"1.0","name":"fmod_studio_evdesc_get_id","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"gmfms_interpret_string","kind":1,"help":"GMFMS_InterpretString(char_ptr)","hidden":false,"returnType":1,"argCount":0,"args":[
             2,
-          ],"resourceVersion":"1.0","name":"GMFMS_InterpretString","tags":[],"resourceType":"GMExtensionFunction",},
+          ],"resourceVersion":"1.0","name":"__GMFMOD_InterpretString","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_system_get_event_by_id","kind":1,"help":"fmod_studio_system_get_event_by_id(studio, gm_buffer)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             1,
@@ -682,7 +682,7 @@
         {"externalName":"fmod_studio_evdesc_is_valid","kind":1,"help":"fmod_studio_evdesc_is_valid(evdesc)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_evdesc_is_valid","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"gmfms_get_error","kind":1,"help":"GMFMS_GetError()","hidden":false,"returnType":2,"argCount":0,"args":[],"resourceVersion":"1.0","name":"GMFMS_GetError","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"gmfms_get_error","kind":1,"help":"GMFMS_GetError()","hidden":false,"returnType":2,"argCount":0,"args":[],"resourceVersion":"1.0","name":"GMFMOD_GetError","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_evinst_get_volume_final","kind":1,"help":"fmod_studio_evinst_get_volume_final(evinst)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_evinst_get_volume_final","tags":[],"resourceType":"GMExtensionFunction",},
@@ -869,9 +869,9 @@
         {"TargetMask":6,"resourceVersion":"1.0","name":"GMFmodStudio_x64.dll","tags":[],"resourceType":"GMProxyFile",},
       ],"copyToTargets":68,"order":[
         {"name":"RegisterCallbacks","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
-        {"name":"GMFMS_GetError","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
-        {"name":"GMFMS_GetErrorString","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
-        {"name":"GMFMS_InterpretString","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"GMFMOD_GetError","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"GMFMOD_GetErrorString","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"__GMFMOD_InterpretString","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_initialize","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_update","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_system_load_bank_file","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},

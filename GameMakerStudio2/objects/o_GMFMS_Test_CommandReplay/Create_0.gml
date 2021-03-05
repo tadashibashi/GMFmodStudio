@@ -15,7 +15,7 @@ function test()
 	
 	fmod_studio_system_flush_commands(studio);
 	
-	com = GMFMS_Ptr(fmod_studio_system_load_command_replay(
+	com = GMFMOD_Ptr(fmod_studio_system_load_command_replay(
 		studio, 
 		working_directory + "commandcapture.file", 
 		FMOD_STUDIO_COMMANDREPLAY_NORMAL));
@@ -136,12 +136,12 @@ function test()
 	// ===========================================================================
 	// ComReplay Get Command Info
 	// ===========================================================================
-	var buf = GMFMS_GetBuffer();
+	var buf = GMFMOD_GetBuffer();
 	fmod_studio_comreplay_get_command_info(com, 0, buf.getAddress());
 	GMFMS_Check("ComReplay Get Command Info");
 	
 	// Check that numbers are not the default error values.
-	var cinfo = new GMFMS_CmdInfo(buf);
+	var cinfo = new GMFMOD_STUDIO_COMMAND_INFO(buf);
 	GMFMS_Assert(cinfo.commandname != "", true,
 		"Get Command Info: commandname received");
 	GMFMS_Assert(cinfo.framenumber != -1, true,
@@ -171,7 +171,7 @@ function test()
 	// ComReplay Get System
 	// ===========================================================================
 	GMFMS_Assert(
-		GMFMS_Ptr(fmod_studio_comreplay_get_system(com)) == studio,
+		GMFMOD_Ptr(fmod_studio_comreplay_get_system(com)) == studio,
 		true,
 		"ComReplay Get System matches");
 	GMFMS_Check("ComReplay Get System");
@@ -205,7 +205,7 @@ fmod_studio_system_start_command_capture(
 	FMOD_STUDIO_COMMANDCAPTURE_NORMAL);
 GMFMS_Check("Started Command Capture");
 
-var evdesc = GMFMS_Ptr(fmod_studio_system_get_event(studio, "event:/Music"));
+var evdesc = GMFMOD_Ptr(fmod_studio_system_get_event(studio, "event:/Music"));
 GMFMS_Check("Get Music Event");
-eimusic = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdesc));
+eimusic = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdesc));
 GMFMS_Check("Create Music Event Instance");

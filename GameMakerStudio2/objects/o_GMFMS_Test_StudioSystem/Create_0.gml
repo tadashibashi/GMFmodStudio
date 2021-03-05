@@ -11,19 +11,19 @@ stopped = false;
 // ----------------------------------------------------------------------------
 // Bank Load File Test
 // ----------------------------------------------------------------------------
-bank = GMFMS_Ptr(fmod_studio_system_load_bank_file(studio, 
+bank = GMFMOD_Ptr(fmod_studio_system_load_bank_file(studio, 
 	working_directory + "soundbanks/Desktop/Master_ENG.bank",
 	FMOD_STUDIO_LOAD_BANK_NONBLOCKING));
 
 // Make sure to load the strings bank before loading any FMOD Studio 
 // objects via paths. E.g. get event won't work.
-stringsbank = GMFMS_Ptr(fmod_studio_system_load_bank_file(studio,
+stringsbank = GMFMOD_Ptr(fmod_studio_system_load_bank_file(studio,
 	working_directory + "soundbanks/Desktop/Master_ENG.strings.bank",
 	FMOD_STUDIO_LOAD_BANK_NONBLOCKING));
 
 // Process bank metadata loading immediately.
 fmod_studio_system_flush_commands(studio);
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "Studio System Flush Commands");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "Studio System Flush Commands");
 
 // Stall until bank metadata has loaded.
 var loadingstate, strloadingstate;
@@ -43,10 +43,10 @@ GMFMS_Assert(
 // ----------------------------------------------------------------------------
 // Bank Get ID
 // ----------------------------------------------------------------------------
-var buf = GMFMS_GetBuffer();
+var buf = GMFMOD_GetBuffer();
 fmod_studio_bank_get_id(bank, buf.getAddress());
 buf.seekReset();
-var bankguid = new GMFMS_GUID(buf);
+var bankguid = new GMFMOD_GUID(buf);
 
 GMFMS_Assert(bankguid.data1, $d61eb928, "Bank Get ID: data1");
 GMFMS_Assert(bankguid.data2, $1d29, "Bank Get ID: data2");
@@ -68,23 +68,23 @@ fmod_studio_system_flush_commands(studio);
 
 GMFMS_Assert(fmod_studio_bank_is_valid(bank), false, "Unload Bank");
 
-bank = GMFMS_Ptr(fmod_studio_system_load_bank_file(studio, 
+bank = GMFMOD_Ptr(fmod_studio_system_load_bank_file(studio, 
 	working_directory + "soundbanks/Desktop/Master_ENG.bank",
 	FMOD_STUDIO_LOAD_BANK_NORMAL));
 
 // ----------------------------------------------------------------------------
 // Get Bank By ID
 // ----------------------------------------------------------------------------
-buf = GMFMS_GetBuffer();
+buf = GMFMOD_GetBuffer();
 bankguid.writeToBuffer(buf);
-bank = GMFMS_Ptr(fmod_studio_system_get_bank_by_id(studio, buf.getAddress()));
+bank = GMFMOD_Ptr(fmod_studio_system_get_bank_by_id(studio, buf.getAddress()));
 
 GMFMS_Assert(fmod_studio_bank_is_valid(bank), true, "Get Bank By ID");
 
 // ----------------------------------------------------------------------------
 // Get Bank By Name
 // ----------------------------------------------------------------------------
-bank = GMFMS_Ptr(fmod_studio_system_get_bank(studio, "bank:/Master"));
+bank = GMFMOD_Ptr(fmod_studio_system_get_bank(studio, "bank:/Master"));
 
 GMFMS_Assert(fmod_studio_bank_is_valid(bank), true, "Get Bank By Name");
 
@@ -96,12 +96,12 @@ GMFMS_Assert(fmod_studio_system_get_bank_count(studio), 2, "Get Bank Count");
 // ----------------------------------------------------------------------------
 // Get Bank List
 // ----------------------------------------------------------------------------
-buf = GMFMS_GetBuffer();
+buf = GMFMOD_GetBuffer();
 var count = fmod_studio_system_get_bank_list(studio, buf.getSize()/8, 
 	buf.getAddress());
 	
-GMFMS_Assert(GMFMS_Ptr(buf.read(buffer_u64)), stringsbank, "Get Bank List");
-GMFMS_Assert(GMFMS_Ptr(buf.read(buffer_u64)), bank, "Get Bank List");
+GMFMS_Assert(GMFMOD_Ptr(buf.read(buffer_u64)), stringsbank, "Get Bank List");
+GMFMS_Assert(GMFMOD_Ptr(buf.read(buffer_u64)), bank, "Get Bank List");
 GMFMS_Assert(count, 2, "Get Bank List (Count Matches)");
 
 
@@ -113,10 +113,10 @@ fmod_studio_system_flush_commands(studio);
 
 GMFMS_Assert(fmod_studio_system_get_bank_count(studio), 0, "Banks Unload All");
 
-bank = GMFMS_Ptr(fmod_studio_system_load_bank_file(studio, 
+bank = GMFMOD_Ptr(fmod_studio_system_load_bank_file(studio, 
 	working_directory + "soundbanks/Desktop/Master_ENG.bank",
 	FMOD_STUDIO_LOAD_BANK_NORMAL));
-stringsbank = GMFMS_Ptr(fmod_studio_system_load_bank_file(studio, 
+stringsbank = GMFMOD_Ptr(fmod_studio_system_load_bank_file(studio, 
 	working_directory + "soundbanks/Desktop/Master_ENG.strings.bank",
 	FMOD_STUDIO_LOAD_BANK_NORMAL));
 
@@ -127,7 +127,7 @@ fmod_studio_bank_load_sample_data(bank);
 
 // Process sample loading immediately, and stall until loading is finished.
 fmod_studio_system_flush_sample_loading(studio);
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "Studio System Flush Sample Loading");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "Studio System Flush Sample Loading");
 
 // Check that the samples have successfully loaded.
 GMFMS_Assert(fmod_studio_bank_get_sample_loading_state(bank), 
@@ -144,7 +144,7 @@ GMFMS_Assert(fmod_studio_bank_get_sample_loading_state(bank),
 //    fmod_studio_system_get_listener_attributes
 // ----------------------------------------------------------------------------
 
- buf = GMFMS_GetBuffer();
+ buf = GMFMOD_GetBuffer();
 
  buf.write(buffer_f32, 1);
  buf.write(buffer_f32, 2);
@@ -162,7 +162,7 @@ GMFMS_Assert(fmod_studio_bank_get_sample_loading_state(bank),
 buf.seekReset();
 fmod_studio_system_set_listener_attributes(studio, 0, buf.getAddress());
 
-var listenerattr = new GMFMOD_3DAttributes();
+var listenerattr = new GMFMOD_3D_ATTRIBUTES();
 
 fmod_studio_system_get_listener_attributes(studio, 0, buf.getAddress());
 listenerattr.readFromBuffer(buf);
@@ -184,7 +184,7 @@ delete listenerattr;
 //    fmod_studio_system_get_listener_weight
 // ----------------------------------------------------------------------------
 fmod_studio_system_set_listener_weight(studio, 0, .5);
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Set Listener Weight");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Set Listener Weight");
 
 GMFMS_Assert(fmod_studio_system_get_listener_weight(studio, 0), .5,
 	"StudioSystem Get Listener Weight");
@@ -198,7 +198,7 @@ fmod_studio_system_set_listener_weight(studio, 0, 1);
 //    fmod_studio_system_get_num_listeners
 // ----------------------------------------------------------------------------
 fmod_studio_system_set_num_listeners(studio, 3);
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Set Num Listeners");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Set Num Listeners");
 
 GMFMS_Assert(fmod_studio_system_get_num_listeners(studio), 3,
 	"StudioSystem Get Num Listeners");
@@ -209,7 +209,7 @@ GMFMS_Assert(fmod_studio_system_get_num_listeners(studio), 3,
 //    fmod_studio_system_get_bus
 //    fmod_studio_bus_is_valid
 // ----------------------------------------------------------------------------
-masterbus = GMFMS_Ptr((fmod_studio_system_get_bus(studio, "bus:/")));
+masterbus = GMFMOD_Ptr((fmod_studio_system_get_bus(studio, "bus:/")));
 
 GMFMS_Assert(fmod_studio_bus_is_valid(masterbus), true, "StudioSystem Get Bus");
 
@@ -220,7 +220,7 @@ GMFMS_Assert(fmod_studio_bus_is_valid(masterbus), true, "StudioSystem Get Bus");
 // ----------------------------------------------------------------------------
 buf.seekReset();
 
-var guid = new GMFMS_GUID();
+var guid = new GMFMOD_GUID();
 guid.data1 = $4e99eb8b;
 guid.data2 = $3228;
 guid.data3 = $4a9a;
@@ -234,7 +234,7 @@ guid.data4[6] = $e5;
 guid.data4[7] = $c8;
 guid.writeToBuffer(buf);
 
-revbus = GMFMS_Ptr(fmod_studio_system_get_bus_by_id(studio, 
+revbus = GMFMOD_Ptr(fmod_studio_system_get_bus_by_id(studio, 
 	buf.getAddress()));
 
 GMFMS_Assert(fmod_studio_bus_is_valid(revbus), true, 
@@ -246,11 +246,11 @@ GMFMS_Assert(fmod_studio_bus_is_valid(revbus), true,
 //    fmod_studio_system_get_event
 //    fmod_studio_evdesc_is_valid
 // ----------------------------------------------------------------------------
-evdesc = GMFMS_Ptr(fmod_studio_system_get_event(studio, "event:/Music"));
+evdesc = GMFMOD_Ptr(fmod_studio_system_get_event(studio, "event:/Music"));
 
 GMFMS_Assert(
 	fmod_studio_evdesc_is_valid(evdesc) &&
-		GMFMS_GetError() == FMOD_OK,
+		GMFMOD_GetError() == FMOD_OK,
 	true, 
 	"StudioSystem Get Event Description by Path");
 
@@ -274,11 +274,11 @@ guid.data4[7] = $9c;
 buf.seekReset();
 guid.writeToBuffer(buf);
 
-evuiblip = GMFMS_Ptr(fmod_studio_system_get_event_by_id(studio, buf.getAddress()));
+evuiblip = GMFMOD_Ptr(fmod_studio_system_get_event_by_id(studio, buf.getAddress()));
 
 GMFMS_Assert(
 	fmod_studio_evdesc_is_valid(evdesc) &&
-		GMFMS_GetError() == FMOD_OK,
+		GMFMOD_GetError() == FMOD_OK,
 	true, 
 	"StudioSystem Get Event Description by ID");
 
@@ -289,7 +289,7 @@ GMFMS_Assert(
 //    fmod_studio_system_set_parameter_by_name
 // ----------------------------------------------------------------------------
 fmod_studio_system_set_parameter_by_name(studio, "Weather", 2.345, true);
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Set Global Parameter");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Set Global Parameter");
 
 GMFMS_Assert(fmod_studio_system_get_parameter_by_name(studio, "Weather"), 2.345,
 	"StudioSystem Get Global Paramter");
@@ -321,7 +321,7 @@ GMFMS_Assert(fmod_studio_system_get_paramdesc_count(studio), 2,
 buf.seekReset();
 fmod_studio_system_get_paramdesc_by_index(studio, 0, buf.getAddress());
 
-var paramdesc = new GMFMS_ParamDesc(buf);
+var paramdesc = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
 
 GMFMS_Assert(
 	paramdesc.name == "Weather" && paramdesc.maximum == 3 && 
@@ -333,7 +333,7 @@ GMFMS_Assert(
 
 buf.seekReset();
 fmod_studio_system_get_paramdesc_by_index(studio, 1, buf.getAddress());
-var paramdesc2 = new GMFMS_ParamDesc(buf);
+var paramdesc2 = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
 
 paramid_weather = paramdesc.pid;
 paramid_time    = paramdesc2.pid;
@@ -351,7 +351,7 @@ paramid_weather.writeToBuffer(buf);
 fmod_studio_system_set_parameter_by_id(studio, buf.getAddress(), 0, true);
 fmod_studio_system_set_parameter_by_id(studio, buf.getAddress(), 1.2345, false);
 
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Set Parameter By ID")
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Set Parameter By ID")
 
 GMFMS_Assert(fmod_studio_system_get_parameter_by_id(studio, buf.getAddress()), 
 	1.2345, "StudioSystem Get Parameter By ID");
@@ -392,9 +392,9 @@ GMFMS_Assert(
 // functions: 
 //    fmod_studio_system_get_vca
 // ----------------------------------------------------------------------------
-vca = GMFMS_Ptr(fmod_studio_system_get_vca(studio, "vca:/TestVCA"));
+vca = GMFMOD_Ptr(fmod_studio_system_get_vca(studio, "vca:/TestVCA"));
 
-GMFMS_Assert(GMFMS_GetError() == FMOD_OK && fmod_studio_vca_is_valid(vca),
+GMFMS_Assert(GMFMOD_GetError() == FMOD_OK && fmod_studio_vca_is_valid(vca),
 	true, "StudioSystem Get VCA");
 
 // ----------------------------------------------------------------------------
@@ -416,9 +416,9 @@ guid.data4[7] = $40;
 buf.seekReset();
 guid.writeToBuffer(buf);
 
-vca = GMFMS_Ptr(fmod_studio_system_get_vca_by_id(studio, buf.getAddress()));
+vca = GMFMOD_Ptr(fmod_studio_system_get_vca_by_id(studio, buf.getAddress()));
 
-GMFMS_Assert(GMFMS_GetError() == FMOD_OK && fmod_studio_vca_is_valid(vca),
+GMFMS_Assert(GMFMOD_GetError() == FMOD_OK && fmod_studio_vca_is_valid(vca),
 	true, "StudioSystem Get VCA by ID");
 
 // ----------------------------------------------------------------------------
@@ -431,13 +431,13 @@ GMFMS_Assert(GMFMS_GetError() == FMOD_OK && fmod_studio_vca_is_valid(vca),
 fmod_studio_system_start_command_capture(studio, 
 	working_directory + "commandcapture", FMOD_STUDIO_COMMANDCAPTURE_NORMAL)
 
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Start Command Capture");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Start Command Capture");
 
 fmod_studio_system_stop_command_capture(studio);
 
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Stop Command Capture");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Stop Command Capture");
 
-crep = GMFMS_Ptr(fmod_studio_system_load_command_replay(studio,
+crep = GMFMOD_Ptr(fmod_studio_system_load_command_replay(studio,
 	working_directory + "commandcapture", FMOD_STUDIO_COMMANDREPLAY_NORMAL));
 
 GMFMS_Assert(fmod_studio_comreplay_is_valid(crep), true, 
@@ -450,9 +450,9 @@ GMFMS_Assert(fmod_studio_comreplay_is_valid(crep), true,
 // ----------------------------------------------------------------------------
 buf.seekReset();
 fmod_studio_system_get_buffer_usage(studio, buf.getAddress());
-var buf_usage = new GMFMS_BufUsage(buf);
+var buf_usage = new GMFMOD_STUDIO_BUFFER_USAGE(buf);
 
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get Buffer Usage");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Get Buffer Usage");
 
 delete buf_usage;
 // ----------------------------------------------------------------------------
@@ -461,7 +461,7 @@ delete buf_usage;
 //    fmod_studio_system_reset_buffer_usage
 // ----------------------------------------------------------------------------
 fmod_studio_system_reset_buffer_usage(studio);
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Reset Buffer Usage");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Reset Buffer Usage");
 
 // ----------------------------------------------------------------------------
 // StudioSystem Get CPU Usage
@@ -470,9 +470,9 @@ GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Reset Buffer Usage");
 // ----------------------------------------------------------------------------
 buf.seekReset();
 fmod_studio_system_get_cpu_usage(studio, buf.getAddress());
-var cpu_usage = new GMFMS_CPUUsage(buf);
+var cpu_usage = new GMFMOD_STUDIO_CPU_USAGE(buf);
 
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get CPU Usage");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Get CPU Usage");
 
 delete cpu_usage;
 
@@ -483,9 +483,9 @@ delete cpu_usage;
 // ----------------------------------------------------------------------------
 buf.seekReset();
 fmod_studio_system_get_memory_usage(studio, buf.getAddress());
-var mem_usage = new GMFMS_MemUsage(buf);
+var mem_usage = new GMFMOD_STUDIO_MEMORY_USAGE(buf);
 
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get Memory Usage");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Get Memory Usage");
 
 delete mem_usage;
 
@@ -495,15 +495,15 @@ delete mem_usage;
 //    fmod_studio_system_set_callback
 // ----------------------------------------------------------------------------
 fmod_studio_system_set_callback(studio, FMOD_STUDIO_SYSTEM_CALLBACK_PREUPDATE);
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Set Callback");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Set Callback");
 
 // ----------------------------------------------------------------------------
 // StudioSystem Get Core System
 // functions: 
 //    fmod_studio_system_get_core_system
 // ----------------------------------------------------------------------------
-core = GMFMS_Ptr(fmod_studio_system_get_core_system(studio));
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get Core System");
+core = GMFMOD_Ptr(fmod_studio_system_get_core_system(studio));
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Get Core System");
 
 // ----------------------------------------------------------------------------
 // StudioSystem Lookup ID/Path
@@ -513,12 +513,12 @@ GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Get Core System");
 // ----------------------------------------------------------------------------
 buf.seekReset();
 fmod_studio_system_lookup_id(studio, "event:/Music", buf.getAddress());
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "StudioSystem Lookup ID: no errors");
-guid = new GMFMS_GUID(buf);
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "StudioSystem Lookup ID: no errors");
+guid = new GMFMOD_GUID(buf);
 
 buf.seekReset();
 guid.writeToBuffer(buf);
-var evmusic = GMFMS_Ptr(
+var evmusic = GMFMOD_Ptr(
 	fmod_studio_system_get_event_by_id(studio, buf.getAddress()));
 
 GMFMS_Assert(fmod_studio_evdesc_is_valid(evmusic), true,
@@ -526,7 +526,7 @@ GMFMS_Assert(fmod_studio_evdesc_is_valid(evmusic), true,
 
 GMFMS_Assert(fmod_studio_system_lookup_path(studio, buf.getAddress()),
 	"event:/Music", "StudioSystem Lookup Path: path matches");
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, 
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, 
 	"StudioSystem Lookup Path: no errors");
 
 //// Move these tests elsewhere
@@ -536,7 +536,7 @@ GMFMS_Assert(GMFMS_GetError(), FMOD_OK,
 ////    fmod_studio_evdesc_create_instance
 ////    fmod_studio_evinst_is_valid
 //// ----------------------------------------------------------------------------
-//evinst = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdesc));
+//evinst = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdesc));
 
 //GMFMS_Assert(fmod_studio_evinst_is_valid(evinst), true,
 //	"Create Event Instance from Description");
@@ -558,9 +558,9 @@ GMFMS_Assert(GMFMS_GetError(), FMOD_OK,
 //// ============================================================================
 //// Get ParamDescription By Name
 //// ============================================================================
-//buf = GMFMS_GetBuffer();
+//buf = GMFMOD_GetBuffer();
 //fmod_studio_evdesc_get_paramdesc_by_name(evdesc, "Pitch", buf.getAddress());
-//paramdesc_pitch = new GMFMS_ParamDesc(buf);
+//paramdesc_pitch = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
 
 //// Check that each field is as expected.
 //GMFMS_Assert(paramdesc_pitch.name, "Pitch", "ParamDesc Get Name");
@@ -578,7 +578,7 @@ GMFMS_Assert(GMFMS_GetError(), FMOD_OK,
 //fmod_studio_evdesc_get_paramdesc_by_id(evdesc, buf.getAddress());
 //buf.seekReset();
 
-//var paramdesc_pitch_by_id = new GMFMS_ParamDesc(buf);
+//var paramdesc_pitch_by_id = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
 
 //// Check that each field is as expected.
 //GMFMS_Assert(paramdesc_pitch_by_id.name, "Pitch", "ParamDesc by ID Get Name");

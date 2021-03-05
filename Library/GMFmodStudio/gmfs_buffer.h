@@ -1,6 +1,5 @@
 #pragma once
 #include <cstdint>
-#include <iostream>
 
 // Helper object that interfaces with a GMS2-generated buffer.
 class Buffer

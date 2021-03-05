@@ -6,14 +6,14 @@ if (timer > 1)
 //if (!stopped && timer > 15)
 //{
 //	fmod_studio_evinst_stop(evinst, FMOD_STUDIO_STOP_ALLOWFADEOUT);
-//	GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EventInstance Stop");
+//	GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "EventInstance Stop");
 //	stopped = true;
 //}
 
 //// ============================================================================
 //// Event Instance Get/Set Parameter by Name and ID
 //// ============================================================================
-//var buf = GMFMS_GetBuffer();
+//var buf = GMFMOD_GetBuffer();
 //paramdesc_pitch.pid.writeToBuffer(buf);
 
 //fmod_studio_evinst_set_parameter_by_id(evinst, buf.getAddress(), timer / 20);

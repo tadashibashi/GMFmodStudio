@@ -8,7 +8,7 @@ function GMFMS_EvInst(_handle) constructor
 	{
 		if (inst_ != pointer_null) // clean up first
 			release();
-		inst_ = GMFMS_Ptr(handle);
+		inst_ = GMFMOD_Ptr(handle);
 	};
 	
 	if (is_real(_handle))
@@ -60,32 +60,32 @@ function GMFMS_EvInst(_handle) constructor
 		return fmod_studio_evinst_set_pitch(inst_, multiplier);	
 	};
 	
-	/// @function get3DAttributes([_3D_attr]: GMFMOD_3DAttributes)
+	/// @function get3DAttributes([_3D_attr]: GMFMOD_3D_ATTRIBUTES)
 	/// @description Gets the current 3D attributes of this event instance. If no argument is provided, a new object will be created. 
-	/// @param {GMFMOD_3DAttributes} _3D_attr (optional) 3D attributes object to populate with data.
-	/// @returns {GMFMOD_3DAttributes} the 3D attributes object
+	/// @param {GMFMOD_3D_ATTRIBUTES} _3D_attr (optional) 3D attributes object to populate with data.
+	/// @returns {GMFMOD_3D_ATTRIBUTES} the 3D attributes object
 	static get3DAttributes = function(_3D_attr)
 	{
-		var buf = GMFMS_GetBuffer();
+		var buf = GMFMOD_GetBuffer();
 		fmod_studio_evinst_get_3D_attributes(inst_, buf.getAddress());
 		
-		if (instanceof(_3D_attr) == "GMFMOD_3DAttributes")
+		if (instanceof(_3D_attr) == "GMFMOD_3D_ATTRIBUTES")
 		{
 			_3D_attr.readFromBuffer(buf);
 		}
 		else
 		{
-			_3D_attr = new GMFMOD_3DAttributes(buf);
+			_3D_attr = new GMFMOD_3D_ATTRIBUTES(buf);
 		}
 		
 		return _3D_attr;
 	};
 	
-	/// @function set3DAttributes(_3D_attr: GMFMOD_3DAttributes)
+	/// @function set3DAttributes(_3D_attr: GMFMOD_3D_ATTRIBUTES)
 	/// @returns {void}
 	static set3DAttributes = function(_3D_attr)
 	{
-		var buf = GMFMS_GetBuffer();
+		var buf = GMFMOD_GetBuffer();
 		_3D_attr.writeToBuffer(buf);
 		fmod_studio_evinst_set_3D_attributes(inst_, buf.getAddress());
 	};
@@ -103,7 +103,7 @@ function GMFMS_EvInst(_handle) constructor
 	// Only relevant in Logging builds of FMOD Studio. Release builds will output 0 for all numbers.
 	static getMemoryUsage = function(mem_usage)
 	{
-		var buf = GMFMS_GetBuffer();
+		var buf = GMFMOD_GetBuffer();
 		var success = fmod_studio_evinst_get_memory_usage(inst_, buf.getAddress());
 		
 		mem_usage.readFromBuffer(buf);
@@ -114,7 +114,7 @@ function GMFMS_EvInst(_handle) constructor
 	static getDescription = function()
 	{
 		var handle = fmod_studio_evinst_get_description(inst_);
-		return new GMFMS_EvDesc(handle);
+		return new GMFMOD_Studio_EventDescription(handle);
 	};
 	
 	static setCallback = function(callback_mask)

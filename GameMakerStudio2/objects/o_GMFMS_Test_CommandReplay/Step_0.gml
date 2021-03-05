@@ -33,8 +33,8 @@ if (timer == 10 * 5)
 
 if (timer == 10 * 1 || timer == 10 * 2 || timer == 10 * 3 || timer == 10 * 4)
 {
-	var evdesc = GMFMS_Ptr(fmod_studio_system_get_event(studio, "event:/UIBlip"));
-	var evinst = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdesc));
+	var evdesc = GMFMOD_Ptr(fmod_studio_system_get_event(studio, "event:/UIBlip"));
+	var evinst = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdesc));
 	fmod_studio_evinst_start(evinst);
 	fmod_studio_evinst_release(evinst);
 }

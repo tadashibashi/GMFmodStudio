@@ -12,7 +12,7 @@ fmod_studio_system_load_bank_file(studio,
 GMFMS_Check("Loading Master_ENG.strings.bank");
 
 // Get Master Bus
-bus = GMFMS_Ptr(fmod_studio_system_get_bus(studio, "bus:/"));
+bus = GMFMOD_Ptr(fmod_studio_system_get_bus(studio, "bus:/"));
 GMFMS_Check("Get Master Bus");
 GMFMS_Assert(fmod_studio_bus_is_valid(bus), true, "Get Master Bus: is valid");
 
@@ -102,12 +102,12 @@ GMFMS_Check("Bus Get CPUUsage Inclusive: no errors");
 // ============================================================================
 // Bus Get Memory Usage
 // ============================================================================
-buf = GMFMS_GetBuffer();
+buf = GMFMOD_GetBuffer();
 
 fmod_studio_bus_get_memory_usage(bus, buf.getAddress());
 GMFMS_Check("Bus Get Memory Usage: no errors");
 
-var memusage = new GMFMS_MemUsage(buf);
+var memusage = new GMFMOD_STUDIO_MEMORY_USAGE(buf);
 GMFMS_Assert(memusage.exclusive != -1, true, "Bus Get Memory Usage: exclusive");
 GMFMS_Assert(memusage.inclusive != -1, true, "Bus Get Memory Usage: inclusive");
 GMFMS_Assert(memusage.sampledata != -1, true, "Bus Get Memory Usage: sampledata");
@@ -117,11 +117,11 @@ delete memusage;
 // ============================================================================
 // Bus Get Id
 // ============================================================================
-var buf = GMFMS_GetBuffer();
+var buf = GMFMOD_GetBuffer();
 fmod_studio_bus_get_id(bus, buf.getAddress());
 GMFMS_Check("Bus Get ID: no errors");
 
-var guid = new GMFMS_GUID(buf);
+var guid = new GMFMOD_GUID(buf);
 
 GMFMS_Assert(guid.data1, $3052120b, "Bus Get ID: data1");
 GMFMS_Assert(guid.data2, $9d99, "Bus Get ID: data2");

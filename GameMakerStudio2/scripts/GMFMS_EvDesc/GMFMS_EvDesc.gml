@@ -1,12 +1,16 @@
-/// @function GMFMS_EvDesc([handle]: int)
-function GMFMS_EvDesc() constructor
+/// @file Lightweight wrapper for an FMOD::Studio::EventDescription object
+
+/// @struct GMFMOD_Studio_EventDescription([handle]: int)
+/// @param {number} [handle]
+function GMFMOD_Studio_EventDescription() constructor
 {
 	desc_ = pointer_null; /// @is {pointer}
 	
 	// Takes a double and converts it to a ptr, assigning it to the internal handle.
+	
 	static assign = function(handle)
 	{
-		desc_ = GMFMS_Ptr(handle);
+		desc_ = /*#cast*/ GMFMOD_Ptr(handle);
 	};
 	
 	if (argument_count == 1 && is_real(argument[0]))
@@ -15,28 +19,27 @@ function GMFMS_EvDesc() constructor
 	}
 	
 	/// @function createInstance([inst]: GMFMS_EvInst)
-	/// @param {GMFMS_EvInst} gmfms_inst (optional). If not provided, a new GMFMS_EvInst object will be created and returned.
-	static createInstance = function(inst)
+	/// @param {GMFMS_EvInst} [evinst] (optional). If not provided, a new GMFMS_EvInst object will be created and returned.
+	static createInstance = function(evinst)
 	{
 		// Create new instance and get the real handle
 		var inst_handle = fmod_studio_evdesc_create_instance(desc_);
 
 		// Wrap instance handle in GMFMS object
-		if (instanceof(inst) == "GMFMS_EvInst")    // use provided instance struct
-			return inst.assign(inst_handle);
+		if (instanceof(evinst) == "GMFMS_EvInst")    // use provided instance struct
+			return evinst.assign(inst_handle);
 		else                                       // create new instance struct
 			return new GMFMS_EvInst(inst_handle); 
-			
 	};
 	
 	static getInstanceCount = function()
 	{
 		return fmod_studio_evdesc_get_instance_count(desc_);	
-	}
+	};
 	
 	static getInstanceList = function(arr/*: Array<GMFMS_EvInst>*/)
 	{
-		var buf/*: GMFMS_Buffer*/ = GMFMS_GetBuffer();
+		var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
 		var count = fmod_studio_evdesc_get_instance_list(desc_, buf.getSize()/8, buf.getAddress());
 		
 		if (is_array(arr))  // Array provided, modify this one.
@@ -57,13 +60,13 @@ function GMFMS_EvDesc() constructor
 		return arr;
 	}
 	
-	// Returns a GMFMS_GUID struct for future reference
+	// Returns a GMFMOD_GUID struct for future reference
 	static getID = function()
 	{
-		var buf = GMFMS_GetBuffer();
+		var buf = GMFMOD_GetBuffer();
 		fmod_studio_evdesc_get_id(desc_, buf.getAddress());
 		
-		var guid = new GMFMS_GUID();
+		var guid = new GMFMOD_GUID();
 		guid.readFromBuffer(buf);
 		
 		return guid;
@@ -71,64 +74,66 @@ function GMFMS_EvDesc() constructor
 	
 	static getParamDescByName = function(name)
 	{
-		var buf = GMFMS_GetBuffer();
+		var buf = GMFMOD_GetBuffer();
 		
 		if (fmod_studio_evdesc_get_paramdesc_by_name(desc_, name, buf.getAddress()) == 0)
 		{
-				var param/*: GMFMS_ParamDesc*/ = new GMFMS_ParamDesc();
+				var param/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION();
 				param.readFromBuffer(buf);
 				
 				return param;
 		}
 		else
 		{
-			throw "Error getting Fmod Parameter Description: " + GMFMS_GetErrorString();	
+			throw "Error getting Fmod Parameter Description: " + GMFMOD_GetErrorString();	
 		}
 	};
 	
-	static getParameterDescriptionByIndex = function(index/*: int*/)
+	/// @param {int} index
+	static getParameterDescriptionByIndex = function(index)
 	{
-		var buf/*: GMFMS_Buffer*/ = GMFMS_GetBuffer();
+		var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
 		if (fmod_studio_evdesc_get_paramdesc_by_index(desc_, index, 
 			buf.getAddress()) == 0)
 		{
-			var param/*: GMFMS_ParamDesc*/ = 
-				new GMFMS_ParamDesc();
+			var param/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = 
+				new GMFMOD_STUDIO_PARAMETER_DESCRIPTION();
 			param.readFromBuffer(buf);
 			return param;
 		}
 		else
 		{
-			throw "Error getting Fmod Parameter Description: " + GMFMS_GetErrorString();
+			throw "Error getting Fmod Parameter Description: " + GMFMOD_GetErrorString();
 		}
+		
 	};
 	
-	static getParamDescByID = function(paramID/*: GMFMS_ParamID*/)
+	static getParamDescByID = function(paramID/*: GMFMOD_STUDIO_PARAMETER_ID*/)
 	{
-		var buf/*: GMFMS_Buffer*/ = GMFMS_GetBuffer();
+		var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
 		paramID.writeToBuffer(buf);
 		
 		if (fmod_studio_evdesc_get_paramdesc_by_id(desc_, buf.getAddress()) == 0)
 		{
 			buf.seekReset();
-			var param/*: GMFMS_ParamDesc*/ = 
-				new GMFMS_ParamDesc();
+			var param/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = 
+				new GMFMOD_STUDIO_PARAMETER_DESCRIPTION();
 			param.readFromBuffer(buf);
 			return param;
 		}
 		else
 		{
-			throw "Error getting Fmod Parameter Description: " + GMFMS_GetErrorString();
+			throw "Error getting Fmod Parameter Description: " + GMFMOD_GetErrorString();
 		}
 	};
 
 	
 	static getUserProperty = function(name)
 	{
-		var buf/*: GMFMS_Buffer*/ = GMFMS_GetBuffer();
+		var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
 		fmod_studio_evdesc_get_user_property(desc_, name, buf.getAddress());
 		
-		var prop = new GMFMS_UserProp();
+		var prop = new GMFMOD_STUDIO_USER_PROPERTY();
 		prop.readFromBuffer(buf);
 		
 		return prop;
@@ -146,3 +151,5 @@ function GMFMS_EvDesc() constructor
 		return desc_ == event_desc.desc_;
 	};
 }
+
+/// @hint 

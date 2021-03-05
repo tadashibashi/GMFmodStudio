@@ -7,7 +7,7 @@ if (instance_exists(o_fmod))
 	exit;
 }
 
-system = GMFMS_Ptr(fmod_studio_system_create());
+system = GMFMOD_Ptr(fmod_studio_system_create());
 
 fmod_studio_system_initialize(system, 
 	128, 

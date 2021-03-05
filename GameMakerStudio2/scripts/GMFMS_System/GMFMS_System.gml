@@ -1,26 +1,26 @@
-function GMFMS_System() constructor
+function GMFMOD_Studio_System() constructor
 {
 	// "Private" variables
-	studio_ = GMFMS_Ptr(fmod_studio_system_create());
-	core_ = GMFMS_Ptr(fmod_studio_system_get_core_system(studio_));
+	studio_ = GMFMOD_Ptr(fmod_studio_system_create());
+	core_ = GMFMOD_Ptr(fmod_studio_system_get_core_system(studio_));
 	
-	// Initializes the FMOD Studio object. Must be called before performing any
-	// other functions.
-	/// @function initialize(max_channels, studio_flags, flags)
 	/// @param {int} max_channels the max number of channels to initialize fmod studio with.
 	/// @param {int} studio_flags the flags to initialize FMOD Studio System with.
 	/// @param {int} flags the flags to initialize FMOD System with.
+	/// @returns {void}
 	static initialize = function(max_channels, studio_flags, flags)
 	{
 		fmod_studio_system_initialize(studio_, max_channels, studio_flags, flags);
 	};
 	
 	// Shuts down and releases studio resources.
-	static release = function()
+	/// @returns {void}
+	static release = function()/*->void*/
 	{
-		return fmod_studio_system_release(studio_);	
+		fmod_studio_system_release(studio_);
 	};
 	
+	/// @returns {void}
 	static update = function()
 	{
 		return fmod_studio_system_update(studio_);
@@ -32,31 +32,73 @@ function GMFMS_System() constructor
 	};
 	
 	// Gets an FmodEventDescription object
-	static getEvent = function(event_path)
+	/// @param {string} event_path
+	/// @param {GMFMOD_Studio_EventDescription} [evdesc] optional Event Description object to populate
+	static getEvent = function(event_path, evdesc)
 	{
-		var evdesc = fmod_studio_system_get_event(studio_, event_path);
-		if (evdesc == 0) {
-			throw "FMOD Studio error: " + GMFMS_GetErrorString();
-		}
-			
-		return new GMFMS_EvDesc(evdesc);
+		var handle = fmod_studio_system_get_event(studio_, event_path);
+		if (evdesc == undefined)
+			evdesc = new GMFMOD_Studio_EventDescription(handle);
+		else
+			evdesc.assign(handle);
+		return evdesc;
 	};
 	
-	static getEventByID = function(fmod_guid)
+	/// @param {GMFMOD_GUID} guid object containing id info
+	static getEventByID = function(guid)
 	{
-		var buf = GMFMS_GetBuffer();
+		var buf = GMFMOD_GetBuffer();
 		fmod_guid.writeToBuffer(buf);
 		fmod_guid.log();
 		
 		var evdesc = fmod_studio_system_get_event_by_id(studio_, buf.getAddress());
 		if (evdesc == 0) {
-			throw "FMOD Studio error: " + GMFMS_GetErrorString();
+			throw "FMOD Studio error: " + GMFMOD_GetErrorString();
 		}
 		
-		return new GMFMS_EvDesc(evdesc);
+		return new GMFMOD_Studio_EventDescription(evdesc);
 	};
 	
-	/// @function createAudioTableInst(prog_ev_path, key)
+	
+	/// @param {string} bankpath
+	/// @param {int}    flags     value from FMOD_STUDIO_LOAD_BANK_FLAGS
+	/// @param {GMFMOD_Studio_Bank} [bank] (optional) bank to assign to 
+	static loadBankFile = function(bankpath, flags, bank)
+	{
+		/// @description Load a GMFMOD_Studio_Bank from a file
+		
+		var bank_handle = fmod_studio_system_load_bank_file(
+			studio_, 
+			bankpath, 
+			flags == undefined ? FMOD_STUDIO_LOAD_BANK_NORMAL : flags);
+		
+		if (bank == undefined) 
+			bank = new GMFMOD_Studio_Bank(bank_handle);
+		else
+			bank.assign(bank_handle);
+		
+		return bank;
+	};
+	
+	// Unload all studio banks
+	/// @returns {void}
+	static unloadAll = function()
+	{
+		fmod_studio_system_unload_all(studio_);
+	};
+	
+	/// @returns {pointer}
+	static getHandle = function()
+	{
+		return studio_;	
+	};
+	
+	/// @returns {pointer}
+	static getCoreHandle = function()
+	{
+		return core_;
+	};
+	
 	/// @param {string} prog_ev_path path to an event that contains a Programmer Instrument
 	/// @param {string} key audio table key.
 	static createAudioTableInst = function(prog_ev_path, key)
@@ -64,28 +106,8 @@ function GMFMS_System() constructor
 		var evhandle = gmfms_audiotable_event_create(studio_, key, prog_ev_path);
 		return new GMFMS_EvInst_AudioTable(evhandle);
 	};
-	
-	// Load a Studio Bank file
-	static loadBankFile = function(bank_path)
-	{
-		return fmod_studio_system_load_bank_file(studio_, bank_path);	
-	};
-	
-	// Unload all studio banks
-	static unloadAll = function()
-	{
-		return fmod_studio_system_unload_all(studio_);
-	};
-	
-	static getHandle = function()
-	{
-		return studio_;	
-	};
-	
-	static getCoreHandle = function()
-	{
-		return core_;
-	};
 }
 
-/// @hint GMFMS_System:initialize(max_channels: int, studio_flags: int, flags: int)->void Initializes the FMOD Studio System object. Must be called before any other function is called.
+/// @hint {pointer} GMFMOD_Studio_System:studio_ private pointer to the studio system  
+/// @hint {pointer} GMFMOD_Studio_System:core_ private pointer to the core system  
+/// @hint GMFMOD_Studio_System:initialize(max_channels: int, studio_flags: int, flags: int)->void Initializes the FMOD Studio System object. Must be called before any other function is called.

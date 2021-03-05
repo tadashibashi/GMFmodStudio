@@ -9,11 +9,11 @@ fmod_studio_system_load_bank_file(studio,
 	FMOD_STUDIO_LOAD_BANK_NORMAL);
 
 
-evdmusic = GMFMS_Ptr(fmod_studio_system_get_event(studio, "event:/Music"));
-evdblip = GMFMS_Ptr(fmod_studio_system_get_event(studio, "event:/UIBlip"));
+evdmusic = GMFMOD_Ptr(fmod_studio_system_get_event(studio, "event:/Music"));
+evdblip = GMFMOD_Ptr(fmod_studio_system_get_event(studio, "event:/UIBlip"));
 
-evimusic = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
-eviblip = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdblip));
+evimusic = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
+eviblip = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdblip));
 
 GMFMS_Assert(fmod_studio_evinst_is_valid(evimusic), true, "EvInst is valid 1");
 GMFMS_Assert(fmod_studio_evinst_is_valid(eviblip), true, "EvInst is valid 2");
@@ -23,7 +23,7 @@ GMFMS_Assert(fmod_studio_evinst_is_valid(eviblip), true, "EvInst is valid 2");
 // ----------------------------------------------------------------------------
 fmod_studio_evinst_start(evimusic);
 
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EvInst Start: no errors");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "EvInst Start: no errors");
 GMFMS_Assert(fmod_studio_evinst_get_playback_state(evimusic), 
 	FMOD_STUDIO_PLAYBACK_STARTING, "EvInst Start: starting");
 
@@ -33,7 +33,7 @@ GMFMS_Assert(fmod_studio_evinst_get_playback_state(evimusic),
 
 fmod_studio_evinst_stop(evimusic, FMOD_STUDIO_STOP_IMMEDIATE);
 
-GMFMS_Assert(GMFMS_GetError(), FMOD_OK, "EvInst Stop: no errors");
+GMFMS_Assert(GMFMOD_GetError(), FMOD_OK, "EvInst Stop: no errors");
 GMFMS_Assert(fmod_studio_evinst_get_playback_state(evimusic), 
 	FMOD_STUDIO_PLAYBACK_STOPPING, "EvInst Stop: stopping");
 
@@ -58,14 +58,14 @@ GMFMS_Assert(fmod_studio_evinst_get_paused(evimusic), false,
 // ----------------------------------------------------------------------------
 // EvInst Trigger Cue
 // ----------------------------------------------------------------------------
-var evdcue = GMFMS_Ptr(fmod_studio_system_get_event(studio, 
+var evdcue = GMFMOD_Ptr(fmod_studio_system_get_event(studio, 
 	"event:/TestCueEvent"));
-var evicue = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdcue));
+var evicue = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdcue));
 fmod_studio_evinst_trigger_cue(evicue);
 GMFMS_Check("EvInst Trigger Cue");
 
 fmod_studio_evinst_trigger_cue(eviblip);
-GMFMS_Assert(GMFMS_GetError() != FMOD_OK, true,
+GMFMS_Assert(GMFMOD_GetError() != FMOD_OK, true,
 	"EvInst Trigger Cue: non-cue event causes error");
 	
 fmod_studio_evinst_release(evicue);
@@ -101,7 +101,7 @@ GMFMS_Check("EvInst get property: no errors");
 
 fmod_studio_evinst_set_property(evimusic, 
 	FMOD_STUDIO_EVENT_PROPERTY_CHANNELPRIORITY, -5.2);
-GMFMS_Assert(GMFMS_GetError(), FMOD_ERR_INVALID_PARAM,
+GMFMS_Assert(GMFMOD_GetError(), FMOD_ERR_INVALID_PARAM,
 	"EvInst set property: invalid param value passed");
 GMFMS_Assert(fmod_studio_evinst_get_property(evimusic, 
 	FMOD_STUDIO_EVENT_PROPERTY_CHANNELPRIORITY), 
@@ -154,7 +154,7 @@ GMFMS_Check("EvInst Is Virtual: no errors");
 
 // Music Instance has a 1-voice limitation with stealing set to "virtualize"
 // Any additional instances started will steal the current one by virtualizing it.
-var virttest_inst = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
+var virttest_inst = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
 fmod_studio_evinst_start(virttest_inst);
 fmod_studio_evinst_start(evimusic);
 fmod_studio_system_flush_commands(studio);
@@ -171,8 +171,8 @@ fmod_studio_system_flush_commands(studio);
 // ----------------------------------------------------------------------------
 // EvInst Set/Get 3D Attributes
 // ----------------------------------------------------------------------------
-var buf = GMFMS_GetBuffer();
-var attr = new GMFMOD_3DAttributes();
+var buf = GMFMOD_GetBuffer();
+var attr = new GMFMOD_3D_ATTRIBUTES();
 attr.position.x = 1;
 attr.position.y = 2;
 attr.position.z = 3;
@@ -193,7 +193,7 @@ buf.seekReset();
 fmod_studio_evinst_get_3D_attributes(evimusic, buf.getAddress());
 GMFMS_Check("EvInst Get3DAttributes: no errors");
 
-var getattr = new GMFMOD_3DAttributes(buf);
+var getattr = new GMFMOD_3D_ATTRIBUTES(buf);
 GMFMS_Assert(getattr.position.x, attr.position.x, "EvInst Get3DAttr: position.x");
 GMFMS_Assert(getattr.position.y, attr.position.y, "EvInst Get3DAttr: position.y");
 GMFMS_Assert(getattr.position.z, attr.position.z, "EvInst Get3DAttr: position.z");
@@ -251,11 +251,11 @@ fmod_studio_evinst_set_parameter_by_name(evimusic, "RoomSize", 0);
 fmod_studio_system_flush_commands(studio);
 
 // by ID
-buf = GMFMS_GetBuffer();
+buf = GMFMOD_GetBuffer();
 fmod_studio_evdesc_get_paramdesc_by_name(evdmusic, "RoomSize", buf.getAddress());
 GMFMS_Check("EvDesc Get Param Desc By Name: no errors");
 
-var pdesc/*: GMFMS_ParamDesc*/ = new GMFMS_ParamDesc(buf);
+var pdesc/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
 buf.seekReset();
 pdesc.pid.writeToBuffer(buf);
 
@@ -285,11 +285,11 @@ fmod_studio_evinst_set_parameter_by_id(evimusic, buf.getAddress(), 0);
 
 
 // set params by IDs
-buf = GMFMS_GetBuffer();
+buf = GMFMOD_GetBuffer();
 fmod_studio_evdesc_get_paramdesc_by_name(evdmusic, "Pitch", buf.getAddress());
 GMFMS_Check("EvDesc Get Param Desc By Name: no errors");
 
-var pdesc2/*: GMFMS_ParamDesc*/ = new GMFMS_ParamDesc(buf);
+var pdesc2/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
 
 buf.seekReset();
 pdesc.pid.writeToBuffer(buf);
@@ -340,11 +340,11 @@ GMFMS_Check("EvInst Get CPU Usage Inclusive: no errors");
 // ----------------------------------------------------------------------------
 // EvInst Get Memory Usage
 // ----------------------------------------------------------------------------
-buf = GMFMS_GetBuffer();
+buf = GMFMOD_GetBuffer();
 fmod_studio_evinst_get_memory_usage(evimusic, buf.getAddress());
 GMFMS_Check("EvInst Get Memory Usage: no errors");
 
-var memusage = new GMFMS_MemUsage(buf);
+var memusage = new GMFMOD_STUDIO_MEMORY_USAGE(buf);
 
 GMFMS_Assert(memusage.exclusive != -1, true, 
 	"EvInst Get Memory Usage: exclusive");
@@ -356,7 +356,7 @@ GMFMS_Assert(memusage.sampledata != -1, true,
 // ----------------------------------------------------------------------------
 // EvInst Get Description
 // ----------------------------------------------------------------------------
-GMFMS_Assert(GMFMS_Ptr(fmod_studio_evinst_get_description(evimusic)), evdmusic,
+GMFMS_Assert(GMFMOD_Ptr(fmod_studio_evinst_get_description(evimusic)), evdmusic,
 	"EvInst Get Description: matches");
 GMFMS_Check("EvInst Get Description: no errors");
 
@@ -373,7 +373,7 @@ fmod_studio_system_flush_commands(studio);
 GMFMS_Assert(fmod_studio_evinst_is_valid(evimusic), false, 
 	"EvInst Release succeeded");
 
-evimusic = GMFMS_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
+evimusic = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
 
 ///////////////////////////////////////////////////////////////////////////////
 // ----------------------------------------------------------------------------
