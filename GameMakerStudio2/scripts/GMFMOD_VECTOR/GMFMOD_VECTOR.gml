@@ -75,6 +75,9 @@ function GMFMOD_VECTOR() constructor
 }
 
 // Hints for GMEdit
+/// @hint {number} GMFMOD_VECTOR:x x-coordinate
+/// @hint {number} GMFMOD_VECTOR:y y-coordinate
+/// @hint {number} GMFMOD_VECTOR:z z-coordinate
 /// @hint GMFMOD_VECTOR:readFromBuffer(buf: GMFMOD_Buffer)->void
 /// @hint GMFMOD_VECTOR:writeToBuffer(buf: GMFMOD_Buffer)->void
 /// @hint GMFMOD_VECTOR:log()->void

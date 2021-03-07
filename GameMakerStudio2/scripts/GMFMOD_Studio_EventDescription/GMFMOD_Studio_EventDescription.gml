@@ -13,7 +13,7 @@ function GMFMOD_Studio_EventDescription() constructor
 			desc_ = desc;
 		else
 			show_debug_message("GMFMOD Error: Attempted to assign an invalid handle to " 
-				+ "a " + instanceof(self) + " object!");
+				+ "a " + string(instanceof(self)) + " object!");
 	};
 	
 	if (argument_count == 1 && is_real(argument[0]))
@@ -73,96 +73,245 @@ function GMFMOD_Studio_EventDescription() constructor
 		return arr;
 	};
 	
-	// Returns a GMFMOD_GUID struct for future reference
-	static getID = function()
+	/// @returns {void}
+	static releaseAllInstances = function()
 	{
-		var buf = GMFMOD_GetBuffer();
-		fmod_studio_evdesc_get_id(desc_, buf.getAddress());
-		
-		var guid = new GMFMOD_GUID();
-		guid.readFromBuffer(buf);
-		
-		return guid;
+		fmod_studio_evdesc_release_all_instances(desc_);	
 	};
 	
-	static getParamDescByName = function(name)
+// ============================================================================
+// Sample Data
+// ============================================================================
+	
+	/// @returns {void}	
+	static loadSampleData = function()
+	{
+		fmod_studio_evdesc_load_sample_data(desc_);	
+	};
+	
+	/// @returns {void}
+	static unloadSampleData = function()
+	{
+		fmod_studio_evdesc_unload_sample_data(desc_);
+	};
+	
+	/// @returns {number} loading state of samples value from (FMOD_STUDIO_LOADING_STATE_*) constants
+	static getSampleLoadingState = function()
+	{
+		return fmod_studio_evdesc_get_sample_loading_state(desc_);	
+	};
+	
+// ============================================================================
+// Attributes
+// ============================================================================
+	
+	/// @returns {bool}
+	static is3D = function()
+	{
+		return fmod_studio_evdesc_is_3D(desc_);	
+	};
+	
+	/// @returns {bool}
+	static isOneshot = function()
+	{
+		return fmod_studio_evdesc_is_oneshot(desc_);	
+	};
+	
+	/// @returns {bool}
+	static isSnapshot = function()
+	{
+		return fmod_studio_evdesc_is_snapshot(desc_);	
+	};
+	
+	/// @returns {bool}
+	static isStream = function()
+	{
+		return fmod_studio_evdesc_is_stream(desc_);	
+	};
+	
+	/// @returns {bool}
+	static hasCue = function()
+	{
+		return fmod_studio_evdesc_has_cue(desc_);	
+	};
+	
+	/// @returns {number}	
+	static getMaxDistance = function()
+	{
+		return fmod_studio_evdesc_get_max_distance(desc_);	
+	};
+	
+	/// @returns {number}
+	static getMinDistance = function()
+	{
+		return fmod_studio_evdesc_get_min_distance(desc_);	
+	};
+	
+	/// @returns {number} the sound size for 3D panning, which is the largest 
+	///                   among all spatializers on the event's master track.
+	static getSoundSize = function()
+	{
+		return fmod_studio_evdesc_get_sound_size(desc_);	
+	};
+	
+// ============================================================================
+// Parameters
+// ============================================================================
+	/// @returns {number} the number of parameter descriptions
+	static getParameterDescriptionCount = function()
+	{
+		return fmod_studio_evdesc_get_paramdesc_count(desc_);	
+	}
+	
+	/// @param {string} name parameter name
+	/// @param {GMFMOD_STUDIO_PARAMETER_DESCRIPTION} [param] (optional) if you want to supply your own object
+	static getParameterDescriptionByName = function(name, param)
 	{
 		var buf = GMFMOD_GetBuffer();
 		
-		if (fmod_studio_evdesc_get_paramdesc_by_name(desc_, name, buf.getAddress()) == 0)
+		fmod_studio_evdesc_get_paramdesc_by_name(desc_, name, buf.getAddress());
+		
+		if (GMFMOD_GetError() == FMOD_OK)
 		{
-				var param/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION();
-				param.readFromBuffer(buf);
-				
-				return param;
-		}
-		else
-		{
-			throw "Error getting Fmod Parameter Description: " + GMFMOD_GetErrorString();	
-		}
-	};
-	
-	/// @param {int} index
-	static getParameterDescriptionByIndex = function(index)
-	{
-		var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
-		if (fmod_studio_evdesc_get_paramdesc_by_index(desc_, index, 
-			buf.getAddress()) == 0)
-		{
-			var param/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = 
-				new GMFMOD_STUDIO_PARAMETER_DESCRIPTION();
+			if (instanceof(param) != "GMFMOD_STUDIO_PARAMETER_DESCRIPTION")
+				param = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION();
 			param.readFromBuffer(buf);
-			return param;
 		}
 		else
 		{
-			throw "Error getting Fmod Parameter Description: " + GMFMOD_GetErrorString();
+			throw "GMFMOD Error getting Fmod Parameter Description: " + GMFMOD_GetErrorString();	
 		}
 		
+		return param;
 	};
 	
-	static getParamDescByID = function(paramID/*: GMFMOD_STUDIO_PARAMETER_ID*/)
+	
+	/// @param {number} index
+	/// @param {GMFMOD_STUDIO_PARAMETER_DESCRIPTION} [paramdesc] (optional) if you want to provide your own object to assign values to
+	static getParameterDescriptionByIndex = function(index, paramdesc)
 	{
-		var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
+		var buf = GMFMOD_GetBuffer();
+		fmod_studio_evdesc_get_paramdesc_by_index(desc_, index, buf.getAddress());
+		
+		if (instanceof(paramdesc) != "GMFMOD_STUDIO_PARAMETER_DESCRIPTION")
+			paramdesc = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION();
+		paramdesc.readFromBuffer(buf);
+		
+		return paramdesc;
+	};
+	
+	
+	/// @param {GMFMOD_STUDIO_PARAMETER_ID} paramID
+	/// @param {GMFMOD_STUDIO_PARAMETER_DESCRIPTION} [paramdesc] (optional) if you want to provide your own object to assign values to
+	static getParameterDescriptionByID = function(paramID, paramdesc)
+	{
+		var buf = GMFMOD_GetBuffer();
 		paramID.writeToBuffer(buf);
 		
-		if (fmod_studio_evdesc_get_paramdesc_by_id(desc_, buf.getAddress()) == 0)
-		{
-			buf.seekReset();
-			var param/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = 
-				new GMFMOD_STUDIO_PARAMETER_DESCRIPTION();
-			param.readFromBuffer(buf);
-			return param;
-		}
-		else
-		{
-			throw "Error getting Fmod Parameter Description: " + GMFMOD_GetErrorString();
-		}
+		fmod_studio_evdesc_get_paramdesc_by_id(desc_, buf.getAddress());
+		buf.seekReset();
+		
+		if (instanceof(paramdesc) != "GMFMOD_STUDIO_PARAMETER_DESCRIPTION")
+			paramdesc = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION();
+		paramdesc.readFromBuffer(buf);
+		
+		return paramdesc;
 	};
-
 	
-	static getUserProperty = function(name)
+// ============================================================================
+// User Properties
+// ============================================================================
+
+	/// @param {string} name
+	/// @param {GMFMOD_STUDIO_USER_PROPERTY} [userprop] (optional) if you want to provide your own object to assign values to
+	static getUserProperty = function(name, userprop)
 	{
-		var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
+		var buf = GMFMOD_GetBuffer();
 		fmod_studio_evdesc_get_user_property(desc_, name, buf.getAddress());
 		
-		var prop = new GMFMOD_STUDIO_USER_PROPERTY();
+		if (instanceof(userprop) != "GMFMOD_STUDIO_USER_PROPERTY")
+			userprop = new GMFMOD_STUDIO_USER_PROPERTY();
 		prop.readFromBuffer(buf);
 		
 		return prop;
 	};
 	
+	
+	/// @param {number} index
+	/// @param {GMFMOD_STUDIO_USER_PROPERTY} [userprop] (optional) if you want to provide your own object to assign values to
+	static getUserPropertyByIndex = function(index, userprop)
+	{
+		var buf = GMFMOD_GetBuffer();
+		fmod_studio_evdesc_get_user_property_by_index(desc_, index, buf.getAddress());
+		
+		if (instanceof(userprop) != "GMFMOD_STUDIO_USER_PROPERTY")
+			userprop = new GMFMOD_STUDIO_USER_PROPERTY();
+		userprop.readFromBuffer(buf);
+		
+		return userprop;
+	};
+	
+	/// @returns {number}
+	static getUserPropertyCount = function()
+	{
+		return fmod_studio_evdesc_get_user_property_count(desc_);	
+	};
+	
+// ============================================================================
+// General
+// ============================================================================
+	
+	/// @returns {number}
+	static getLength = function()
+	{
+		return fmod_studio_evdesc_get_length(desc_);	
+	};
+	
+	
+	/// @param {GMFMOD_GUID} [guid] (optional) if you want to provide your own object to assign values to
+	/// @returns {GMFMOD_GUID} id of the event description 
+	static getID = function(guid)
+	{
+		var buf = GMFMOD_GetBuffer();
+		fmod_studio_evdesc_get_id(desc_, buf.getAddress());
+		
+		if (instanceof(guid) != "GMFMOD_GUID")
+			guid = new GMFMOD_GUID();
+		guid.readFromBuffer(buf);
+		
+		return guid;
+	};
+	
+
+	/// @returns {string}
+	static getPath = function()
+	{
+		return fmod_studio_evdesc_get_path(desc_);	
+	};
+	
+	
+	/// @returns {bool}
+	static isValid = function()
+	{
+		return fmod_studio_evdesc_is_valid(desc_);	
+	};
+	
+	
 	// Returns the raw pointer to the EventDescription object
+	/// @returns {pointer}
 	static getHandle = function()
 	{
 		return desc_;	
 	};
 	
+	
 	// Compare if EventDescription contains the same FMOD event.
+	/// @returns {bool}
 	static isEqualTo = function(event_desc)
 	{
-		return desc_ == event_desc.desc_;
+		return (desc_ == event_desc.desc_);
 	};
 }
 
-/// @hint 
+/// @hint GMFMOD_Studio_EventDescription:getLength()->number Gets the length of the event in milliseconds
+/// @hint GMFMOD_Studio_EventDescription:getID([guid]: GMFMOD_GUID)->GMFMOD_GUID Gets the events GUID

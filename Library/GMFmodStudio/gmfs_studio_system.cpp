@@ -428,6 +428,10 @@ gms_export void fmod_studio_system_set_parameters_by_ids(char *ptr, char *gmbuf,
         delete[] ids;
         delete[] values;
     }
+    else
+    {
+        check = FMOD_ERR_INVALID_HANDLE;
+    }
 }
 
 gms_export double fmod_studio_system_get_parameter_by_id(char *ptr, char *gmbuf)

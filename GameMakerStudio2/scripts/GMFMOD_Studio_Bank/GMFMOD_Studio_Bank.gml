@@ -18,7 +18,7 @@ function GMFMOD_Studio_Bank() constructor
             bank_ = bank;
 		else
 			show_debug_message("GMFMOD Error: Attempted to assign an invalid handle to " 
-				+ "a " + instanceof(self) + " object!");
+				+ "a " + string(instanceof(self)) + " object!");
     };
     
     // Assignment handling during construction
@@ -83,7 +83,7 @@ function GMFMOD_Studio_Bank() constructor
                 array_resize(arr, count);
                 
             for (var i = 0; i < count; ++i) // populate array
-                arr[@i] = GMFMOD_Studio_Bus(buf.read(buffer_u64));
+                arr[@i] = new GMFMOD_Studio_Bus(buf.read(buffer_u64));
             
             return arr;
         }

@@ -2,7 +2,7 @@
 /// @param {int} handle (optional) default: pointer_null. You can assign this value later via assign function.
 function GMFMOD_Studio_EventInstance(_handle) constructor
 {
-	inst_ = pointer_null; 
+	var inst_/*: pointer*/ = pointer_null; 
 	
 	static assign = function(handle)
 	{
@@ -16,10 +16,11 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 		else
 		{
 			show_debug_message("GMFMOD Error: Attempted to assign an invalid handle to " 
-				+ "a " + instanceof(self) + " object!");	
+				+ "a " + string(instanceof(self)) + " object!");	
 		}
 	};
 	
+	// Constructor initialization via handle
 	if (is_numeric(_handle))
 	{
 		assign(_handle);	
