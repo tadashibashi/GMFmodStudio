@@ -13,5 +13,5 @@ fmod_studio_system_initialize(system,
 	128, 
 	FMOD_STUDIO_INIT_NORMAL, 
 	FMOD_INIT_NORMAL);
-GMFMS_Check("Initializing Studio System");
+GMFMOD_Check("Initializing Studio System");
 

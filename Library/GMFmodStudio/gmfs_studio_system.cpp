@@ -654,7 +654,6 @@ gms_export double fmod_studio_system_load_command_replay(char *ptr, char *filena
 
 gms_export void fmod_studio_system_get_buffer_usage(char *ptr, char *gmbuf)
 {
-
     FMOD_STUDIO_BUFFER_USAGE usage;
     check = ((StudioSystem *)ptr)->getBufferUsage(&usage);
 

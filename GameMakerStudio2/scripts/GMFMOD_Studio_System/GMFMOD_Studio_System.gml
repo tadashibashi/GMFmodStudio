@@ -402,24 +402,171 @@ function GMFMOD_Studio_System() constructor
 // ============================================================================
 // VCA
 // ============================================================================
-
+	/// @param {string} path
+	/// @param {GMFMOD_Studio_VCA} [vca] (optional) if you want to provide your
+	///                 own object to fill.
+	/// @returns {GMFMOD_Studio_VCA}
+	static getVCA = function(path, vca)
+	{
+		var handle = fmod_studio_system_get_vca(studio_, path);
+		if (instanceof(vca) == "GMFMOD_Studio_VCA")
+			vca.assign(handle);
+		else
+			vca = new GMFMOD_Studio_VCA(handle);
+		
+		return vca;
+	};	
+	
+	/// @param {GMFMOD_GUID} guid
+	/// @param {GMFMOD_Studio_VCA} [vca] (optional) if you want to provide your
+	///                 own object to fill.
+	/// @returns {GMFMOD_Studio_VCA}
+	static getVCAByID = function(guid, vca)
+	{
+		var buf = GMFMOD_GetBuffer();
+		guid.writeToBuffer(buf);
+		
+		var handle = fmod_studio_system_get_vca_by_id(studio_, guid.getAddress());
+		if (instanceof(vca) == "GMFMOD_Studio_VCA")
+			vca.assign(handle);
+		else
+			vca = new GMFMOD_Studio_VCA(handle);
+		
+		return vca;
+	};
+	
 // ============================================================================
 // Advanced Settings
 // ============================================================================
+	/// @param {GMFMOD_STUDIO_ADVANCED_SETTINGS} [advsettings] (optional) if you
+	///             want to provide your own object to fill.
+	/// @returns {GMFMOD_STUDIO_ADVANCED_SETTINGS}
+	static getAdvancedSettings = function(advsettings)
+	{
+		var buf = GMFMOD_GetBuffer();
+		fmod_studio_system_get_advanced_settings(studio_, buf.getAddress());
+		
+		if (instanceof(advsettings) == "GMFMOD_STUDIO_ADVANCED_SETTINGS")
+			advsettings.readFromBuffer(buf);
+		else
+			advsettings = new GMFMOD_STUDIO_ADVANCED_SETTINGS(buf);
+		
+		return advsettings;
+	};
+	
+	
+	/// @param {GMFMOD_STUDIO_ADVANCED_SETTINGS} advsettings
+	/// @returns {void}
+	static setAdvancedSettings = function(advsettings)
+	{
+		var buf = GMFMOD_GetBuffer();
+		advsettings.writeToBuffer(buf);
+		fmod_studio_system_set_advanced_settings(studio_, buf.getAddress());
+	};
+
 
 // ============================================================================
 // Command Capture and Replay
 // ============================================================================
-
+	/// @param   {string} filename
+	/// @param   {number} commandcaptureflags
+	/// @returns {void}
+	static startCommandCapture = function(filename, commandcaptureflags)
+	{
+		fmod_studio_system_start_command_capture(studio_, filename, 
+			commandcaptureflags);
+	};
+	
+	
+	/// @returns {void}
+	static stopCommandCapture = function()
+	{
+		fmod_studio_system_stop_command_capture(studio_);	
+	};
+	
+	
+	/// @param   {string} filename
+	/// @param   {number} commandreplayflags flags from FMOD_STUDIO_COMMANDREPLAY_*
+	/// @param   {GMFMOD_Studio_CommandReplay} [commandreplay] (optional) if you
+	///               want to provide your own object to accept values to.
+	/// @returns {void}
+	static startCommandReplay = function(filename, commandreplayflags, 
+		commandreplay)
+	{
+		var handle = fmod_studio_system_load_command_replay(studio_, filename, 
+			commandreplayflags);
+		
+		if (instanceof(commandreplay) == "GMFMOD_Studio_CommandReplay")
+			commandreplay.assign(handle, self);
+		else
+			commandreplay = new GMFMOD_Studio_CommandReplay(handle, self);
+		
+		return commandreplay;
+	};
+	
 // ============================================================================
-// Profiling
+// Profiling (Must use a logging version of the FMOD dlls to work)
 // ============================================================================
+	/// @param   {GMFMOD_STUDIO_BUFFER_USAGE} [bufferusage]
+	/// @returns {GMFMOD_STUDIO_BUFFER_USAGE}
+	static getBufferUsage = function(bufferusage)
+	{
+		var buf = GMFMOD_GetBuffer();
+		fmod_studio_system_get_buffer_usage(studio_, buf.getAddress());
+		
+		if (instanceof(bufferusage) == "GMFMOD_STUDIO_BUFFER_USAGE")
+			bufferusage.readFromBuffer(buf);
+		else
+			bufferusage = new GMFMOD_STUDIO_BUFFER_USAGE(buf);
+		
+		return bufferusage;
+	};
+	
+	/// @returns {void}
+	static resetBufferUsage = function()
+	{
+		fmod_studio_system_reset_buffer_usage(studio_);
+	};
+	
+	
+	/// @param   {GMFMOD_STUDIO_CPU_USAGE} [cpuusage] (optional) to provide own 
+	///               object to receive data.
+	/// @returns {GMFMOD_STUDIO_CPU_USAGE}
+	static getCPUUsage = function(cpuusage)
+	{
+		var buf = GMFMOD_GetBuffer();
+		fmod_studio_system_get_cpu_usage(studio_, buf.getAddress());
+		
+		if (instanceof(cpuusage) == "GMFMOD_STUDIO_CPU_USAGE")
+			cpuusage.readFromBuffer(buf);
+		else
+			cpuusage = new GMFMOD_STUDIO_CPU_USAGE(buf);
+		
+		return cpuusage;
+	}
+	
+	
+	/// @param   {GMFMOD_STUDIO_MEMORY_USAGE} [memusage] (optional) to provide
+	///               own object to receive data. Creates a new one if not.
+	/// @returns {GMFMOD_STUDIO_MEMORY_USAGE}
+	static getMemoryUsage = function(memusage)
+	{
+		var buf = GMFMOD_GetBuffer();
+		fmod_studio_system_get_memory_usage(studio_, buf.getAddress());
+		
+		if (instanceof(memusage) == "GMFMOD_STUDIO_MEMORY_USAGE")
+			memusage.readFromBuffer(buf);
+		else
+			memusage = new GMFMOD_STUDIO_MEMORY_USAGE(buf);
+		
+		return memusage;
+	};
 
 // ============================================================================
 // General
 // ============================================================================
 	
-	/// @param {number} callbackmask "or" together the 
+	/// @param   {number} callbackmask "or" together the 
 	///                      FMOD_STUDIO_SYSTEM_CALLBACK_* constants to listen to.
 	/// @returns {void}
 	static setCallback = function(callbackmask)

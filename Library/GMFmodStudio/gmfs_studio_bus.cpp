@@ -96,15 +96,6 @@ gms_export double fmod_studio_bus_get_cpu_usage_inclusive(char *ptr)
 }
 
 // Fills buffer with retrieved memory usage. Returns 0 on success and -1 on error.
-gms_export double fmod_studio_bus_get_memory_usage_exclusive(char *ptr, char *gmbuf)
-{
-    unsigned int microsecs{ }, dummy;
-    check = ((StudioBus *)ptr)->getCPUUsage(&microsecs, &dummy);
-
-    return static_cast<double>(microsecs);
-}
-
-// Fills buffer with retrieved memory usage. Returns 0 on success and -1 on error.
 gms_export void fmod_studio_bus_get_memory_usage(char *ptr, char *gmbuf)
 {
     FMOD_STUDIO_MEMORY_USAGE usage{};

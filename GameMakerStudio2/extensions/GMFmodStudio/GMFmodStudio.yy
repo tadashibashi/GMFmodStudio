@@ -276,13 +276,14 @@
         {"externalName":"fmod_studio_evinst_get_cpu_usage_exclusive","kind":1,"help":"fmod_studio_evinst_get_cpu_usage_exclusive(evinst)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_evinst_get_cpu_usage_exclusive","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_evinst_set_reverb_level","kind":1,"help":"fmod_studio_evinst_set_reverb_level(evinst, index, level)","hidden":false,"returnType":2,"argCount":0,"args":[
+        {"externalName":"fmod_studio_evinst_set_reverb_level","kind":1,"help":"fmod_studio_evinst_set_reverb_level(evinst, reverbindex, level)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             2,
             2,
           ],"resourceVersion":"1.0","name":"fmod_studio_evinst_set_reverb_level","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_evinst_get_reverb_level","kind":1,"help":"fmod_studio_evinst_get_reverb_level(evinst)","hidden":false,"returnType":2,"argCount":0,"args":[
+        {"externalName":"fmod_studio_evinst_get_reverb_level","kind":1,"help":"fmod_studio_evinst_get_reverb_level(evinst, reverbindex)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
+            2,
           ],"resourceVersion":"1.0","name":"fmod_studio_evinst_get_reverb_level","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_evinst_get_channel_group","kind":1,"help":"fmod_studio_evinst_get_channel_group(evinst)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
