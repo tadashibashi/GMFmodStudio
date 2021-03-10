@@ -41,7 +41,10 @@ function GMFMOD_Studio_EventDescription() constructor
 		return fmod_studio_evdesc_get_instance_count(desc_);	
 	};
 	
-	static getInstanceList = function(arr/*: Array<GMFMOD_Studio_EventInstance>*/)
+	/// @param {Array<GMFMOD_Studio_EventInstance>} [arr] Optional if desiring to 
+	///  populate your own array. If omitted, this function will return a new one.
+	/// @returns {Array<GMFMOD_Studio_EventInstance>}
+	static getInstanceList = function(arr)
 	{	
 		var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
 		var count = fmod_studio_evdesc_get_instance_count(desc_);

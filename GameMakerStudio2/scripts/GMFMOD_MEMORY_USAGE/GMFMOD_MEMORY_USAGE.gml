@@ -10,9 +10,9 @@ function GMFMOD_STUDIO_MEMORY_USAGE() constructor
 {
 	// ===== Initialization ======================================================
 	
-	exclusive = -1;  /// @is {int} Size of memory belonging to the bus or event instance.
-	inclusive = -1;  /// @is {int} Size of memory belonging exclusively to the bus or event plus inclusive memory sizes of all buses and event instances which route into it.
-	sampledata = -1; /// @is {int} Size of shared sample memory referenced by the bus or event instance, inclusive of all sample memory referenced by all buses and event instances which route into it.
+	exclusive = -1;  /// @is {number} Integer. Size of memory belonging to the bus or event instance.
+	inclusive = -1;  /// @is {number} Integer. Size of memory belonging exclusively to the bus or event plus inclusive memory sizes of all buses and event instances which route into it.
+	sampledata = -1; /// @is {number} Interg. Size of shared sample memory referenced by the bus or event instance, inclusive of all sample memory referenced by all buses and event instances which route into it.
 	// ---------------------------------------------------------------------------
 	
 	

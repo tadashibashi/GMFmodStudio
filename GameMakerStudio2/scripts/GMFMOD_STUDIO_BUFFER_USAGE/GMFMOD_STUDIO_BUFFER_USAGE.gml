@@ -9,7 +9,7 @@ function GMFMOD_STUDIO_BUFFER_USAGE() constructor
 {
 	studiocommandqueue = new GMFMOD_STUDIO_BUFFER_INFO();  /// @is {GMFMOD_STUDIO_BUFFER_INFO}
 	studiohandle =       new GMFMOD_STUDIO_BUFFER_INFO();  /// @is {GMFMOD_STUDIO_BUFFER_INFO}
-	
+
 	/// @func readFromBuffer(buf: GMFMOD_Buffer)
 	/// @desc Populates this object with the contents form a buffer.
 	/// @returns {void}

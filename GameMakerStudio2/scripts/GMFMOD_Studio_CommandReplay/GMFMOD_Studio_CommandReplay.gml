@@ -19,13 +19,32 @@ function GMFMOD_Studio_CommandReplay() constructor
         var comrep = GMFMOD_Ptr(handle);
         if (fmod_studio_comreplay_is_valid(comrep))
         {
+        	// Clean up if there is already a valid command replay
+        	// assigned to this object
+        	if (fmod_studio_comreplay_is_valid(comrep_))
+        	{
+        		// Stop if playing
+        		if (fmod_studio_comreplay_get_playback_state(comrep_) !=
+        			FMOD_STUDIO_PLAYBACK_STOPPED)
+    			{
+    				fmod_studio_comreplay_stop(comrep_);
+    			}
+    			
+    			// Free resources
+    			fmod_studio_comreplay_release(comrep_);
+        	}
+        	
+        	// Assign new CommandReplay
         	 comrep_ = comrep;
         	 system_ = system;
         }
 		else
+		{
 			show_debug_message("GMFMOD Error: Attempted to assign an invalid handle to " 
 				+ "a " + string(instanceof(self)) + " object!");
+		}
     };
+    
     
     // Assignment handling during construction
     if (argument_count == 2 && is_numeric(argument[0]) && 
@@ -42,17 +61,20 @@ function GMFMOD_Studio_CommandReplay() constructor
     	fmod_studio_comreplay_set_bank_path(comrep_, path);	
     };
     
+    
     /// @returns {void}
     static setCreateInstanceCallback = function()
     {
     	fmod_studio_comreplay_set_create_instance_callback(comrep_);	
     };
     
+    
     /// @returns {void}
     static setFrameCallback = function()
     {
     	fmod_studio_comreplay_set_frame_callback(comrep_);	
     };
+    
     
     /// @returns {void}
     static setLoadBankCallback = function()
@@ -176,7 +198,23 @@ function GMFMOD_Studio_CommandReplay() constructor
     };
     
     
-    /// @param 
+    /// @returns {GMFMOD_Studio_System} system object that created this
+    static getSystem = function()
+    {
+    	return system_;	
+    };
     
     
+    /// @returns {bool}
+    static isValid = function()
+    {
+    	return fmod_studio_comreplay_is_valid(comrep_);
+    };
+    
+    
+    /// @returns {void}
+    static release = function()
+    {
+    	fmod_studio_comreplay_release(comrep_);	
+    };
 }

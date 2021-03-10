@@ -53,6 +53,19 @@ function GMFMOD_VECTOR() constructor
 		readFromBuffer(argument[0]);
 	}
 	
+	/// @param {number} x
+	/// @param {number} y
+	/// @param {number} z
+	/// @returns {void}
+	static set = function(x, y, z)
+	{
+		self.x = x;
+		self.y = y;
+		
+		if (z != undefined)
+			self.z = z;
+	};
+	
 	/// @func writeToBuffer(buf: GMFMOD_Buffer)->void
 	/// @param {GMFMOD_Buffer} buf
 	///

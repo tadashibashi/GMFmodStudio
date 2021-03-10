@@ -50,7 +50,7 @@ function GMFMOD_Studio_System() constructor
 // Banks
 // ============================================================================
 	
-	/// @param {string} bankpath
+	/// @param {string} bankpath  relative to the working_directory
 	/// @param {int}    flags     value from FMOD_STUDIO_LOAD_BANK_FLAGS
 	/// @param {GMFMOD_Studio_Bank} [bank] (optional) bank to assign to 
 	/// @returns {GMFMOD_Studio_Bank}
@@ -60,7 +60,7 @@ function GMFMOD_Studio_System() constructor
 		
 		var bank_handle = fmod_studio_system_load_bank_file(
 			studio_, 
-			bankpath, 
+			working_directory + bankpath, 
 			flags == undefined ? FMOD_STUDIO_LOAD_BANK_NORMAL : flags);
 		
 		if (bank == undefined) 
@@ -159,8 +159,8 @@ function GMFMOD_Studio_System() constructor
 // ============================================================================
 	
 	/// @param   {number}               listener_index
-	/// @param   {GMFMOD_3D_ATTRIBUTES} [attributes]
-	/// @returns {GMFMOD_3D_ATTRIBUTES}
+	/// @param   {GMFMOD_3D_ATTRIBUTES} attributes
+	/// @returns {void}
 	static setListenerAttributes = function(listener_index, attributes)
 	{
 		var buf = GMFMOD_GetBuffer();
@@ -199,7 +199,7 @@ function GMFMOD_Studio_System() constructor
 	/// @returns {number}   
 	static getListenerWeight = function(listener_index)
 	{
-		fmod_studio_system_get_listener_weight(studio_, listener_index);	
+		return fmod_studio_system_get_listener_weight(studio_, listener_index);	
 	};
 	
 	
@@ -426,7 +426,7 @@ function GMFMOD_Studio_System() constructor
 		var buf = GMFMOD_GetBuffer();
 		guid.writeToBuffer(buf);
 		
-		var handle = fmod_studio_system_get_vca_by_id(studio_, guid.getAddress());
+		var handle = fmod_studio_system_get_vca_by_id(studio_, buf.getAddress());
 		if (instanceof(vca) == "GMFMOD_Studio_VCA")
 			vca.assign(handle);
 		else
@@ -468,12 +468,13 @@ function GMFMOD_Studio_System() constructor
 // ============================================================================
 // Command Capture and Replay
 // ============================================================================
-	/// @param   {string} filename
+	/// @param   {string} filename relative to working_directory
 	/// @param   {number} commandcaptureflags
 	/// @returns {void}
 	static startCommandCapture = function(filename, commandcaptureflags)
 	{
-		fmod_studio_system_start_command_capture(studio_, filename, 
+		fmod_studio_system_start_command_capture(studio_, 
+			working_directory + filename, 
 			commandcaptureflags);
 	};
 	
@@ -490,10 +491,11 @@ function GMFMOD_Studio_System() constructor
 	/// @param   {GMFMOD_Studio_CommandReplay} [commandreplay] (optional) if you
 	///               want to provide your own object to accept values to.
 	/// @returns {void}
-	static startCommandReplay = function(filename, commandreplayflags, 
+	static loadCommandReplay = function(filename, commandreplayflags, 
 		commandreplay)
 	{
-		var handle = fmod_studio_system_load_command_replay(studio_, filename, 
+		var handle = fmod_studio_system_load_command_replay(studio_, 
+			working_directory + filename, 
 			commandreplayflags);
 		
 		if (instanceof(commandreplay) == "GMFMOD_Studio_CommandReplay")

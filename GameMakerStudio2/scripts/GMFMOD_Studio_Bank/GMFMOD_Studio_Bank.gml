@@ -135,11 +135,13 @@ function GMFMOD_Studio_Bank() constructor
         }
     };    
     
+    
     /// @returns {number} the number of vca's in this bank
     static getVCACount = function()
     {
         return fmod_studio_bank_get_vca_count(bank_);
     }
+    
     
     /// note: please use sparingly, since dynamic memory is allocated on every call to this function.
     /// @param {array<any>} [arr] a pre-defined array to populate, otherwise the function creates and returns a new one.
@@ -177,11 +179,13 @@ function GMFMOD_Studio_Bank() constructor
         }
     };
     
+    
     /// @returns {number} the number of strings in this bank. Use on ".strings.bank" files.
     static getStringCount = function()
     {
         return fmod_studio_bank_get_string_count(bank_);
     };
+    
     
     /// @param {number} index index of the string to get the guid of
     /// @param {GMFMOD_GUID} [guid] (optional) assign guid to a pre-existing object. 
@@ -202,11 +206,13 @@ function GMFMOD_Studio_Bank() constructor
         return guid;
     };
     
+    
     /// @param {string} the path
     static getStringInfoPath = function(index)
     {
         return fmod_studio_bank_get_string_info_path(bank_, index);
     };
+    
     
     /// @param   {GMFMOD_GUID} [guid] (optional) assign guid to a pre-existing object,
     ///                                or if undefined, creates a new one.
@@ -214,23 +220,23 @@ function GMFMOD_Studio_Bank() constructor
     static getID = function(guid)
     {
         var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
-        if (guid == undefined)
-            guid = new GMFMOD_GUID(buf);
-        
         fmod_studio_bank_get_id(bank_, buf.getAddress());
-        if (GMFMOD_GetError() == FMOD_OK)
-        {
+        
+        if (instanceof(guid) == "GMFMOD_GUID")
             guid.readFromBuffer(buf);
-        }
+        else
+        	guid = new GMFMOD_GUID(buf);
         
         return guid;
     };
+    
     
     /// @returns {string} the bank path
     static getPath = function()
     {
         return fmod_studio_bank_get_path(bank_);
     };
+    
     
     /// @returns {bool} Whether or not the internal pointer is a valid FMOD object handle.
     ///                 E.g. Unloading this bank will invalidate this object.

@@ -75,12 +75,13 @@ function GMFMOD_GUID() constructor
 	};
 	
 	/// @function        equals(guid: GMFMOD_GUID)->bool
+	/// @param {GMFMOD_GUID} guid to check
 	/// @returns  {bool}
 	static equals = function(guid)
 	{
 		/// @description    Checks if another guid obtains the same value
 		
-		if (instanceof(guid) != "GMFMOD_Buffer")
+		if (instanceof(guid) != "GMFMOD_GUID")
 			return false;
 		return (data1 == guid.data1 && data2 == guid.data2 &&
 				data3 == guid.data3 && 

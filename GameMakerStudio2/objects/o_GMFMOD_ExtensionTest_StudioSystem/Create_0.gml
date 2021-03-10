@@ -178,7 +178,7 @@ GMFMOD_Assert(
 delete listenerattr;
 
 // ----------------------------------------------------------------------------
-// StudioSystem Get/Set Listener Attributes
+// StudioSystem Get/Set Listener Weight
 // functions:
 //    fmod_studio_system_set_listener_weight
 //    fmod_studio_system_get_listener_weight
@@ -214,7 +214,7 @@ masterbus = GMFMOD_Ptr((fmod_studio_system_get_bus(studio, "bus:/")));
 GMFMOD_Assert(fmod_studio_bus_is_valid(masterbus), true, "StudioSystem Get Bus");
 
 // ----------------------------------------------------------------------------
-// StudioSystem Get Bus
+// StudioSystem Get Bus by id
 // functions:
 //    fmod_studio_system_get_bus_by_id
 // ----------------------------------------------------------------------------
@@ -443,6 +443,8 @@ crep = GMFMOD_Ptr(fmod_studio_system_load_command_replay(studio,
 GMFMOD_Assert(fmod_studio_comreplay_is_valid(crep), true, 
 	"StudioSystem Load Command Replay");
 
+fmod_studio_comreplay_release(crep);
+
 // ----------------------------------------------------------------------------
 // StudioSystem Get Buffer Usage
 // functions: 
@@ -529,62 +531,3 @@ GMFMOD_Assert(fmod_studio_system_lookup_path(studio, buf.getAddress()),
 GMFMOD_Assert(GMFMOD_GetError(), FMOD_OK, 
 	"StudioSystem Lookup Path: no errors");
 
-//// Move these tests elsewhere
-//// ----------------------------------------------------------------------------
-//// Create Event Instance from Event Description
-//// functions:
-////    fmod_studio_evdesc_create_instance
-////    fmod_studio_evinst_is_valid
-//// ----------------------------------------------------------------------------
-//evinst = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdesc));
-
-//GMFMOD_Assert(fmod_studio_evinst_is_valid(evinst), true,
-//	"Create Event Instance from Description");
-
-//// ----------------------------------------------------------------------------
-//// Start Event Instance
-//// ----------------------------------------------------------------------------
-//fmod_studio_evinst_start(evinst);
-
-//fmod_studio_system_flush_commands(studio);
-
-//var playbackstate;
-//do {
-//	playbackstate = fmod_studio_evinst_get_playback_state(evinst);
-//} until (playbackstate == FMOD_STUDIO_PLAYBACK_PLAYING);
-
-//show_debug_message("[Start Event Instance] PASSED.");
-
-//// ============================================================================
-//// Get ParamDescription By Name
-//// ============================================================================
-//buf = GMFMOD_GetBuffer();
-//fmod_studio_evdesc_get_paramdesc_by_name(evdesc, "Pitch", buf.getAddress());
-//paramdesc_pitch = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
-
-//// Check that each field is as expected.
-//GMFMOD_Assert(paramdesc_pitch.name, "Pitch", "ParamDesc Get Name");
-//GMFMOD_Assert(paramdesc_pitch.minimum, 0, "ParamDesc Get Minimum");
-//GMFMOD_Assert(paramdesc_pitch.maximum, 1, "ParamDesc Get Maximum");
-//GMFMOD_Assert(paramdesc_pitch.defaultvalue, 0.5, "ParamDesc Get Default");
-//GMFMOD_Assert(paramdesc_pitch.flags, 0, "ParamDesc Get Flags");
-
-//buf.seekReset();
-
-//// ============================================================================
-//// Get ParamDescription By ID
-//// ============================================================================
-//paramdesc_pitch.pid.writeToBuffer(buf);
-//fmod_studio_evdesc_get_paramdesc_by_id(evdesc, buf.getAddress());
-//buf.seekReset();
-
-//var paramdesc_pitch_by_id = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
-
-//// Check that each field is as expected.
-//GMFMOD_Assert(paramdesc_pitch_by_id.name, "Pitch", "ParamDesc by ID Get Name");
-//GMFMOD_Assert(paramdesc_pitch_by_id.minimum, 0, "ParamDesc by ID Get Minimum");
-//GMFMOD_Assert(paramdesc_pitch_by_id.maximum, 1, "ParamDesc by ID Get Maximum");
-//GMFMOD_Assert(paramdesc_pitch_by_id.defaultvalue, 0.5, "ParamDesc by ID Get Default");
-//GMFMOD_Assert(paramdesc_pitch_by_id.flags, 0, "ParamDesc by ID Get Flags");
-
-//delete paramdesc_pitch_by_id;

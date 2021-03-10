@@ -1,5 +1,5 @@
 /// @function GMFMOD_Studio_EventInstance([handle]: int)
-/// @param {int} handle (optional) default: pointer_null. You can assign this value later via assign function.
+/// @param {int} [handle] (optional) default: pointer_null. You can assign this value later via assign function.
 function GMFMOD_Studio_EventInstance(_handle) constructor
 {
 	inst_ = pointer_null; /// @is {pointer} 
