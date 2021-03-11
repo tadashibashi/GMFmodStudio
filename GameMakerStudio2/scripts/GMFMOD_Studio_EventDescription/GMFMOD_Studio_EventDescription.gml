@@ -234,9 +234,9 @@ function GMFMOD_Studio_EventDescription() constructor
 		
 		if (instanceof(userprop) != "GMFMOD_STUDIO_USER_PROPERTY")
 			userprop = new GMFMOD_STUDIO_USER_PROPERTY();
-		prop.readFromBuffer(buf);
+		userprop.readFromBuffer(buf);
 		
-		return prop;
+		return userprop;
 	};
 	
 	
@@ -285,7 +285,15 @@ function GMFMOD_Studio_EventDescription() constructor
 		return guid;
 	};
 	
+	
+	/// @param {int} callbackmask flags from FMOD_STUDIO_EVENT_CALLBACK_* constants
+	/// @returns {void}
+	static setCallback = function(callbackmask)
+	{
+		fmod_studio_evdesc_set_callback(desc_, callbackmask);	
+	};
 
+	
 	/// @returns {string}
 	static getPath = function()
 	{

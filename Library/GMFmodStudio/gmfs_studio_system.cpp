@@ -84,8 +84,7 @@ gms_export void fmod_studio_system_update(char *ptr)
 // Returns true on success, and false on error.
 gms_export double fmod_studio_system_flush_commands(char *ptr)
 {
-    auto studio = (FMOD::Studio::System *)(ptr);
-    check = studio->flushCommands();
+    check = ((StudioSystem *)ptr)->flushCommands();
 
     return (check == FMOD_OK);
 }
