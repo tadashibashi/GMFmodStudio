@@ -249,12 +249,12 @@ delete evdescByRef;
 
 studio.setParameterByName("Weather", 2.345, true);
 GMFMOD_Check("Setting global parameter Weather");
-GMFMOD_Assert(studio.getParameterByName("Weather", false), 2.345,
+GMFMOD_Assert(studio.getParameterByName("Weather"), 2.345,
 	"Get param by name matches");
 
 studio.setParameterByName("Weather", 0, false);
 studio.flushCommands();
-GMFMOD_Assert(studio.getParameterByName("Weather", true) < 2.345, true,
+GMFMOD_Assert(studio.getParameterByNameFinal("Weather") < 2.345, true,
 	"Get global paramter final value");
 
 	
@@ -292,6 +292,7 @@ delete paramdesc;
 
 // ===== Get/Set Global Parameter by ID =====
 var paramdesc/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = studio.getParameterDescriptionByIndex(0);
+GMFMOD_Check("Getting parameter description by index");
 var paramid/*: GMFMOD_STUDIO_PARAMETER_ID*/ = paramdesc.pid;
 
 studio.setParameterByID(paramid, .12345);

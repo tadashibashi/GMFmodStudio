@@ -77,18 +77,16 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 // Playback Properties
 // ============================================================================
 	
-	
-	/// @function getPitch()
-	/// @param {bool} [getfinalvalue] (default: false)
 	/// @returns {number} pitch multiplier
-	static getPitch = function(getfinalvalue)
+	static getPitch = function()
 	{
-		if (getfinalvalue == undefined) getfinalvalue = false;
-		
-		if (getfinalvalue)
-			return fmod_studio_evinst_get_pitch_final(inst_);
-		else
-			return fmod_studio_evinst_get_pitch(inst_);	
+		return fmod_studio_evinst_get_pitch(inst_);	
+	};	
+	
+	/// @returns {number} pitch multiplier
+	static getPitchFinal = function()
+	{
+		return fmod_studio_evinst_get_pitch_final(inst_);	
 	};
 	
 	/// @function setPitch(multiplier: number)
@@ -138,18 +136,17 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 	};
 	
 	
-	/// @param   {bool} [getfinalvalue] (default: false)
 	/// @returns {number} volume scale
-	static getVolume = function(getfinalvalue)
+	static getVolume = function()
 	{
-		if (getfinalvalue == undefined) getfinalvalue = false;
-		
-		if (getfinalvalue)
-			return fmod_studio_evinst_get_volume_final(inst_);
-		else
-			return fmod_studio_evinst_get_volume(inst_);	
-	};
+		return fmod_studio_evinst_get_volume(inst_);	
+	};	
 	
+	/// @returns {number} volume scale
+	static getVolumeFinal = function()
+	{
+		return fmod_studio_evinst_get_volume_final(inst_);	
+	};
 	
 	/// @returns {bool}
 	static isVirtual = function()
@@ -215,10 +212,12 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 // ============================================================================
 	/// @param {string} name
 	/// @param {number} value
+	/// @param {bool}   [ignoreseek = false]
 	/// @returns {void}
-	static setParameterByName = function(name, value)
+	static setParameterByName = function(name, value, ignoreseek)
 	{
-		fmod_studio_evinst_set_parameter_by_name(inst_, name, value);
+		if (ignoreseek == undefined) {ignoreseek = false;}
+		fmod_studio_evinst_set_parameter_by_name(inst_, name, value, ignoreseek);
 	};	
 	
 	
@@ -227,46 +226,59 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 	static getParameterByName = function(name)
 	{
 		return fmod_studio_evinst_get_parameter_by_name(inst_, name);
+	};	
+	
+	/// @param {string}   name
+	/// @returns {number} parameter value
+	static getParameterByNameFinal = function(name)
+	{
+		return fmod_studio_evinst_get_parameter_by_name_final(inst_, name);
 	};
 	
 	
 	/// @param {GMFMOD_STUDIO_PARAMETER_ID} pid
 	/// @param {number}                     value
+	/// @param {bool}                       [ignoreseek = false]
 	/// @returns {void}
-	static setParameterByID = function(pid, value)
+	static setParameterByID = function(pid, value, ignoreseek)
 	{
 		var buf = GMFMOD_GetBuffer();
 		pid.writeToBuffer(buf);
-		fmod_studio_evinst_set_parameter_by_id(inst_, buf.getAddress(), value);
+		
+		if (ignoreseek == undefined) {ignoreseek = false;}
+		
+		fmod_studio_evinst_set_parameter_by_id(inst_, buf.getAddress(), value,
+			ignoreseek);
 	};
 	
 	
-	/// @param {string} name
-	/// @param {bool}   [getfinalvalue] (default: false)
+	/// @param {GMFMOD_STUDIO_PARAMETER_ID} pid
 	/// @returns {number} parameter value
-	static getParameterByID = function(pid, getfinalvalue)
+	static getParameterByID = function(pid)
 	{
 		var buf = GMFMOD_GetBuffer();
 		pid.writeToBuffer(buf);
 		
-		if (getfinalvalue == undefined) getfinalvalue = false;
+		return fmod_studio_evinst_get_parameter_by_id(inst_, 
+			buf.getAddress());
+	};	
+	
+	
+	/// @param {GMFMOD_STUDIO_PARAMETER_ID} pid
+	/// @returns {number} parameter value
+	static getParameterByIDFinal = function(pid)
+	{
+		var buf = GMFMOD_GetBuffer();
+		pid.writeToBuffer(buf);
 		
-		if (getfinalvalue)
-		{
-			return fmod_studio_evinst_get_parameter_by_id_final(inst_, 
-				buf.getAddress());
-		}
-		else
-		{
-			return fmod_studio_evinst_get_parameter_by_id(inst_, 
-				buf.getAddress());
-		}
+		return fmod_studio_evinst_get_parameter_by_id_final(inst_, 
+			buf.getAddress());
 	};
 	
 	
 	/// @param   {array<GMFMOD_STUDIO_PARAMETER_ID>} parameterids
 	/// @param   {array<number>}                     values       make sure each index corresponds to the index of the parameter ids array
-	/// @param   {bool}                              [ignoreseek] (default: false)
+	/// @param   {bool}                              [ignoreseek = false]
 	/// @returns {void}
 	static setParametersByIDs = function(parameterids, values, ignoreseek)
 	{
@@ -277,6 +289,8 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 			parameterids[i].writeToBuffer(buf);
 			buf.write(buffer_f32, values[i]);
 		}
+		
+		if (ignoreseek == undefined) ignoreseek = false;
 		
 		fmod_studio_evinst_set_parameters_by_ids(inst_, buf.getAddress(), count, 
 			ignoreseek);
@@ -299,7 +313,7 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 	
 	
 	/// @param {number} reverbindex
-	/// @returns {void}
+	/// @returns {number} reverb level
 	static getReverbLevel = function(reverbindex)
 	{
 		return fmod_studio_evinst_get_reverb_level(inst_, reverbindex);	
@@ -317,7 +331,7 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 	static getMemoryUsage = function(memusage)
 	{
 		var buf = GMFMOD_GetBuffer();
-		var success = fmod_studio_evinst_get_memory_usage(inst_, buf.getAddress());
+		fmod_studio_evinst_get_memory_usage(inst_, buf.getAddress());
 		
 		if (instanceof(memusage) == "GMFMOD_STUDIO_MEMORY_USAGE")
 			memusage.readFromBuffer(buf);
@@ -339,7 +353,6 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 		else
 			return fmod_studio_evinst_get_cpu_usage_inclusive(inst_);
 	}
-	
 	
 	
 	

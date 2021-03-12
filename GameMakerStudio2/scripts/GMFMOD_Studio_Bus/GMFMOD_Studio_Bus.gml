@@ -49,19 +49,16 @@ function GMFMOD_Studio_Bus() constructor
     	fmod_studio_bus_set_volume(bus_, volume);	
     };    
     
-    /// @param {bool} [getfinalvalue] (default: false)
+    /// @param {bool} [getfinalvalue = true]
     /// @returns {number}
     static getVolume = function(getfinalvalue)
     {
-    	if (getfinalvalue == undefined) getfinalvalue = false;
-    	
-    	if (getfinalvalue)
+    	if (getfinalvalue == undefined || getfinalvalue)
     		return fmod_studio_bus_get_volume_final(bus_);	
     	else
     		return fmod_studio_bus_get_volume(bus_);	
     };
     
-        
     /// @param {bool} mute
     /// @returns {void}
     static setMute = function(mute)

@@ -35,20 +35,17 @@ function GMFMOD_Studio_VCA() constructor
     	fmod_studio_vca_set_volume(vca_, volume);	
     };    
     
-    
-    
-    /// @param {bool} [getfinalvalue] (default: false)
+  
     /// @returns {number}
-    static getVolume = function(getfinalvalue)
+    static getVolume = function()
     {
-    	if (getfinalvalue == undefined) getfinalvalue = false;
-    	
-    	if (getfinalvalue)
-    		return fmod_studio_vca_get_volume_final(vca_);	
-    	else
-    		return fmod_studio_vca_get_volume(vca_);	
+    	return fmod_studio_vca_get_volume(vca_);	
     };
     
+    static getVolumeFinal = function()
+    {
+    	return fmod_studio_vca_get_volume_final(vca_);	
+    };
     
     
     /// @param   {GMFMOD_GUID} [guid] (optional) if you want to provide your own

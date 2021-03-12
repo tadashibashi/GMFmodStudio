@@ -274,20 +274,20 @@ function GMFMOD_Studio_System() constructor
 	
 	
 	/// @param {GMFMOD_GUID} guid object containing id info
-	/// @param {GMFMOD_Studio_EventDescription} (optional) if you want to provide your own EventDescription object
-	static getEventByID = function(guid, event)
+	/// @param {GMFMOD_Studio_EventDescription} [evdesc] (optional) if you want to provide your own EventDescription object
+	static getEventByID = function(guid, evdesc)
 	{
 		var buf = GMFMOD_GetBuffer();
 		guid.writeToBuffer(buf);
 		
-		var evdesc = fmod_studio_system_get_event_by_id(studio_, buf.getAddress());
+		var handle = fmod_studio_system_get_event_by_id(studio_, buf.getAddress());
 		
-		if (instanceof(event) == "GMFMOD_Studio_EventDescription")
-			event.assign(evdesc);
+		if (instanceof(evdesc) == "GMFMOD_Studio_EventDescription")
+			evdesc.assign(handle);
 		else
-			event = new GMFMOD_Studio_EventDescription(evdesc);
-			
-		return event; 
+			evdesc = new GMFMOD_Studio_EventDescription(handle);
+
+		return evdesc; 
 	};
 	
 // ============================================================================
@@ -296,32 +296,36 @@ function GMFMOD_Studio_System() constructor
 	// Sets a global parameter value
 	/// @param   {string} name
 	/// @param   {number} value
-	/// @param   {bool}   [ignoreseek] (default: true)
+	/// @param   {bool}   [ignoreseek = false]
 	///       true:   instantly set the value
 	///       false:  take seek time into account
 	/// @returns {void}
 	static setParameterByName = function(name, value, ignoreseek)
 	{
-		if (ignoreseek == undefined) ignoreseek = true;
+		if (ignoreseek == undefined) ignoreseek = false;
 		
 		fmod_studio_system_set_parameter_by_name(studio_, name, value, ignoreseek);	
 	};
 	
 	// Gets a global parameter value
-	/// @param {string} name
-	/// @param {bool}   [getfinalvalue] (default: false)
-	static getParameterByName = function(name, getfinalvalue)
+	/// @param   {string} name
+	/// @returns {number}
+	static getParameterByName = function(name)
 	{
-		if (getfinalvalue == undefined || !getfinalvalue)
-			return fmod_studio_system_get_parameter_by_name(studio_, name);
-		else
-			return fmod_studio_system_get_parameter_by_name_final(studio_, name);
+		return fmod_studio_system_get_parameter_by_name(studio_, name);
+	};
+	
+	/// @param {string} name
+	/// @returns {number}
+	static getParameterByNameFinal = function(name)
+	{
+		return fmod_studio_system_get_parameter_by_name_final(studio_, name);
 	};
 	
 	// Sets a global parameter value accessed by param id
 	/// @param   {GMFMOD_STUDIO_PARAMETER_ID} param_id
 	/// @param   {number}                     value
-	/// @param   {bool}                       [ignoreseek] (default: true)
+	/// @param   {bool}                       [ignoreseek = false]
 	///       true:   instantly set the value
 	///       false:  take seek time into account
 	/// @returns {void}
@@ -330,7 +334,7 @@ function GMFMOD_Studio_System() constructor
 		var buf = GMFMOD_GetBuffer();
 		param_id.writeToBuffer(buf);
 		
-		if (ignoreseek == undefined) ignoreseek = true;
+		if (ignoreseek == undefined) ignoreseek = false;
 		
 		fmod_studio_system_set_parameter_by_id(studio_, buf.getAddress(), value, 
 			ignoreseek);
@@ -338,18 +342,26 @@ function GMFMOD_Studio_System() constructor
 	
 	// Gets a global parameter value accessed by param id
 	/// @param {GMFMOD_STUDIO_PARAMETER_ID} param_id
-	/// @param {bool}                       [getfinalvalue] (default: false)
-	static getParameterByID = function(param_id, getfinalvalue)
+	/// @returns
+	static getParameterByID = function(param_id)
 	{
 		var buf = GMFMOD_GetBuffer();
 		param_id.writeToBuffer(buf);
 		
-		if (getfinalvalue == undefined || !getfinalvalue)
-			return fmod_studio_system_get_parameter_by_id(studio_, 
-				buf.getAddress());
-		else
-			return fmod_studio_system_get_parameter_by_name_final(studio_, 
-				buf.getAddress());
+		return fmod_studio_system_get_parameter_by_id(studio_, 
+			buf.getAddress());
+	};	
+	
+	// Gets a global parameter value accessed by param id
+	/// @param   {GMFMOD_STUDIO_PARAMETER_ID} param_id
+	/// @returns {number}
+	static getParameterByIDFinal = function(param_id)
+	{
+		var buf = GMFMOD_GetBuffer();
+		param_id.writeToBuffer(buf);
+		
+		return fmod_studio_system_get_parameter_by_id_final(studio_, 
+			buf.getAddress());
 	};
 	
 	
@@ -358,11 +370,11 @@ function GMFMOD_Studio_System() constructor
 	// same length.
 	/// @param {array<GMFMOD_STUDIO_PARAMETER_ID>} param_ids
 	/// @param {array<number>}                     values
-	/// @param {bool}                              [ignoreseek] (default: true)
+	/// @param {bool}                              [ignoreseek = false]
 	static setParametersByIDs = function(param_ids, values, ignoreseek)
 	{
 		var count = array_length(param_ids);
-		if (ignoreseek == undefined) ignoreseek = true;
+		if (ignoreseek == undefined) ignoreseek = false;
 		
 		var buf = GMFMOD_GetBuffer();
 		for (var i = 0; i < count; ++i)

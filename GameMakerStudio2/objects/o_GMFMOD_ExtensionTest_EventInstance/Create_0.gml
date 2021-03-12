@@ -355,13 +355,13 @@ fmod_studio_evinst_get_memory_usage(evimusic, buf.getAddress());
 GMFMOD_Check("EvInst Get Memory Usage: no errors");
 
 var memusage = new GMFMOD_STUDIO_MEMORY_USAGE(buf);
-
 GMFMOD_Assert(memusage.exclusive != -1, true, 
 	"EvInst Get Memory Usage: exclusive");
 GMFMOD_Assert(memusage.inclusive != -1, true, 
 	"EvInst Get Memory Usage: inclusive");
 GMFMOD_Assert(memusage.sampledata != -1, true, 
 	"EvInst Get Memory Usage: sampledata");
+
 
 // ----------------------------------------------------------------------------
 // EvInst Get Description

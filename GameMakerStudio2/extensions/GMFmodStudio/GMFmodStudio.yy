@@ -235,9 +235,10 @@
         {"externalName":"fmod_studio_evinst_get_listener_mask","kind":1,"help":"fmod_studio_evinst_get_listener_mask(evinst)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_evinst_get_listener_mask","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_evinst_set_parameter_by_name","kind":1,"help":"fmod_studio_evinst_set_parameter_by_name(evinst, name, value)","hidden":false,"returnType":2,"argCount":0,"args":[
+        {"externalName":"fmod_studio_evinst_set_parameter_by_name","kind":1,"help":"fmod_studio_evinst_set_parameter_by_name(evinst, name, value, ignoreseek)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             1,
+            2,
             2,
           ],"resourceVersion":"1.0","name":"fmod_studio_evinst_set_parameter_by_name","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_evinst_get_parameter_by_name","kind":1,"help":"fmod_studio_evinst_get_parameter_by_name(evinst, name)","hidden":false,"returnType":2,"argCount":0,"args":[
@@ -248,9 +249,10 @@
             1,
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_evinst_get_parameter_by_name_final","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"fmod_studio_evinst_set_parameter_by_id","kind":1,"help":"fmod_studio_evinst_set_parameter_by_id(evinst, id_buf_addr, value)","hidden":false,"returnType":2,"argCount":0,"args":[
+        {"externalName":"fmod_studio_evinst_set_parameter_by_id","kind":1,"help":"fmod_studio_evinst_set_parameter_by_id(evinst, id_buf_addr, value, ignoreseek)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             1,
+            2,
             2,
           ],"resourceVersion":"1.0","name":"fmod_studio_evinst_set_parameter_by_id","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_evinst_set_parameters_by_ids","kind":1,"help":"fmod_studio_evinst_set_parameters_by_ids(evinst, buf, paramcount, ignoreseek)","hidden":false,"returnType":2,"argCount":0,"args":[
