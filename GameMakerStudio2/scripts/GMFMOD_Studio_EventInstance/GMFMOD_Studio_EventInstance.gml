@@ -52,7 +52,7 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 	};
 	
 	
-	/// @param {bool}
+	/// @returns {bool}
 	static getPaused = function()
 	{
 		return fmod_studio_evinst_get_paused(inst_);	
@@ -99,6 +99,7 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 	};
 	
 	/// @param   {number} propindex from FMOD_STUDIO_EVENT_PROPERTY_* constants
+	/// @param   {number} value
 	/// @returns {void}
 	static setProperty = function(propindex, value)
 	{
@@ -118,7 +119,7 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 	/// @returns {void}
 	static setTimelinePosition = function(timelinepos)
 	{
-		fmod_studio_evinst_set_timeline_position(inst_, timelinspos);
+		fmod_studio_evinst_set_timeline_position(inst_, timelinepos);
 	};
 	
 	
@@ -164,7 +165,7 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 	
 	/// @function get3DAttributes([_3D_attr]: GMFMOD_3D_ATTRIBUTES)
 	/// @description Gets the current 3D attributes of this event instance. If no argument is provided, a new object will be created. 
-	/// @param {GMFMOD_3D_ATTRIBUTES} _3D_attr (optional) 3D attributes object to populate with data.
+	/// @param {GMFMOD_3D_ATTRIBUTES} [_3D_attr] (optional) 3D attributes object to populate with data.
 	/// @returns {GMFMOD_3D_ATTRIBUTES} the 3D attributes object
 	static get3DAttributes = function(_3D_attr)
 	{

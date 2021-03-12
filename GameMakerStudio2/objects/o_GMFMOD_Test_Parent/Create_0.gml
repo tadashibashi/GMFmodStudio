@@ -15,9 +15,8 @@ function finish()
 	}
 }
 
-/// @func addFinishListener
 /// @param func callback function with one parameter for object index.
 function addFinishListener(func)
 {
-	array_push(onFinish, func);	
+	array_push(onFinish, func);
 }

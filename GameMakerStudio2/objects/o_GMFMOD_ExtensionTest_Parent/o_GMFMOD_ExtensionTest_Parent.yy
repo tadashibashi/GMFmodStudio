@@ -5,8 +5,8 @@
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
-    "name": "o_GMFMS_Test_Parent",
-    "path": "objects/o_GMFMS_Test_Parent/o_GMFMS_Test_Parent.yy",
+    "name": "o_GMFMOD_Test_Parent",
+    "path": "objects/o_GMFMOD_Test_Parent/o_GMFMOD_Test_Parent.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,

@@ -69,6 +69,10 @@ GMFMOD_Assert(GMFMOD_GetError() != FMOD_OK, true,
 	"EvInst Trigger Cue: non-cue event causes error");
 	
 fmod_studio_evinst_release(evicue);
+fmod_studio_system_flush_commands(studio);
+
+delete evdcue;
+delete evicue;
 
 // ----------------------------------------------------------------------------
 // EvInst Set/Get Pitch
@@ -158,8 +162,10 @@ var virttest_inst = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
 fmod_studio_evinst_start(virttest_inst);
 fmod_studio_evinst_start(evimusic);
 fmod_studio_system_flush_commands(studio);
-GMFMOD_Assert(fmod_studio_evinst_is_virtual(evimusic), false, "EvInst Is Virtual: false");
-GMFMOD_Assert(fmod_studio_evinst_is_virtual(virttest_inst), true, "EvInst Is Virtual: true");
+GMFMOD_Assert(fmod_studio_evinst_is_virtual(evimusic), false, 
+	"EvInst Is Virtual: false");
+GMFMOD_Assert(fmod_studio_evinst_is_virtual(virttest_inst), true, 
+	"EvInst Is Virtual: true");
 
 fmod_studio_evinst_stop(evimusic, FMOD_STUDIO_STOP_IMMEDIATE);
 fmod_studio_evinst_stop(virttest_inst, FMOD_STUDIO_STOP_IMMEDIATE);
@@ -217,7 +223,8 @@ delete attr;
 To create the mask you must perform bitwise OR and shift operations, the basic 
 form is 1 << listener_index ORd together with other required listener indices.
 For example to create a mask for listener index 0 and 2 the calculation would 
-be mask = (1 << 0) | (1 << 2), to include all listeners use the default mask of 0xFFFFFFFF.
+be mask = (1 << 0) | (1 << 2), to include all listeners use the default mask of 
+0xFFFFFFFF.
 */
 var mask = (1 << 0) | (1 << 2) | (1 << 3);
 
@@ -244,8 +251,9 @@ GMFMOD_Check("EvInst Set Parameter by Name Final: no errors");
 
 fmod_studio_system_flush_commands(studio);
 
-GMFMOD_Assert(fmod_studio_evinst_get_parameter_by_name_final(evimusic, "RoomSize") > 0,
-	true, "EvInst Get Parameter by Name final: command was flushed");
+GMFMOD_Assert(fmod_studio_evinst_get_parameter_by_name_final(evimusic, 
+	"RoomSize") > 0, true, 
+	"EvInst Get Parameter by Name final: command was flushed");
 
 fmod_studio_evinst_set_parameter_by_name(evimusic, "RoomSize", 0);
 fmod_studio_system_flush_commands(studio);
@@ -255,7 +263,8 @@ buf = GMFMOD_GetBuffer();
 fmod_studio_evdesc_get_paramdesc_by_name(evdmusic, "RoomSize", buf.getAddress());
 GMFMOD_Check("EvDesc Get Param Desc By Name: no errors");
 
-var pdesc/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
+var pdesc/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = 
+	new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
 buf.seekReset();
 pdesc.pid.writeToBuffer(buf);
 
@@ -289,7 +298,8 @@ buf = GMFMOD_GetBuffer();
 fmod_studio_evdesc_get_paramdesc_by_name(evdmusic, "Pitch", buf.getAddress());
 GMFMOD_Check("EvDesc Get Param Desc By Name: no errors");
 
-var pdesc2/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
+var pdesc2/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = 
+	new GMFMOD_STUDIO_PARAMETER_DESCRIPTION(buf);
 
 buf.seekReset();
 pdesc.pid.writeToBuffer(buf);
@@ -323,7 +333,7 @@ GMFMOD_Check("EvInst Get Channel Group: no errors");
 fmod_studio_evinst_set_reverb_level(evimusic, 0, .7654);
 GMFMOD_Check("EvInst Set Reverb Level: no errors");
 
-GMFMOD_Assert(fmod_studio_evinst_get_reverb_level(evimusic), .7654, 
+GMFMOD_Assert(fmod_studio_evinst_get_reverb_level(evimusic, 0), .7654, 
 	"EvInst Get Reverb Level matches");
 GMFMOD_Check("EvInst Get Reverb Level: no errors");
 

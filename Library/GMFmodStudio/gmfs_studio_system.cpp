@@ -62,12 +62,9 @@ gms_export void fmod_studio_system_initialize(char *ptr, double max_channels, do
 
 // Releases studio system resources.
 // Returns true on success, and false on error.
-gms_export double fmod_studio_system_release(char *ptr)
+gms_export void fmod_studio_system_release(char *ptr)
 {
-    auto studio = (FMOD::Studio::System *)ptr;
-    check = studio->release();
-
-    return (check == FMOD_OK);
+    check = ((FMOD::Studio::System *)ptr)->release();
 }
 
 // ============================================================================
@@ -82,20 +79,16 @@ gms_export void fmod_studio_system_update(char *ptr)
 
 // Flushes commands from Studio System.
 // Returns true on success, and false on error.
-gms_export double fmod_studio_system_flush_commands(char *ptr)
+gms_export void fmod_studio_system_flush_commands(char *ptr)
 {
     check = ((StudioSystem *)ptr)->flushCommands();
-
-    return (check == FMOD_OK);
 }
 
 // Flushes commands from Studio System.
 // Returns true on success, and false on error.
-gms_export double fmod_studio_system_flush_sample_loading(char *ptr)
+gms_export void fmod_studio_system_flush_sample_loading(char *ptr)
 {
     check = ((StudioSystem *)ptr)->flushSampleLoading();
-
-    return (check == FMOD_OK);
 }
 
 // ============================================================================

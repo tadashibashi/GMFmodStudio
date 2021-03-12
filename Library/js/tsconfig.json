@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "removeComments": true,
+      "outFile": "../../GameMakerStudio2_HTML5/extensions/GMFmodStudio/GMFmodStudio_ext.js",
+      "sourceMap": false
+    },
+    "include": [
+        "GMFmodStudio.ts", 
+        "GMFMOD_Studio_System.ts", 
+        "GMFMOD_Studio_EventDescription.ts",
+        "GMFMOD_Studio_EventInstance.ts",
+        "GMBuffer.ts",
+        "global.d.ts"],
+}

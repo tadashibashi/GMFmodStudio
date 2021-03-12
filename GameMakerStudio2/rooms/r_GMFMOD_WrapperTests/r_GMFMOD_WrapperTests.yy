@@ -22,7 +22,7 @@
   "creationCodeFile": "",
   "inheritCode": false,
   "instanceCreationOrder": [
-    {"name":"inst_4AE7A21D","path":"rooms/Room3/Room3.yy",},
+    {"name":"inst_4AE7A21D","path":"rooms/r_GMFMOD_WrapperTests/r_GMFMOD_WrapperTests.yy",},
   ],
   "inheritCreationOrder": false,
   "sequenceId": null,
@@ -50,7 +50,7 @@
     "path": "folders/Rooms.yy",
   },
   "resourceVersion": "1.0",
-  "name": "Room3",
+  "name": "r_GMFMOD_WrapperTests",
   "tags": [],
   "resourceType": "GMRoom",
 }

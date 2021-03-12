@@ -6,5 +6,6 @@ event_inherited();
 
 runTests([
 	o_GMFMOD_WrapperTest_StudioSystem,
-	o_GMFMOD_WrapperTest_EventDescription
+	o_GMFMOD_WrapperTest_EventDescription,
+	o_GMFMOD_WrapperTest_EventInstance,
 ]);

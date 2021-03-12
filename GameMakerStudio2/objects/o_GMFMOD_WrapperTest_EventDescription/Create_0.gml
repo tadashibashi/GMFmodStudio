@@ -1,8 +1,6 @@
 // Inherit the parent event
 event_inherited();
 
-timer = 0;
-
 studio.loadBankFile("soundbanks/Desktop/Master_ENG.bank",
     FMOD_STUDIO_LOAD_BANK_NORMAL);
 GMFMOD_Check("Loading master bank file");
