@@ -142,5 +142,3 @@ delete guid;
 // ============================================================================
 GMFMOD_Assert(fmod_studio_bus_get_path(bus), "bus:/", "Bus Get Path: matches");
 GMFMOD_Check("Bus Get Path: no errors");
-
-timer = 0;

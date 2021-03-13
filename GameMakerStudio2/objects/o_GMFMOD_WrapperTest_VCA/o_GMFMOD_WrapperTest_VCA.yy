@@ -22,6 +22,7 @@
   "physicsShapePoints": [],
   "eventList": [
     {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"parent":{"name":"o_GMFMOD_WrapperTest_VCA","path":"objects/o_GMFMOD_WrapperTest_VCA/o_GMFMOD_WrapperTest_VCA.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,"parent":{"name":"o_GMFMOD_WrapperTest_VCA","path":"objects/o_GMFMOD_WrapperTest_VCA/o_GMFMOD_WrapperTest_VCA.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],

@@ -9,6 +9,7 @@ runTests([
 	o_GMFMOD_WrapperTest_EventDescription,
 	o_GMFMOD_WrapperTest_EventInstance,
 	o_GMFMOD_WrapperTest_Bank,
-	
-	o_GMFMOD_WrapperTest_CommandReplay
+	o_GMFMOD_WrapperTest_Bus,
+	o_GMFMOD_WrapperTest_VCA,
+	o_GMFMOD_WrapperTest_CommandReplay,
 ]);

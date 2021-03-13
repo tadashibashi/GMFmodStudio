@@ -66,5 +66,3 @@ delete guid;
 GMFMOD_Assert(fmod_studio_vca_get_path(vca), "vca:/TestVCA",
     "VCA get path: matches");
 GMFMOD_Check("VCA get path: no errors");
-
-timer = 0;	

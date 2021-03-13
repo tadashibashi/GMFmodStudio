@@ -49,14 +49,16 @@ function GMFMOD_Studio_Bus() constructor
     	fmod_studio_bus_set_volume(bus_, volume);	
     };    
     
-    /// @param {bool} [getfinalvalue = true]
     /// @returns {number}
-    static getVolume = function(getfinalvalue)
+    static getVolume = function()
     {
-    	if (getfinalvalue == undefined || getfinalvalue)
-    		return fmod_studio_bus_get_volume_final(bus_);	
-    	else
-    		return fmod_studio_bus_get_volume(bus_);	
+    	return fmod_studio_bus_get_volume(bus_);	
+    };  
+    
+    /// @returns {number}
+    static getVolumeFinal = function()
+    {
+    	return fmod_studio_bus_get_volume_final(bus_);
     };
     
     /// @param {bool} mute
@@ -90,16 +92,16 @@ function GMFMOD_Studio_Bus() constructor
     };    
     
     
-    /// @param {number} [stopmode] (default: FMOD_STUDIO_STOP_ALLOWFADEOUT from FMOD_STUDIO_STOP_* constants
+    /// @param {number} [stopmode = FMOD_STUDIO_STOP_ALLOWFADEOUT]
     /// @returns {void}
     static stopAllEvents = function(stopmode)
     {
     	if (stopmode == undefined) stopmode = FMOD_STUDIO_STOP_ALLOWFADEOUT;
-    	fmod_studio_bus_stop_all_events(bus_, stop_mode);	
+    	fmod_studio_bus_stop_all_events(bus_, stopmode);	
     };
     
     
-    /// @param {bool} [exclusiveusage] (default: true)
+    /// @param {bool} [exclusiveusage = true]
     /// @returns {number} The cpu time spent processing this unit during the
     ///				last update.
     static getCPUUsage = function(exclusiveusage)
@@ -126,7 +128,7 @@ function GMFMOD_Studio_Bus() constructor
     	if (instanceof(memoryusage) == "GMFMOD_STUDIO_MEMORY_USAGE")
     		memoryusage.readFromBuffer(buf);
     	else
-    		memoryusagae = new GMFMOD_STUDIO_MEMORY_USAGE(buf);
+    		memoryusage = new GMFMOD_STUDIO_MEMORY_USAGE(buf);
     		
     	return memoryusage;
     };

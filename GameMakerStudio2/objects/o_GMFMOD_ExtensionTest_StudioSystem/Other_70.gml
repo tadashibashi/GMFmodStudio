@@ -14,5 +14,7 @@ if (checkedupdate == false)
 			map[?"type"],
 			FMOD_STUDIO_SYSTEM_CALLBACK_PREUPDATE,
 			"StudioSystem Callback: type");
+		
+		finish();
 	}
 }

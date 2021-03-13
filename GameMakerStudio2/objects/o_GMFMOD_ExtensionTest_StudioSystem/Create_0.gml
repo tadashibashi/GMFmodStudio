@@ -530,4 +530,4 @@ GMFMOD_Assert(fmod_studio_system_lookup_path(studio, buf.getAddress()),
 	"event:/Music", "StudioSystem Lookup Path: path matches");
 GMFMOD_Assert(GMFMOD_GetError(), FMOD_OK, 
 	"StudioSystem Lookup Path: no errors");
-
+	
