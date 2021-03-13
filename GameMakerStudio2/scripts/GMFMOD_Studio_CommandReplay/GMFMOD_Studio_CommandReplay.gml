@@ -54,11 +54,11 @@ function GMFMOD_Studio_CommandReplay() constructor
     }
     
     
-    /// @param {string} path
+    /// @param {string} path relative to working_directory
     /// @returns {void}
     static setBankPath = function(path)
     {
-    	fmod_studio_comreplay_set_bank_path(comrep_, path);	
+    	fmod_studio_comreplay_set_bank_path(comrep_, working_directory + path);	
     };
     
     

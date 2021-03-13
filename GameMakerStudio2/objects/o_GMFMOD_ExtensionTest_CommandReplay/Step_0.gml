@@ -17,6 +17,13 @@ if (timer == fps * 3)
 	
 	GMFMOD_Assert(fmod_studio_comreplay_is_valid(com), false,
 		"ComReplay Released");
+		
+	GMFMOD_Assert(recd_create_instance_callback &&
+		recd_frame_callback &&
+		recd_load_bank_callback,
+		true,
+		"Received all callbacks");	
+	
 	finish();
 }
 

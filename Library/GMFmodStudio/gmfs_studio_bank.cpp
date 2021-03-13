@@ -130,7 +130,7 @@ gms_export double fmod_studio_bank_get_event_list(char *ptr, double capacity, ch
         if (count > capacity)
             count = (int)capacity;
 
-        FMOD::Studio::EventDescription **events = new FMOD::Studio::EventDescription * [(int)count];
+        FMOD::Studio::EventDescription **events = new FMOD::Studio::EventDescription * [count];
         check = ((StudioBank *)ptr)->getEventList(events, count, &count);
 
         if (check == FMOD_OK)

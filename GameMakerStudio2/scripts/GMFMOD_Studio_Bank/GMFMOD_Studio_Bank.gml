@@ -27,6 +27,7 @@ function GMFMOD_Studio_Bank() constructor
         assign(argument[0]);
     }
     
+    
     /// @returns {number} the loading state constant (FMOD_STUDIO_LOADING_STATE_*)
     static getLoadingState = function()
     {
@@ -51,6 +52,12 @@ function GMFMOD_Studio_Bank() constructor
         return fmod_studio_bank_get_sample_loading_state(bank_);
     };
     
+    /// @returns {void}
+    static unload = function()
+    {
+    	fmod_studio_bank_unload(bank_);	
+    };
+    
     /// @returns {number} the number of busses in this bank
     static getBusCount = function()
     {
@@ -68,11 +75,10 @@ function GMFMOD_Studio_Bank() constructor
             return [];
         
         var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
-        var capacity = count * 8;
-        buf.allocate(capacity); // ensure buffer is big enough. 8 is sizeof byte
+        buf.allocate(count * 8); // ensure buffer is big enough. 8 is sizeof byte
         
         // Fill buffer with pointers
-        fmod_studio_bank_get_bus_list(bank_, capacity, buf.getAddress());
+        fmod_studio_bank_get_bus_list(bank_, count, buf.getAddress());
         
         if (GMFMOD_GetError() == FMOD_OK)
         {
@@ -104,29 +110,31 @@ function GMFMOD_Studio_Bank() constructor
     /// @returns {array<GMFMOD_Studio_EventDescription>}
     static getEventList = function(arr)
     {
-        var count = fmod_studio_bank_get_bus_count(bank_);
+        var count = fmod_studio_bank_get_event_count(bank_);
         
         if (GMFMOD_GetError() != FMOD_OK)
             return [];
         
         var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
-        var capacity = count * 8;
-        buf.allocate(capacity); // ensure buffer is big enough. 8 is sizeof byte
+        buf.allocate(count * 8); // ensure buffer is big enough. 8 is sizeof byte
         
         // Fill buffer with pointers
-        fmod_studio_bank_get_event_list(bank_, capacity, buf.getAddress());
+        fmod_studio_bank_get_event_list(bank_, count, buf.getAddress());
         
         if (GMFMOD_GetError() == FMOD_OK)
         {
             // No errors, commit changes
-            if (arr == undefined)           // user did not provide array: create
-                arr = array_create(count);
-            else                            // user provided one, resize
-                array_resize(arr, count);
+            if (is_array(arr))
+            	array_resize(arr, count);
+            else                       
+            	arr = array_create(count);
                 
             for (var i = 0; i < count; ++i) // populate array
-                arr[@i] = new GMFMOD_Studio_EventDescription(buf.read(buffer_u64));
-                
+            {
+            	arr[@i] = new GMFMOD_Studio_EventDescription(
+                	buf.read(buffer_u64));
+            }
+
             return arr;
         }
         else
@@ -154,11 +162,10 @@ function GMFMOD_Studio_Bank() constructor
             return [];
         
         var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
-        var capacity = count * 8;
-        buf.allocate(capacity); // ensure buffer is big enough. 8 is sizeof byte
+        buf.allocate(count * 8); // ensure buffer is big enough. 8 is sizeof byte
         
         // Fill buffer with pointers
-        fmod_studio_bank_get_vca_list(bank_, capacity, buf.getAddress());
+        fmod_studio_bank_get_vca_list(bank_, count, buf.getAddress());
         
         if (GMFMOD_GetError() == FMOD_OK)
         {
@@ -207,7 +214,8 @@ function GMFMOD_Studio_Bank() constructor
     };
     
     
-    /// @param {string} the path
+    /// @param   {number} index the path
+    /// @returns {string} path
     static getStringInfoPath = function(index)
     {
         return fmod_studio_bank_get_string_info_path(bank_, index);

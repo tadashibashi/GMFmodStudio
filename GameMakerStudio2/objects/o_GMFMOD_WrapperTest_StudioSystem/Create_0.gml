@@ -8,7 +8,7 @@ stopped = false;
  * StudioSystem: Banks
  * ========================================================================== */
  // ========== Bank Load File ==========
- bank = studio.loadBankFile("soundbanks/Desktop/Master_ENG.bank",  /// @is {GMFMOD_Studio_Bank}
+bank = studio.loadBankFile("soundbanks/Desktop/Master_ENG.bank",  /// @is {GMFMOD_Studio_Bank}
     FMOD_STUDIO_LOAD_BANK_NONBLOCKING);
 GMFMOD_Check("Loading Master Bank");
 GMFMOD_Assert(bank.isValid(), true, "Bank is valid");

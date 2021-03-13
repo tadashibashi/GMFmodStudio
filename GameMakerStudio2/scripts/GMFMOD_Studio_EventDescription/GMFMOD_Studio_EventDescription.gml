@@ -16,7 +16,7 @@ function GMFMOD_Studio_EventDescription() constructor
 				+ "a " + string(instanceof(self)) + " object!");
 	};
 	
-	if (argument_count == 1 && is_real(argument[0]))
+	if (argument_count == 1 && is_numeric(argument[0]))
 	{
 		assign(argument[0]);	
 	}
@@ -50,7 +50,7 @@ function GMFMOD_Studio_EventDescription() constructor
 		var count = fmod_studio_evdesc_get_instance_count(desc_);
 		buf.allocate(count * 8); // allow 8 bytes per pointer
 		
-		fmod_studio_evdesc_get_instance_list(desc_, buf.getSize()/8, buf.getAddress());
+		fmod_studio_evdesc_get_instance_list(desc_, count, buf.getAddress());
 
 		if (GMFMOD_GetError() == FMOD_OK)
 		{

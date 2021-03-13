@@ -502,7 +502,7 @@ function GMFMOD_Studio_System() constructor
 	/// @param   {number} commandreplayflags flags from FMOD_STUDIO_COMMANDREPLAY_*
 	/// @param   {GMFMOD_Studio_CommandReplay} [commandreplay] (optional) if you
 	///               want to provide your own object to accept values to.
-	/// @returns {void}
+	/// @returns {GMFMOD_Studio_CommandReplay}
 	static loadCommandReplay = function(filename, commandreplayflags, 
 		commandreplay)
 	{
