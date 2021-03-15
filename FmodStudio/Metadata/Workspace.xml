@@ -4,9 +4,7 @@
 		<property name="builtBanksOutputDirectory">
 			<value>../GameMakerStudio2/datafiles/soundbanks</value>
 		</property>
-		<property name="builtBanksEncryptionKey">
-			<value>encryptionkey</value>
-		</property>
+		<property name="builtBanksEncryptionKey" />
 		<relationship name="masterEventFolder">
 			<destination>{f504720a-0619-481d-961d-b299f47e7a32}</destination>
 		</relationship>

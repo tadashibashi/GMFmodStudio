@@ -1,20 +1,21 @@
 /// @description Playback capture timeline
 
 timer++;
-
 if (timer == 1)
 {
 	instmusic.start();
 	GMFMOD_Check("Starting music instance");
 }
 
-if (timer == 10 * 5)
+if (timer == 50)
 {
 	// ===== Instance Clean up =====
 	instmusic.stop(FMOD_STUDIO_STOP_IMMEDIATE);
 	GMFMOD_Check("Stopping music instance");
 	instmusic.release();
 	GMFMOD_Check("Releasing music instance");
+	studio.flushCommands();
+	GMFMOD_Check("Flushing commands");
 }
 
 if (timer == 10 * 1 || timer == 10 * 2 || timer == 10 * 3 || timer == 10 * 4)
@@ -23,12 +24,12 @@ if (timer == 10 * 1 || timer == 10 * 2 || timer == 10 * 3 || timer == 10 * 4)
 	GMFMOD_Check("Starting instblip");
 }
 
-if (timer == fps * 2)
+if (timer == 50)
 {
 	test();
 }
 
-if (timer == fps * 4)
+if (timer >= 120)
 {
 	comrep.stop();
 	GMFMOD_Check("Stopping command replay");

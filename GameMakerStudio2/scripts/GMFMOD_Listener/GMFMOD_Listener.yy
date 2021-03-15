@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "GMFMS_API",
-    "path": "folders/Scripts/GMFmodStudio/GMFMS_API.yy",
+    "name": "Components",
+    "path": "folders/Scripts/GMFmodStudio/Components.yy",
   },
   "resourceVersion": "1.0",
-  "name": "GMFMOD_PerformanceTester",
+  "name": "GMFMOD_Listener",
   "tags": [],
   "resourceType": "GMScript",
 }

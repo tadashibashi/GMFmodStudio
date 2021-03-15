@@ -28,13 +28,34 @@ GMFMOD_Check("Getting VCA volume");
 vca.setVolume(3);
 GMFMOD_Check("Setting volume");
 
+GMFMOD_Assert(vca.getVolume(), 3, "VCA volume is set to 3");
+
 studio.flushCommands();
 GMFMOD_Check("Flushing commands");
 
-show_debug_message("VCA:getVolumeFinal always returns 1, may be an FMOD bug");
+GMFMOD_Assert(vca.getVolumeFinal(), 1,
+    "VCA volume final is unchanged until an event attached to the VCA begins" +
+    " playing");
 
-GMFMOD_Assert(vca.getVolumeFinal(), 1, "VCA volume final is 1");
-GMFMOD_Check("Getting final volume");
+var instmusic = studio.getEvent("event:/UIBlip").createInstance();
+GMFMOD_Check("Creating music instance");
+instmusic.start();
+GMFMOD_Check("Starting music instance");
+
+while(vca.getVolumeFinal() != 3)
+{
+    studio.flushCommands();
+}
+
+GMFMOD_Assert(vca.getVolumeFinal(), 3, "Final volume value is 5");
+
+instmusic.stop(FMOD_STUDIO_STOP_IMMEDIATE);
+GMFMOD_Check("Stopping test instance");
+instmusic.release();
+GMFMOD_Check("Releasing test instance");
+
+studio.flushCommands();
+GMFMOD_Check("Flushing commands");
 
 // ===== Get ID =====
 var guid = new GMFMOD_GUID();

@@ -22,7 +22,7 @@ function GMFMOD_Studio_Bus() constructor
     };
     
     // Assignment handling during construction
-    if (argument_count > 0 && is_numeric(argument[0]))
+    if (argument_count > 0)
     {
         assign(argument[0]);
     }

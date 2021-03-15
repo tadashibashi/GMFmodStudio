@@ -21,7 +21,7 @@ function GMFMOD_Studio_CommandReplay() constructor
         {
         	// Clean up if there is already a valid command replay
         	// assigned to this object
-        	if (fmod_studio_comreplay_is_valid(comrep_))
+        	if (comrep_ != pointer_null && fmod_studio_comreplay_is_valid(comrep_))
         	{
         		// Stop if playing
         		if (fmod_studio_comreplay_get_playback_state(comrep_) !=
@@ -47,7 +47,7 @@ function GMFMOD_Studio_CommandReplay() constructor
     
     
     // Assignment handling during construction
-    if (argument_count == 2 && is_numeric(argument[0]) && 
+    if (argument_count == 2 && 
     	instanceof(argument[1]) == "GMFMOD_Studio_System")
     {
         assign(argument[0], argument[1]);

@@ -412,8 +412,5 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 	
 	
 	// Constructor initialization via handle
-	if (is_numeric(_handle))
-	{
-		assign(_handle);	
-	}
+	if (_handle != undefined) assign(_handle);	
 }

@@ -239,7 +239,8 @@ GMFMOD_Check("EvInst Get Listener Mask: no errors");
 // EvInst Set/Get Parameter
 // ----------------------------------------------------------------------------
 // by Name
-fmod_studio_evinst_set_parameter_by_name(evimusic, "RoomSize", .5);
+fmod_studio_evinst_set_parameter_by_name(evimusic, "RoomSize", 0, true);
+fmod_studio_evinst_set_parameter_by_name(evimusic, "RoomSize", .5, true);
 GMFMOD_Check("EvInst Set Parameter by Name: no errors");
 
 GMFMOD_Assert(fmod_studio_evinst_get_parameter_by_name(evimusic, "RoomSize"), .5,
@@ -250,12 +251,13 @@ GMFMOD_Assert(fmod_studio_evinst_get_parameter_by_name_final(evimusic, "RoomSize
 GMFMOD_Check("EvInst Set Parameter by Name Final: no errors");
 
 fmod_studio_system_flush_commands(studio);
+GMFMOD_Check("Flushing commands");
 
 GMFMOD_Assert(fmod_studio_evinst_get_parameter_by_name_final(evimusic, 
 	"RoomSize") > 0, true, 
 	"EvInst Get Parameter by Name final: command was flushed");
 
-fmod_studio_evinst_set_parameter_by_name(evimusic, "RoomSize", 0);
+fmod_studio_evinst_set_parameter_by_name(evimusic, "RoomSize", 0, true);
 fmod_studio_system_flush_commands(studio);
 
 // by ID
@@ -268,7 +270,7 @@ var pdesc/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ =
 buf.seekReset();
 pdesc.pid.writeToBuffer(buf);
 
-fmod_studio_evinst_set_parameter_by_id(evimusic, buf.getAddress(), .123);
+fmod_studio_evinst_set_parameter_by_id(evimusic, buf.getAddress(), .123, true);
 GMFMOD_Check("EvInst Set Parameter by ID: no errors");
 
 GMFMOD_Assert(
@@ -290,7 +292,7 @@ GMFMOD_Assert(
 	true,
 	"EvInst Get Parameter by ID final: command was flushed");
 	
-fmod_studio_evinst_set_parameter_by_id(evimusic, buf.getAddress(), 0);
+fmod_studio_evinst_set_parameter_by_id(evimusic, buf.getAddress(), 0, true);
 
 
 // set params by IDs

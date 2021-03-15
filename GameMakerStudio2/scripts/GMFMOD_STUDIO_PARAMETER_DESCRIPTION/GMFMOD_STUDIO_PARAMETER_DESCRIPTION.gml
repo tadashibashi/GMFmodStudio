@@ -64,7 +64,7 @@ function GMFMOD_STUDIO_PARAMETER_DESCRIPTION() constructor
 		///
 		
 		show_debug_message("===== GMFMOD_STUDIO_PARAMETER_DESCRIPTION Log =====");
-		show_debug_message("name: " + name);
+		show_debug_message("name: " + string(name));
 		show_debug_message("id: " + string(pid.data1) + ", " + string(pid.data2));
 		show_debug_message("minimum: " + string(minimum));
 		show_debug_message("maximum: " + string(maximum));

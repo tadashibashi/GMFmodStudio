@@ -351,7 +351,7 @@ gms_export void fmod_studio_evdesc_get_user_property(char *ptr, const char *name
                 buf.write_char_star(prop.stringvalue);
                 break;
             default:
-                std::cerr << "GMFMS Internal Error! Tried to get the value of user property \"" 
+                std::cerr << "GMFMOD Internal Error! Tried to get the value of user property \"" 
                     << prop.name << ", but the type of property was not supported.\n";
                 break;
             }

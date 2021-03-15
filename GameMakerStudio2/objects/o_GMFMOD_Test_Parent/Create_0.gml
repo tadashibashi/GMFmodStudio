@@ -1,7 +1,7 @@
 // Create and initialize the FMOD Studio System for testing
 
 
-perf = new GMFMOD_PerformanceTester();
+perf = new GMFMOD_Performance();
 
 onFinish = [];
 
@@ -11,12 +11,14 @@ function finish()
 	var len = array_length(onFinish);
 	for (var i = 0; i < len; ++i)
 	{
-		onFinish[i](self);	
+		array_get(onFinish, i)(self);
 	}
 }
+
 
 /// @param func callback function with one parameter for object index.
 function addFinishListener(func)
 {
 	array_push(onFinish, func);
 }
+

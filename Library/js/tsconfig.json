@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "removeComments": true,
-      "outFile": "../../GameMakerStudio2_HTML5/extensions/GMFmodStudio/GMFmodStudio_ext.js",
+      "outFile": "../../GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio_ext.js",
       "sourceMap": false
     },
     "include": [
@@ -10,5 +10,9 @@
         "GMFMOD_Studio_EventDescription.ts",
         "GMFMOD_Studio_EventInstance.ts",
         "GMBuffer.ts",
+        "GMFMOD_Studio_Bank.ts",
+        "GMFMOD_Studio_CommandReplay.ts",
+        "GMFMOD_Studio_Bus.ts",
+        "GMFMOD_Studio_VCA.ts",
         "global.d.ts"],
 }

@@ -46,8 +46,8 @@
     "PhysicsWorldPixToMetres": 0.1,
   },
   "parent": {
-    "name": "Extension Tests",
-    "path": "folders/Objects/GMFmodStudio Tests/Extension Tests.yy",
+    "name": "Rooms",
+    "path": "folders/Rooms.yy",
   },
   "resourceVersion": "1.0",
   "name": "r_GMFMOD_ExtensionTests",

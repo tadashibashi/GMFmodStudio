@@ -88,7 +88,8 @@ GMFMOD_Check("Getting Bank List");
 GMFMOD_Assert(array_length(banklist), 2, "Bank list count is consistent");
 for (var i = 0; i < array_length(banklist); ++i)
 {
-    GMFMOD_Assert(banklist[i].isValid(), true, "Bank list banks are valid");
+	var currentbank = array_get(banklist, i);
+    GMFMOD_Assert(currentbank.isValid(), true, "Bank list banks are valid");
 }
 
 // === Unload All (All Banks Unload ===
@@ -246,17 +247,16 @@ delete evdescByRef;
 
 
 // ===== Get/Set Global Parameter by Name =====
-
 studio.setParameterByName("Weather", 2.345, true);
 GMFMOD_Check("Setting global parameter Weather");
 GMFMOD_Assert(studio.getParameterByName("Weather"), 2.345,
 	"Get param by name matches");
-
+studio.flushCommands();
 studio.setParameterByName("Weather", 0, false);
 studio.flushCommands();
 GMFMOD_Assert(studio.getParameterByNameFinal("Weather") < 2.345, true,
 	"Get global paramter final value");
-
+GMFMOD_Check("Getting parameter by name final value");
 	
 // ===== Get Global Parameter Description =====
 GMFMOD_Assert(studio.getParameterDescriptionCount(), 2, 
@@ -266,13 +266,14 @@ GMFMOD_Check("Getting paramter description count");
 var paramdesc/*: GMFMOD_STUDIO_PARAMETER_DESCRIPTION*/ = 
 	studio.getParameterDescriptionByIndex(0);
 GMFMOD_Check("Getting Parameter Description by Index");
-
+paramdesc.log();
 GMFMOD_Assert(
 	paramdesc.name == "Weather" && paramdesc.maximum == 3 && 
-		paramdesc.minimum == 0 && paramdesc.defaultvalue = 1.78 &&
+		paramdesc.minimum == 0 && paramdesc.defaultvalue == 1.78 &&
 		paramdesc.flags == FMOD_STUDIO_PARAMETER_GLOBAL &&
-		paramdesc.pid.data1 >= 0 && paramdesc.pid.data2 >= 0,
-	true, 
+		is_numeric(paramdesc.pid.data1) && 
+		is_numeric(paramdesc.pid.data2),
+	true,
 	"StudioSystem Get Parameter Description By Index");
 delete paramdesc;
 
@@ -282,10 +283,11 @@ GMFMOD_Check("Getting Parameter Description by Index, pass by ref");
 
 GMFMOD_Assert(
 	paramdesc.name == "Weather" && paramdesc.maximum == 3 && 
-		paramdesc.minimum == 0 && paramdesc.defaultvalue = 1.78 &&
+		paramdesc.minimum == 0 && paramdesc.defaultvalue == 1.78 &&
 		paramdesc.flags == FMOD_STUDIO_PARAMETER_GLOBAL &&
-		paramdesc.pid.data1 >= 0 && paramdesc.pid.data2 >= 0,
-	true, 
+		is_numeric(paramdesc.pid.data1) && 
+		is_numeric(paramdesc.pid.data2),
+	true,
 	"StudioSystem Get Parameter Description By Index pass by ref");
 	
 delete paramdesc;

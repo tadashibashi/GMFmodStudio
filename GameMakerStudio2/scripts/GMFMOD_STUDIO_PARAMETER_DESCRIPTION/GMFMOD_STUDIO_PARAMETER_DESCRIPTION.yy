@@ -2,8 +2,8 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "GMFMS_Structs",
-    "path": "folders/Scripts/GMFmodStudio/GMFMS_Structs.yy",
+    "name": "FMOD Struct Types",
+    "path": "folders/Scripts/GMFmodStudio/FMOD Struct Types.yy",
   },
   "resourceVersion": "1.0",
   "name": "GMFMOD_STUDIO_PARAMETER_DESCRIPTION",

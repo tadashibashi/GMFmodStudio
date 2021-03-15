@@ -1,40 +1,64 @@
+declare var fmodFiles: Array<string>;
+declare var gameRootDir: string;
+declare namespace GMS_API {
+    export function send_async_event_social(obj: any): void;
+}
+
+
+let out: Out<any> = {val: 0};
+let check: FMOD.RESULT = 0;
+var fmodInitialized = false;
+
 const fmod: FMOD = {};
+
 fmod['preRun'] = preRun;
 fmod['onRuntimeInitialized'] = main;
 FMODModule(fmod);
-let out: Out<any> = {val: 0};
-let check: FMOD.RESULT = 0;
 
+var fmodFiles = fmodFiles || [];
+var gameRootDir = gameRootDir || "html5game";
+    
 let gStudio: FMOD.StudioSystem = null;
 
-declare var fmodFiles: Array<string>;
+function GMFMOD_IntegrationInitialized(): boolean
+{
+    return fmodInitialized;
+}
 
 function preRun()
 {
-    var map = new Set<string>();
-    fmodFiles.forEach(path => {
-        var lastslash = path.lastIndexOf("/");
-        if (lastslash !== -1)
-        {
-            var folder = path.substr(0, lastslash + 1);
-            var filename = path.substr(lastslash + 1);
-            console.log("folder:   " + folder);
-            console.log("filename: " + filename);
-            if (!map.has(folder))
-            {
-                fmod.FS_createFolder("/", folder, true, true);
-                map.add(folder);
-            }
+    if (fmodFiles != undefined)
+    {
+        var map = new Set<string>();
+        map.add("/");
 
-            fmod.FS_createPreloadedFile(folder, filename, path, true, false);
-        }
-        else
-        {
-            fmod.FS_createPreloadedFile("/", path, path, true, false);
-        }
-    });
-    //fmod.FS_createPreloadedFile("/", "Master.bank", "html5game/soundbanks/Mobile/Master.bank", true, false);
-    //fmod.FS_createPreloadedFile("/", "Master.strings.bank", "html5game/soundbanks/Mobile/Master.strings.bank", true, false);
+        fmodFiles.forEach(path => {
+            let toks = path.split("/");
+            toks.unshift(gameRootDir);
+
+            let parentFolder = "";
+            for (let i = 0; i < toks.length; ++i)
+            {
+                let tok = toks[i];
+                if (i < toks.length - 1) // make folder
+                {
+                    let newfolder = parentFolder + "/" + tok;
+                    if (!map.has(newfolder))
+                    {
+                        fmod.FS_createFolder(parentFolder + "/", tok, true, true);
+                        map.add(newfolder);
+                    }
+
+                    parentFolder = newfolder;
+                }
+                else                     // create file
+                {
+                    fmod.FS_createPreloadedFile(parentFolder + "/", tok, 
+                        gameRootDir + "/" + path, true, false);
+                }
+            }
+        });
+    }
 }
 
 function handleVisibilityChange()
@@ -47,8 +71,6 @@ function handleVisibilityChange()
     if (document.visibilityState === 'visible')
     {
         core.mixerResume();
-        
-        
     }
     else
     {
@@ -57,13 +79,16 @@ function handleVisibilityChange()
 }
 document.addEventListener("visibilitychange", handleVisibilityChange);
 
+
+
 function main()
 {
+    fmodInitialized = true;
     console.log("fmod main function");
 }
 
 
-function CHECK_RESULT(result: FMOD.RESULT): void
+function GMFMOD_CHECK(result: FMOD.RESULT): void
 {
     if (result != FMOD.RESULT.OK)
     {
@@ -77,12 +102,12 @@ function resumeAudio()
     if (gStudio)
     {
         gStudio.getCoreSystem(out);
-        var gSystem = out.val;
+        var gSystem: FMOD.System = out.val;
         console.log("Resetting audio driver based on user input.");
         check = gSystem.mixerSuspend();
-        CHECK_RESULT(check);
+        GMFMOD_CHECK(check);
         check = gSystem.mixerResume();
-        CHECK_RESULT(check);
+        GMFMOD_CHECK(check);
         
         // Remove event listener
         if (iOS)
@@ -107,6 +132,8 @@ else
     document.addEventListener('click', resumeAudio);
 }
 
+
+
 // Called on extension connection
 function RegisterCallbacks(arg1, arg2, arg3, arg4): void
 {
@@ -123,5 +150,15 @@ function emfs_create_preloaded_file(
     canread:boolean, canwrite:boolean)
 {
     check = fmod.FS_createPreloadedFile(foldername, filename, actualpath, canread, canwrite);
-    CHECK_RESULT(check);
+    GMFMOD_CHECK(check);
+}
+
+function gmfms_get_error()
+{
+    return check;
+}
+
+function gmfms_get_error_string()
+{
+    return fmod.ErrorString(check);
 }

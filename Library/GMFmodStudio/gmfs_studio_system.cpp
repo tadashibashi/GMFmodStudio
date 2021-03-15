@@ -200,6 +200,10 @@ gms_export double fmod_studio_system_get_bank_list(char *ptr, double capacity, c
     return static_cast<double>(count);
 }
 
+// ============================================================================
+// Listeners
+// ============================================================================
+
 gms_export void fmod_studio_system_set_listener_attributes(char *ptr, double listener, char *gmbuf)
 {
     if (((StudioSystem *)ptr)->isValid())
@@ -285,6 +289,11 @@ gms_export double fmod_studio_system_get_num_listeners(char *ptr)
     return static_cast<double>(listener_count);
 }
 
+
+// ============================================================================
+// Busses
+// ============================================================================
+
 gms_export double fmod_studio_system_get_bus(char *ptr, char *path)
 {   
     FMOD::Studio::Bus *bus{ };
@@ -319,6 +328,10 @@ gms_export double fmod_studio_system_get_bus_by_id(char *ptr, char *gmbuf)
     
     return (double)(uintptr_t)bus;
 }
+
+// ============================================================================
+// Events
+// ============================================================================
 
 gms_export double fmod_studio_system_get_event(char *ptr, const char *path)
 {
@@ -468,14 +481,16 @@ gms_export void fmod_studio_system_get_paramdesc_by_index(char *ptr, double inde
 {
     auto studio = (FMOD::Studio::System *)ptr;
 
-    // flag that checks if the user has queried the parameter descriptions or not yet.
-    static bool queried;
+    // Flag that checks the last queried system. Prevents needing to query every time a studio
+    // system makes sequential calls.
+    static uintptr_t queried;
 
     if (studio->isValid())
     {
         // Set the global var storage of paramdescs once
-        if (!queried)
+        if (queried != (uintptr_t)ptr)
         {
+            fmod_studio_global_params.clear();
             int count{ };
             check = studio->getParameterDescriptionCount(&count);
             if (check != FMOD_OK) return;
@@ -499,13 +514,13 @@ gms_export void fmod_studio_system_get_paramdesc_by_index(char *ptr, double inde
                 delete[] params;
             }
 
-            queried = true;
+            queried = (uintptr_t)ptr;
         }
 
         // Ensure index is in range.
         if (index >= fmod_studio_global_params.size())
         {
-            std::cerr << "GMFMS Fatal Error! Queried an index of an array of global parameter descriptions out of range!\n";
+            std::cerr << "GMFMOD Fatal Error! Queried an index of an array of global parameter descriptions out of range!\n";
             return;
         }
 
@@ -704,6 +719,9 @@ gms_export void fmod_studio_system_get_memory_usage(char *ptr, char *gmbuf)
 // Custom DSP Plug-ins (not supported via GameMaker extension)
 // ============================================================================
 
+// ============================================================================
+// General
+// ============================================================================
 
 gms_export void fmod_studio_system_set_callback(char *ptr, double callbackmask)
 {

@@ -1,5 +1,5 @@
-/// @struct GMFMOD_PerformanceTester()
-function GMFMOD_PerformanceTester() constructor
+/// @struct GMFMOD_Performance()
+function GMFMOD_Performance() constructor
 {
 	/// @description     This object tracks the performance time of your code and logs it to 
     ///                  the console.
@@ -53,5 +53,5 @@ function GMFMOD_PerformanceTester() constructor
 	};
 }
 
-/// @hint GMFMOD_PerformanceTester:start([name: string])->void Starts a test.
-/// @hint GMFMOD_PerformanceTester:stop([name: string])->void Starts a test.
+/// @hint GMFMOD_Performance:start([name: string])->void Starts a test.
+/// @hint GMFMOD_Performance:stop([name: string])->void Starts a test.

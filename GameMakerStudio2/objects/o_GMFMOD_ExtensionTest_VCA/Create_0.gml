@@ -31,11 +31,29 @@ GMFMOD_Check("VCA get volume: no errors");
 fmod_studio_system_flush_commands(studio);
 GMFMOD_Check("VCA get volume final: update no errors");
 
-show_debug_message("fmod_studio_vca_volume_final always results in 1, may be " +
-    "a bug on FMOD's side");
 GMFMOD_Assert(fmod_studio_vca_get_volume_final(vca), 1, 
-    "VCA get volume final");
+    "VCA get volume final. Before running an event instance.");
 GMFMOD_Check("VCA get volume final: no errors");
+
+var evdblip = GMFMOD_Ptr(fmod_studio_system_get_event(studio, "event:/UIBlip"));
+GMFMOD_Check("Getting event UIBlip");
+var eviblip = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdblip));
+GMFMOD_Check("Creating event instance");
+fmod_studio_evinst_start(eviblip);
+GMFMOD_Check("Starting event instance");
+
+while(fmod_studio_vca_get_volume_final(vca) != 3)
+{
+	fmod_studio_system_flush_commands(studio);
+}
+GMFMOD_Assert(fmod_studio_vca_get_volume_final(vca), 3, "VCA final vol is 3");
+
+fmod_studio_evinst_stop(eviblip, FMOD_STUDIO_STOP_IMMEDIATE);
+GMFMOD_Check("Stopping test instance");
+fmod_studio_evinst_release(eviblip);
+GMFMOD_Check("Releasing test instance");
+fmod_studio_system_flush_commands(studio);
+GMFMOD_Check("Flushing commands");
 
 // ============================================================================
 // Vca Get Id

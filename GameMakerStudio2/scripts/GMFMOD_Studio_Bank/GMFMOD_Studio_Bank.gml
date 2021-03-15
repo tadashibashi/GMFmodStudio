@@ -22,7 +22,7 @@ function GMFMOD_Studio_Bank() constructor
     };
     
     // Assignment handling during construction
-    if (argument_count > 0 && is_numeric(argument[0]))
+    if (argument_count > 0)
     {
         assign(argument[0]);
     }
@@ -103,7 +103,7 @@ function GMFMOD_Studio_Bank() constructor
     static getEventCount = function()
     {
         return fmod_studio_bank_get_event_count(bank_);
-    }
+    };
     
     /// note: please use sparingly, since dynamic memory is allocated on every call to this function.
     /// @param {array<any>} [arr] a pre-defined array to populate, otherwise the function creates and returns a new one.
@@ -148,7 +148,7 @@ function GMFMOD_Studio_Bank() constructor
     static getVCACount = function()
     {
         return fmod_studio_bank_get_vca_count(bank_);
-    }
+    };
     
     
     /// note: please use sparingly, since dynamic memory is allocated on every call to this function.

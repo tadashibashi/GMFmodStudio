@@ -12,6 +12,7 @@ currentProgress = 0;
 window_width = 800;
 window_height = 200;
 color_shift = 0;
+finished = false;
 
 function runNextTest(obj_index)
 {
@@ -22,6 +23,7 @@ function runNextTest(obj_index)
 	if (currentTest >= array_length(tests))
 	{
 		show_debug_message("Test Runner has completed all its tests!");	
+		finished = true;
 	}
 	else
 	{
@@ -49,6 +51,6 @@ function runTests(_tests)
 		show_debug_message("|                                                             |");
 		show_debug_message("o=============================================================o");
 		var testObj = instance_create_depth(0, 0, 0, tests[0]);
-		testObj.addFinishListener(runNextTest);	
+		testObj.addFinishListener(runNextTest);
 	}
 }

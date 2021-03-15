@@ -364,6 +364,10 @@ declare interface FMOD {
     /**
      * Creates a default structure
      */
+    STUDIO_PARAMETER_ID?(): FMOD.STUDIO_PARAMETER_ID;
+    /**
+     * Creates a default structure
+     */
     STUDIO_PLUGIN_INSTANCE_PROPERTIES?(): FMOD.STUDIO_PLUGIN_INSTANCE_PROPERTIES;
     /**
      * Creates a default structure
@@ -1789,9 +1793,10 @@ Also defines the number of channels in the unit that a read callback will proces
          * Retrieves the position, velocity and orientation of the 3D sound listener.
          * @param listener Listener index. Specify 0 if there is only 1 listener. 
          * @param attributes Address of a variable to receive the 3D attributes for the listener. See FMOD_3D_ATTRIBUTES. 
+         * @param n Note sure what this is. fmodstudio.js requires it for some reason.
          * @returns an integer value defined in the FMOD_RESULT enumeration
          */
-        getListenerAttributes(listener:number, attributes:Out<_3D_ATTRIBUTES>): RESULT;
+        getListenerAttributes(listener:number, attributes:Out<_3D_ATTRIBUTES>, n?:any): RESULT;
         /** 
          * Gets the listener weighting, which allows listeners to fade in and out
          * @param listner Listener index.
@@ -1806,6 +1811,13 @@ Also defines the number of channels in the unit that a read callback will proces
          * @returns an integer value defined in the FMOD_RESULT enumeration
          */
         getCoreSystem(systemOut:Out<System>): RESULT;
+
+        /**
+         * Retrieves the Studio System's current memory usage.
+         * @param usageOut Memory usage data 
+         * @returns an integer value defined in the FMOD_RESULT enumeration
+         */
+        getMemoryUsage(usageOut:Out<STUDIO_MEMORY_USAGE>): RESULT;
         /** 
          * Gets the number of listeners that have been set into in the 3D sound scene.
          * @param numlistenersOut Number of listeners that have been set. 
@@ -1957,7 +1969,7 @@ Also defines the number of channels in the unit that a read callback will proces
          * including the terminating null character. Optional. Specify 0 or NULL to ignore.
          * @returns an integer value defined in the FMOD_RESULT enumeration
          */
-        lookupPath(id:GUID, path:string, size:number, retrieved:Out<number>): RESULT;
+        lookupPath(id:GUID, path:Out<string>, size:number, retrieved:Out<number>): RESULT;
         /** 
          * Registers a third party plugin DSP for use by events loaded by the Studio API.
          * @param description The description of the DSP. See FMOD_DSP_DESCRIPTION
@@ -1991,9 +2003,10 @@ Also defines the number of channels in the unit that a read callback will proces
          * Sets the position, velocity and orientation of the 3D sound listener.
          * @param listener index. Specify 0 if there is only 1 listener.
          * @param attributes The 3D attributes for the listener. See FMOD_3D_ATTRIBUTES. 
+         * @param n Not sure what this is. fmodstudio.js requires it for some reason.
          * @returns an integer value defined in the FMOD_RESULT enumeration
          */
-        setListenerAttributes(listener:number, attributes:_3D_ATTRIBUTES): RESULT;
+        setListenerAttributes(listener:number, attributes:_3D_ATTRIBUTES, n?:any): RESULT;
         /** 
          * Sets the listener weighting, allowing listeners to fade in and out.
          * @param listner Listener index. 
@@ -2006,7 +2019,7 @@ Also defines the number of channels in the unit that a read callback will proces
          * @param numlisteners Number of listeners in the scene. Valid values are from 1
          *  to FMOD_MAX_LISTENERS inclusive. Default = 1. 
          * @returns an integer value defined in the FMOD_RESULT enumeration */
-        setNumListners(numlisteners:number): RESULT;
+        setNumListeners(numlisteners:number): RESULT;
         /**
          * Sets a global parameter value by unique identifier.
          * If any ID is set to all zeroes then the corresponding value will be ignored.
@@ -2075,7 +2088,7 @@ Also defines the number of channels in the unit that a read callback will proces
          * Retrieves the GUID
          * @param id Event description GUID
          */
-        getID(id:Out<GUID>): RESULT;
+        getID(id:GUID): RESULT;
         /**
          * Retrieves the number of instances
          * @param count Instance count.
@@ -2103,19 +2116,19 @@ Also defines the number of channels in the unit that a read callback will proces
          * @param name Parameter name (case-insensitive)
          * @param parameter Parameter description.
          */
-        getParameterDescriptionByName(name:string, parameter:Out<STUDIO_PARAMETER_DESCRIPTION>): RESULT;
+        getParameterDescriptionByName(name:string, parameter:STUDIO_PARAMETER_DESCRIPTION): RESULT;
         /**
          * Retrieves an event parameter description by id.
          * @param id Parameter id
          * @param paramOut Parameter description
          */
-        getParameterDescriptionByID(id: STUDIO_PARAMETER_ID, paramOut: Out<STUDIO_PARAMETER_DESCRIPTION>): RESULT;
+        getParameterDescriptionByID(id: STUDIO_PARAMETER_ID, paramOut: STUDIO_PARAMETER_DESCRIPTION): RESULT;
         /**
          * Retrieves an event parameter description by index.
          * @param index Parameter index.
          * @param paramOut Parameter description.
          */
-        getParameterDescriptionByIndex(index:number, paramOut:Out<STUDIO_PARAMETER_DESCRIPTION>): RESULT;
+        getParameterDescriptionByIndex(index:number, paramOut:STUDIO_PARAMETER_DESCRIPTION): RESULT;
         /**
          * Retrieves the number of parameters in the event
          * May be used in conjunction with EventDescription.getParameterDescriptionByIndex
@@ -2132,9 +2145,9 @@ Also defines the number of channels in the unit that a read callback will proces
 
         getUserData(userdata:Out<any>): RESULT;
 
-        getUserProperty(name:string, property:Out<STUDIO_USER_PROPERTY>): RESULT;
+        getUserProperty(name:string, property:STUDIO_USER_PROPERTY): RESULT;
 
-        getUserPropertyByIndex(index:number, property:Out<STUDIO_USER_PROPERTY>): RESULT;
+        getUserPropertyByIndex(index:number, property:STUDIO_USER_PROPERTY): RESULT;
 
         getUserPropertyCount(count:Out<number>): RESULT;
 
@@ -2157,6 +2170,8 @@ Also defines the number of channels in the unit that a read callback will proces
         setUserData(userdata:any): RESULT;
 
         unloadSampleData(): RESULT;
+
+        isValid(): boolean;
     }
 
     export interface EventInstance {
@@ -2450,6 +2465,8 @@ Also defines the number of channels in the unit that a read callback will proces
          * Releases the Low Level ChannelGroup locked by Studio::Bus::lockChannelGroup.
          */
         unlockChannelGroup(): RESULT;
+
+        isValid(): boolean;
     }
     
     export interface ParameterInstance {
@@ -2494,6 +2511,8 @@ Also defines the number of channels in the unit that a read callback will proces
          * @param volume The volume level to set as a linear gain. 0 = silent, 1 = full volume.
          */
         getsetVolume (volume:number) : RESULT;
+
+        isValid(): boolean;
     }
 
     export interface Bank {
@@ -2593,6 +2612,8 @@ Also defines the number of channels in the unit that a read callback will proces
          * @description Each time this function is called, it will decrement the reference count. If the reference count goes to zero, the sample data will be unloaded. Any sample data that is being used by event instances will not be unloaded until the event instances are released.
          */
         unloadSampleData(): RESULT;
+
+        isValid(): boolean;
     }
 
 
@@ -2638,6 +2659,8 @@ Also defines the number of channels in the unit that a read callback will proces
         start(): RESULT;
 
         stop(): RESULT;
+
+        isValid(): boolean;
     }
 
     //#endregion Studio System Objects \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -4815,7 +4838,7 @@ Also defines the number of channels in the unit that a read callback will proces
     }
 
     export interface STUDIO_SYSTEM_CALLBACK {
-        (system:StudioSystem, type, commanddata:any, userdata:any): RESULT
+        (system:StudioSystem, type: STUDIO_SYSTEM_CALLBACK_TYPE, commanddata:any, userdata:any): RESULT
     }
 
     // #endregion Studio Callbacks
@@ -4917,7 +4940,7 @@ Also defines the number of channels in the unit that a read callback will proces
 
     export interface STUDIO_CPU_USAGE {
         /** Returns the % CPU time taken by DSP processing on the low level mixer thread.  */
-        dpsusage:number;
+        dspusage:number;
         /** Returns the % CPU time taken by stream processing on the low level stream thread. */
         streamusage:number;
         /** Returns the % CPU time taken by geometry processing on the low level geometry thread.  */
@@ -4929,15 +4952,26 @@ Also defines the number of channels in the unit that a read callback will proces
         studiousage:number;
     }
 
-    export interface STUDIO_PARAMETER_DESCRIPTION {
-        name:string;
-        id:number;
-        minimum:number;
-        maximum:number;
-        defaultvalue:number;
-        type;
+    export interface STUDIO_MEMORY_USAGE {
+        exclusive:number;
+        inclusive:number;
+        sampledata:number;
     }
 
+    export interface STUDIO_PARAMETER_DESCRIPTION {
+        name: string;
+        id: STUDIO_PARAMETER_ID;
+        minimum: number;
+        maximum: number;
+        defaultvalue: number;
+        type: STUDIO_PARAMETER_TYPE;
+        flags: STUDIO_PARAMETER_FLAGS;
+    }
+
+    export interface STUDIO_PARAMETER_ID {
+        data1: number;
+        data2: number;
+    }
 
     export interface STUDIO_PLUGIN_INSTANCE_PROPERTIES {
         name:string;
@@ -5181,6 +5215,13 @@ Also defines the number of channels in the unit that a read callback will proces
         AUTOMATIC_LISTENER_ORIENTATION,
         /** Maximum number of parameter types supported */
         MAX    
+    }
+
+    export const enum STUDIO_PARAMETER_FLAGS {
+        READONLY  = 0x00000001,
+        AUTOMATIC = 0x00000002,
+        GLOBAL    = 0x00000004,
+        DISCRETE  = 0x00000008,
     }
 
     /** These values describe the playback state of an event instance. */

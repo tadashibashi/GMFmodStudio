@@ -6,11 +6,12 @@ function gmfms_interpret_string(charPtr: number)
     return charStars.get(charPtr);
 }
 
+
 class GMBuffer
 {
     private view: DataView;
     private pos: number;
-
+    private endianness: boolean = true; // 1=little, 0=big
     constructor(buf: ArrayBuffer)
     {
         this.view = new DataView(buf);
@@ -24,35 +25,35 @@ class GMBuffer
 
     public readInt16(): number
     {
-        var val = this.view.getInt16(this.pos);
+        var val = this.view.getInt16(this.pos, this.endianness);
         this.pos += 2;
         return val;
     }
 
     public readInt32(): number
     {
-        var val = this.view.getInt32(this.pos);
+        var val = this.view.getInt32(this.pos, this.endianness);
         this.pos += 4;
         return val;
     }
 
     public readInt64(): bigint
     {
-        var val = this.view.getBigInt64(this.pos);
+        var val = this.view.getBigInt64(this.pos, this.endianness);
         this.pos += 8;
         return val;
     }
 
     public readFloat32(): number
     {
-        var val = this.view.getFloat32(this.pos);
+        var val = this.view.getFloat32(this.pos, this.endianness);
         this.pos += 4;
         return val;
     }
 
     public readFloat64(): number
     {
-        var val = this.view.getFloat64(this.pos);
+        var val = this.view.getFloat64(this.pos, this.endianness);
         this.pos += 8;
         return val;
     }
@@ -64,21 +65,21 @@ class GMBuffer
 
     public readUint16(): number
     {
-        var val = this.view.getUint16(this.pos);
+        var val = this.view.getUint16(this.pos, this.endianness);
         this.pos += 2;
         return val;
     }
 
     public readUint32(): number
     {
-        var val = this.view.getUint32(this.pos);
+        var val = this.view.getUint32(this.pos, this.endianness);
         this.pos += 4;
         return val;
     }
 
     public readUint64(): bigint
     {
-        var val = this.view.getBigUint64(this.pos);
+        var val = this.view.getBigUint64(this.pos, this.endianness);
         this.pos += 8;
         return val;
     }
@@ -103,19 +104,19 @@ class GMBuffer
 
     public writeInt16(value: number): void
     {
-        this.view.setInt16(this.pos, value);
+        this.view.setInt16(this.pos, value, this.endianness);
         this.pos += 2;
     }
 
     public writeInt32(value: number): void
     {
-        this.view.setInt32(this.pos, value);
+        this.view.setInt32(this.pos, value, this.endianness);
         this.pos += 4;
     }
 
     public writeInt64(value: bigint): void
     {
-        this.view.setBigInt64(this.pos, value);
+        this.view.setBigInt64(this.pos, value, this.endianness);
         this.pos += 8;
     }
 
@@ -126,31 +127,31 @@ class GMBuffer
 
     public writeUint16(value: number): void
     {
-        this.view.setUint16(this.pos, value);
+        this.view.setUint16(this.pos, value, this.endianness);
         this.pos += 2;
     }
 
     public writeUint32(value: number): void
     {
-        this.view.setUint32(this.pos, value);
+        this.view.setUint32(this.pos, value, this.endianness);
         this.pos += 4;
     }
 
     public writeUint64(value: bigint): void
     {
-        this.view.setBigUint64(this.pos, value);
+        this.view.setBigUint64(this.pos, value, this.endianness);
         this.pos += 8;
     }
 
     public writeFloat32(value: number): void
     {
-        this.view.setFloat32(this.pos, value);
+        this.view.setFloat32(this.pos, value, this.endianness);
         this.pos += 4;
     }
 
     public writeFloat64(value: number): void
     {
-        this.view.setFloat64(this.pos, value);
+        this.view.setFloat64(this.pos, value, this.endianness);
         this.pos += 8;
     }
 
@@ -179,3 +180,4 @@ class GMBuffer
         this.pos = 0;
     }
 }
+

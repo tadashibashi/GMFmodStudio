@@ -10,13 +10,15 @@ function GMFMOD_Studio_EventDescription() constructor
 	{
 		var desc = /*#cast*/ GMFMOD_Ptr(handle);
 		if (fmod_studio_evdesc_is_valid(desc))
+		{
 			desc_ = desc;
+		}
 		else
 			show_debug_message("GMFMOD Error: Attempted to assign an invalid handle to " 
 				+ "a " + string(instanceof(self)) + " object!");
 	};
 	
-	if (argument_count == 1 && is_numeric(argument[0]))
+	if (argument_count > 0)
 	{
 		assign(argument[0]);	
 	}

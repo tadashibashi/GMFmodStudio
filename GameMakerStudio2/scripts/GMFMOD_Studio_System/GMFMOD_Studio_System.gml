@@ -2,15 +2,20 @@ function GMFMOD_Studio_System() constructor
 {
 	// "Private" variables
 	studio_ = GMFMOD_Ptr(fmod_studio_system_create());
+	GMFMOD_Check("Creating Studio System object");
 	core_ = GMFMOD_Ptr(fmod_studio_system_get_core_system(studio_));
+	GMFMOD_Check("Retrieving Core System object");
 	
 // ============================================================================
 // Lifetime
 // ============================================================================
 	
-	/// @param {int} max_channels the max number of channels to initialize fmod studio with.
-	/// @param {int} studio_flags the flags to initialize FMOD Studio System with.
-	/// @param {int} flags the flags to initialize FMOD System with.
+	// Initialize the Studio System object. Must be called before any other
+	// function
+	/// @param {int} max_channels the max number of audio channels to initialize
+	///                           the studio system object with
+	/// @param {int} studio_flags studio system initialization flags
+	/// @param {int} flags        core system initialization flags
 	/// @returns {void}
 	static initialize = function(max_channels, studio_flags, flags)
 	{
@@ -79,6 +84,7 @@ function GMFMOD_Studio_System() constructor
 		fmod_studio_system_unload_all(studio_);
 	};
 	
+	
 	/// @param   {string}             path
 	/// @param   {GMFMOD_Studio_Bank} [bank] (optional) if you want to provide your own object to assign new bank to.
 	/// @returns {GMFMOD_Studio_Bank}
@@ -128,30 +134,53 @@ function GMFMOD_Studio_System() constructor
         if (GMFMOD_GetError() != FMOD_OK)
             return [];
         
-        var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
-        var capacity = count * 8;
-        buf.allocate(capacity); // ensure buffer is big enough. 8 is sizeof byte
+
         
         // Fill buffer with pointers
-        fmod_studio_system_get_bank_list(studio_, capacity, buf.getAddress());
+		// TODO: TEST
+		if (typeof(studio_) == "struct")  // HTML5, we pass the array directly
+		{
+			var outarr = array_create(count);
+			
+	        if (is_array(arr))           // user provided array, resize
+	            array_resize(arr, count);
+	        else                         // array not provided, create a new one
+	            arr = array_create(count);
+			fmod_studio_system_get_bank_list(studio_, count, outarr);
+			
+			for (var i = 0; i < count; ++i)
+			{
+				arr[@i] = new GMFMOD_Studio_Bank(array_get(outarr, i));
+			}
+			
+			return arr;
+		}
+		else                              // Desktop uses buffer
+		{
+			var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
+	        var capacity = count * 8;
+	        buf.allocate(capacity); // ensure buffer is big enough. 8 is sizeof byte
+			fmod_studio_system_get_bank_list(studio_, count, buf.getAddress());
         
-        if (GMFMOD_GetError() == FMOD_OK)
-        {
-            // No errors, commit changes
-            if (is_array(arr))           // user provided array, resize
-                array_resize(arr, count);
-            else                         // array not provided, create a new one
-                arr = array_create(count);
+	        if (GMFMOD_GetError() == FMOD_OK)
+	        {
+	            // No errors, commit changes
+	            if (is_array(arr))           // user provided array, resize
+	                array_resize(arr, count);
+	            else                         // array not provided, create a new one
+	                arr = array_create(count);
                 
-            for (var i = 0; i < count; ++i) // populate array
-                arr[@i] = new GMFMOD_Studio_Bank(buf.read(buffer_u64));
+	            for (var i = 0; i < count; ++i) // populate array
+	                arr[@i] = new GMFMOD_Studio_Bank(buf.read(buffer_u64));
                 
-            return arr;
-        }
-        else
-        {
-            return [];
-        }
+	            return arr;
+	        }
+	        else
+	        {
+	            return [];
+	        }
+		}
+
     };
     
 // ============================================================================
@@ -644,7 +673,3 @@ function GMFMOD_Studio_System() constructor
 		return new GMFMOD_Studio_EventInstance_AudioTable(evhandle);
 	};
 }
-
-/// @hint {pointer} GMFMOD_Studio_System:studio_ [private] pointer to the studio system  
-/// @hint {pointer} GMFMOD_Studio_System:core_ [private] pointer to the core system  
-/// @hint GMFMOD_Studio_System:initialize(max_channels: int, studio_flags: int, flags: int)->void Initializes the FMOD Studio System object. Must be called before any other function is called.

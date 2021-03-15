@@ -3,12 +3,12 @@
 
 timer++;
 
-if (timer == fps * 2)
+if (timer == 120)
 {
 	test();
 }
 
-if (timer == fps * 3)
+if (timer == 240)
 {
 	// Clean up the Command Replay Object
 	fmod_studio_comreplay_stop(com);

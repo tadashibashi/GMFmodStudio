@@ -2,8 +2,8 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "GMFMS_API",
-    "path": "folders/Scripts/GMFmodStudio/GMFMS_API.yy",
+    "name": "Utility",
+    "path": "folders/Scripts/GMFmodStudio/Utility.yy",
   },
   "resourceVersion": "1.0",
   "name": "GMFMOD_Ptr",

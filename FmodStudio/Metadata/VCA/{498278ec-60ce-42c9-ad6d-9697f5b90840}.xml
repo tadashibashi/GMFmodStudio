@@ -4,50 +4,11 @@
 		<property name="color">
 			<value>Purple Light 2</value>
 		</property>
-		<property name="volume">
-			<value>-13.5</value>
-		</property>
 		<property name="name">
 			<value>TestVCA</value>
 		</property>
-		<relationship name="automators">
-			<destination>{50f8a2ea-d0c8-4961-92c1-40d39eb55fad}</destination>
-		</relationship>
 		<relationship name="mixer">
 			<destination>{50e6a593-cf63-4a8e-a967-01a439234a65}</destination>
 		</relationship>
-	</object>
-	<object class="Automator" id="{50f8a2ea-d0c8-4961-92c1-40d39eb55fad}">
-		<property name="nameOfPropertyBeingAutomated">
-			<value>volume</value>
-		</property>
-		<relationship name="automationCurves">
-			<destination>{a9e9fd6b-d32d-472b-a051-b3a7f488f681}</destination>
-		</relationship>
-	</object>
-	<object class="AutomationCurve" id="{a9e9fd6b-d32d-472b-a051-b3a7f488f681}">
-		<relationship name="parameter">
-			<destination>{4d952288-03c0-4b1a-9814-ed07c7d5ab76}</destination>
-		</relationship>
-		<relationship name="automationPoints">
-			<destination>{053f78d8-0063-482a-afa7-6cedd10de2f5}</destination>
-			<destination>{c1c7f873-5bb3-488e-9230-4fc1941a63cd}</destination>
-		</relationship>
-	</object>
-	<object class="AutomationPoint" id="{053f78d8-0063-482a-afa7-6cedd10de2f5}">
-		<property name="position">
-			<value>0.021186440677966101</value>
-		</property>
-		<property name="value">
-			<value>-32</value>
-		</property>
-	</object>
-	<object class="AutomationPoint" id="{c1c7f873-5bb3-488e-9230-4fc1941a63cd}">
-		<property name="position">
-			<value>3</value>
-		</property>
-		<property name="value">
-			<value>-12</value>
-		</property>
 	</object>
 </objects>

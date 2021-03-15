@@ -1,5 +1,6 @@
 #include "gmfs_common.h"
 #include <string>
+#include <iostream>
 
 typedef FMOD::Studio::VCA StudioVCA;
 
@@ -13,12 +14,12 @@ gms_export double fmod_studio_vca_get_volume(char *ptr)
     float volume{ };
     check = ((StudioVCA *)ptr)->getVolume(&volume);
 
-    return static_cast<double>(volume);
+    return static_cast<double>(volume); 
 }
 
 gms_export double fmod_studio_vca_get_volume_final(char *ptr)
 {
-    float volume{ }, dummy;
+    float volume{ }, dummy{ };
     check = ((StudioVCA *)ptr)->getVolume(&dummy, &volume);
 
     return static_cast<double>(volume);

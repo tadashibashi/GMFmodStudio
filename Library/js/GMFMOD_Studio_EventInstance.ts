@@ -1,4 +1,3 @@
-
 function fmod_studio_evinst_start(inst: FMOD.EventInstance): void
 {
     check = inst.start();
