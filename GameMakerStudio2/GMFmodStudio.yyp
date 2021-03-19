@@ -1,6 +1,7 @@
 {
   "resources": [
     {"id":{"name":"GMFMOD_Performance","path":"scripts/GMFMOD_Performance/GMFMOD_Performance.yy",},"order":2,},
+    {"id":{"name":"o_fmod_spawner_html5","path":"objects/o_fmod_spawner_html5/o_fmod_spawner_html5.yy",},"order":3,},
     {"id":{"name":"GMFMOD_STUDIO_PARAMETER_ID","path":"scripts/GMFMOD_STUDIO_PARAMETER_ID/GMFMOD_STUDIO_PARAMETER_ID.yy",},"order":9,},
     {"id":{"name":"o_GMFMOD_TestRunner_Parent","path":"objects/o_GMFMOD_TestRunner_Parent/o_GMFMOD_TestRunner_Parent.yy",},"order":2,},
     {"id":{"name":"o_GMFMOD_ExtensionTest_EventDescription","path":"objects/o_GMFMOD_ExtensionTest_EventDescription/o_GMFMOD_ExtensionTest_EventDescription.yy",},"order":3,},
@@ -16,10 +17,12 @@
     {"id":{"name":"o_GMFMOD_ExtensionTest_EventInstance","path":"objects/o_GMFMOD_ExtensionTest_EventInstance/o_GMFMOD_ExtensionTest_EventInstance.yy",},"order":4,},
     {"id":{"name":"o_GMFMOD_WrapperTest_EventInstance","path":"objects/o_GMFMOD_WrapperTest_EventInstance/o_GMFMOD_WrapperTest_EventInstance.yy",},"order":4,},
     {"id":{"name":"GMFMOD_STUDIO_USER_PROPERTY","path":"scripts/GMFMOD_STUDIO_USER_PROPERTY/GMFMOD_STUDIO_USER_PROPERTY.yy",},"order":10,},
-    {"id":{"name":"o_fmod_spawner","path":"objects/o_fmod_spawner/o_fmod_spawner.yy",},"order":2,},
+    {"id":{"name":"o_fmod_spawner","path":"objects/o_fmod_spawner/o_fmod_spawner.yy",},"order":4,},
+    {"id":{"name":"GMFMOD_3DObject","path":"scripts/GMFMOD_3DObject/GMFMOD_3DObject.yy",},"order":1,},
     {"id":{"name":"GMFMOD_STUDIO_BUFFER_USAGE","path":"scripts/GMFMOD_STUDIO_BUFFER_USAGE/GMFMOD_STUDIO_BUFFER_USAGE.yy",},"order":3,},
     {"id":{"name":"GMFMS_EvInst_AudioTable","path":"scripts/GMFMS_EvInst_AudioTable/GMFMS_EvInst_AudioTable.yy",},"order":0,},
     {"id":{"name":"o_GMFMOD_WrapperTest_Runner","path":"objects/o_GMFMOD_WrapperTest_Runner/o_GMFMOD_WrapperTest_Runner.yy",},"order":1,},
+    {"id":{"name":"GMFMOD_EventEmitter","path":"scripts/GMFMOD_EventEmitter/GMFMOD_EventEmitter.yy",},"order":2,},
     {"id":{"name":"html5_test","path":"extensions/html5_test/html5_test.yy",},"order":1,},
     {"id":{"name":"GMFmodStudio","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},"order":0,},
     {"id":{"name":"f_main","path":"fonts/f_main/f_main.yy",},"order":0,},
@@ -75,8 +78,8 @@
   },
   "RoomOrderNodes": [
     {"roomId":{"name":"r_GMFMOD_WrapperTests","path":"rooms/r_GMFMOD_WrapperTests/r_GMFMOD_WrapperTests.yy",},},
-    {"roomId":{"name":"html5_test_r","path":"rooms/html5_test_r/html5_test_r.yy",},},
     {"roomId":{"name":"r_GMFMOD_ExtensionTests","path":"rooms/r_GMFMOD_ExtensionTests/r_GMFMOD_ExtensionTests.yy",},},
+    {"roomId":{"name":"html5_test_r","path":"rooms/html5_test_r/html5_test_r.yy",},},
   ],
   "Folders": [
     {"folderPath":"folders/Sprites.yy","order":1,"resourceVersion":"1.0","name":"Sprites","tags":[],"resourceType":"GMFolder",},

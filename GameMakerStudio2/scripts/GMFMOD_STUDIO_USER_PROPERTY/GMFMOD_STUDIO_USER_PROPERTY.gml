@@ -25,21 +25,21 @@ function GMFMOD_STUDIO_USER_PROPERTY() constructor
 	/// @desc Read data from a buffer and assign it to this user property.
 	static readFromBuffer = function(buf)
 	{
-		name = buf.readCharStar();
-		type = buf.read(buffer_u32);
+		self.name = buf.readCharStar();
+		self.type = buf.read(buffer_u32);
 		switch(type)
 		{
 			case FMOD_STUDIO_USER_PROPERTY_TYPE_BOOLEAN:
-				value = buf.read(buffer_s8);
+				self.value = buf.read(buffer_s8);
 				break;
 			case FMOD_STUDIO_USER_PROPERTY_TYPE_FLOAT:
-				value = buf.read(buffer_f32);
+				self.value = buf.read(buffer_f32);
 				break;
 			case FMOD_STUDIO_USER_PROPERTY_TYPE_INTEGER:
-				value = buf.read(buffer_s32);
+				self.value = buf.read(buffer_s32);
 				break;
 			case FMOD_STUDIO_USER_PROPERTY_TYPE_STRING:
-				value = buf.readCharStar();
+				self.value = buf.readCharStar();
 				break;
 			default: // error here?
 				break;

@@ -18,16 +18,16 @@
   "physicsKinematic": false,
   "physicsShapePoints": [],
   "eventList": [
-    {"isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,"parent":{"name":"o_fmod_spawner","path":"objects/o_fmod_spawner/o_fmod_spawner.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,"parent":{"name":"o_fmod_spawner_html5","path":"objects/o_fmod_spawner_html5/o_fmod_spawner_html5.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "GMFmodStudio Tests",
-    "path": "folders/Objects/GMFmodStudio Tests.yy",
+    "name": "HTML5 Tests",
+    "path": "folders/Objects/HTML5 Tests.yy",
   },
   "resourceVersion": "1.0",
-  "name": "o_fmod_spawner",
+  "name": "o_fmod_spawner_html5",
   "tags": [],
   "resourceType": "GMObject",
 }

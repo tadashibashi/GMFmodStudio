@@ -24,6 +24,7 @@ function runNextTest(obj_index)
 	{
 		show_debug_message("Test Runner has completed all its tests!");	
 		finished = true;
+		instance_create_depth(0, 0, 0, o_GMFMOD_ExtensionTest_Parent);
 	}
 	else
 	{

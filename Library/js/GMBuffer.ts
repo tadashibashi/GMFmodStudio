@@ -1,9 +1,9 @@
-const charStars = new Map<number, string>();
+let charStars = new Map<number, string>();
 let charStarCounter = 0;
 
 function gmfms_interpret_string(charPtr: number)
 {
-    return charStars.get(charPtr);
+    return charStars.get(Number(charPtr));
 }
 
 
@@ -171,7 +171,7 @@ class GMBuffer
     {
         var ptr = charStarCounter++;
         charStars.set(ptr, str);
-        this.view.setBigUint64(this.pos, BigInt(ptr));
+        this.view.setBigUint64(this.pos, BigInt(ptr), this.endianness);
         this.pos += 8;
     }
 

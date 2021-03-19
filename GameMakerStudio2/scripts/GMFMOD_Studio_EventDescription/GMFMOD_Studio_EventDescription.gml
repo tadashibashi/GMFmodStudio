@@ -48,34 +48,56 @@ function GMFMOD_Studio_EventDescription() constructor
 	/// @returns {Array<GMFMOD_Studio_EventInstance>}
 	static getInstanceList = function(arr)
 	{	
-		var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
 		var count = fmod_studio_evdesc_get_instance_count(desc_);
-		buf.allocate(count * 8); // allow 8 bytes per pointer
-		
-		fmod_studio_evdesc_get_instance_list(desc_, count, buf.getAddress());
-
-		if (GMFMOD_GetError() == FMOD_OK)
+		if (GMFMOD_GetError() != FMOD_OK)
+            return [];
+        
+		if (typeof(desc_) == "struct")  // HTML5, we pass the array directly
 		{
-			if (is_array(arr))  // Array provided, modify this one.
-			{
-				array_resize(arr, count);
-			}
-			else                // Array not provided, create a new one.
-			{
-				arr = array_create(count);
-			}
+			var outarr = array_create(count);
+			
+	        if (is_array(arr))           // user provided array, resize
+	            array_resize(arr, count);
+	        else                         // array not provided, create a new one
+	            arr = array_create(count);
+			fmod_studio_evdesc_get_instance_list(desc_, count, outarr);
 			
 			for (var i = 0; i < count; ++i)
 			{
-					arr[@i] = new GMFMOD_Studio_EventInstance(buf.read(buffer_u64));
+				arr[@i] = new GMFMOD_Studio_EventInstance(array_get(outarr, i));
 			}
+			
+			return arr;
 		}
 		else
 		{
-			arr = [];	
+			var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
+			buf.allocate(count * 8); // allow 8 bytes per pointer
+			fmod_studio_evdesc_get_instance_list(desc_, count, buf.getAddress());
+	
+			if (GMFMOD_GetError() == FMOD_OK)
+			{
+				if (is_array(arr))  // Array provided, modify this one.
+				{
+					array_resize(arr, count);
+				}
+				else                // Array not provided, create a new one.
+				{
+					arr = array_create(count);
+				}
+				
+				for (var i = 0; i < count; ++i)
+				{
+						arr[@i] = new GMFMOD_Studio_EventInstance(buf.read(buffer_u64));
+				}
+				
+				return arr;
+			}
+			else
+			{
+				return [];	
+			}
 		}
-
-		return arr;
 	};
 	
 	/// @returns {void}

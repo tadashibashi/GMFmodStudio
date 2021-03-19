@@ -26,8 +26,3 @@ gms_export void GMFMOD_ShutdownIntegration()
     CoUninitialize();
 #endif
 }
-
-gms_export double GMFMOD_IntegrationInitialized()
-{
-    return 1;
-}

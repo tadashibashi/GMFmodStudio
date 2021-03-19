@@ -360,6 +360,10 @@ declare interface FMOD {
     /**
      * Creates a default structure
      */
+    STUDIO_MEMORY_USAGE?(): FMOD.STUDIO_MEMORY_USAGE;
+    /**
+     * Creates a default structure
+     */
     STUDIO_PARAMETER_DESCRIPTION?(): FMOD.STUDIO_PARAMETER_DESCRIPTION;
     /**
      * Creates a default structure
@@ -2088,7 +2092,7 @@ Also defines the number of channels in the unit that a read callback will proces
          * Retrieves the GUID
          * @param id Event description GUID
          */
-        getID(id:GUID): RESULT;
+        getID(id:Out<GUID>): RESULT;
         /**
          * Retrieves the number of instances
          * @param count Instance count.
@@ -2175,19 +2179,27 @@ Also defines the number of channels in the unit that a read callback will proces
     }
 
     export interface EventInstance {
+        $$: any;
         /** 
          * Retrieves the 3D position, velocity and orientation of the event instance 
          * @param attributes writes the value to attributes.val
          * @returns an integer value defined in the FMOD_RESULT enumeration
         */
-        get3DAttributes(attributes:Out<_3D_ATTRIBUTES>): RESULT;
+        get3DAttributes(attributes:_3D_ATTRIBUTES): RESULT;
         /** 
          * Retrives the Low level ChannelGroup for the event instance 
          * @description Remarks: The retrieved ChannelGroup corresponds to the master track of the event instance.
          * @param group Address of a variable to receive the ChannelGroup. Writes value to group.val
          * @returns an integer value defined in the FMOD_RESULT enumeration
         */
-        getChannelGroup(group: Out<ChannelGroup>): RESULT;  
+        getChannelGroup(group: Out<ChannelGroup>): RESULT;
+        /**
+         * Gets cpu time spent processing this unit during last update.
+         * @param exclusiveOut CPU time spent processing just this unit during the last update. (in microseconds)
+         * @param inclusiveOut CPU time spent processing this unit and all of its input during the last update. (in microseconds)
+         * @returns an integer value defined in the FMOD_RESULT enumeration
+         */
+        getCPUUsage(exclusiveOut: Out<number>, inclusiveOut: Out<number>): RESULT;
         /** 
          * Retrieves the EventDescription for the event instance 
          * @param description Address of a variable to receive the EventDescription object. Writes value to description.val
@@ -2199,7 +2211,12 @@ Also defines the number of channels in the unit that a read callback will proces
          * @param mask Address of a variable to receive the mask. Writes value to mask.val
          * @returns an integer value defined in the FMOD_RESULT enumeration
         */
-        getListenerMask(mask:number): RESULT; 
+        getListenerMask(mask:Out<number>): RESULT; 
+        /**
+         * Get the current memory usage
+         * @param memoryUsage the amount of memory current used by this instance
+         */
+        getMemoryUsage(memoryUsage:STUDIO_MEMORY_USAGE): RESULT;
         /**
          * Retrieves a parameter value by unique identifier.
          * Automatic parameters always return value as 0 since they can never have their value set from the public API
@@ -2410,10 +2427,18 @@ Also defines the number of channels in the unit that a read callback will proces
          */
         getChannelGroup(channelgroup:Out<ChannelGroup>): RESULT;
         /**
+         * Gets the cpu time in microseconds, spent on processing this unit during the last update.
+         */
+        getCPUUsage(exclusiveOut:Out<number>, inclusiveOut:Out<number>): RESULT;
+        /**
          * Retrieves the ID of the bus.
          * @param id Address of a variable to receive the 128-bit GUID. 
          */
         getID(id:Out<GUID>): RESULT;
+        /**
+         * 
+         */
+        getMemoryUsage(usage:STUDIO_MEMORY_USAGE): RESULT;
         /**
          * Retrieves the mute state of the bus.
          * @param mute Address of a variable to receive the mute state. 
@@ -2491,7 +2516,7 @@ Also defines the number of channels in the unit that a read callback will proces
          * Retrieves the ID of the VCA.
          * @param id Address of a variable to receive the 128-bit GUID. 
          */
-        getID (id:Out<GUID>) : RESULT;
+        getID (idOut:Out<GUID>) : RESULT;
         /** 
          * Retrieves the path of the VCA.
          * @param path Address of a buffer to receive the path. Specify 0 or NULL to ignore.
@@ -2510,7 +2535,7 @@ Also defines the number of channels in the unit that a read callback will proces
          * Sets the volume level of the VCA.
          * @param volume The volume level to set as a linear gain. 0 = silent, 1 = full volume.
          */
-        getsetVolume (volume:number) : RESULT;
+        setVolume (volume:number) : RESULT;
 
         isValid(): boolean;
     }
@@ -2575,7 +2600,7 @@ Also defines the number of channels in the unit that a read callback will proces
          * @param size Size of the path buffer in bytes. Required if path parameter is not NULL. 
          * @param retrieved Address of a variable to receive the size of the retrieved path in bytes, including the terminating null character. Optional. Specify 0 or NULL to ignore. 
          */
-        getStringInfo(index:number, id:Out<GUID>, path:Out<string>, size:number, retrieved:Out<number>): RESULT;
+        getStringInfo(index:number, id:GUID, path:Out<string>, size:number, retrieved:Out<number>): RESULT;
         /**
          * Retrieves the user data that is set on the bank.
          * @param userdata Address of a variable to receive the user data. 
@@ -2618,43 +2643,44 @@ Also defines the number of channels in the unit that a read callback will proces
 
 
     export interface CommandReplay {
-        getCommandAtTime(): RESULT;
+        getCommandAtTime(time:number, commandindexOut:Out<number>): RESULT;
 
-        getCommandCount(): RESULT;
+        getCommandCount(countOut:Out<number>): RESULT;
 
-        getCommandInfo(): RESULT;
+        getCommandInfo(commandindex:number, infoOut:STUDIO_COMMAND_INFO): RESULT;
 
-        getCommandString(): RESULT;
+        // note: html5 omits the third length parameter found in C/C++/C#
+        getCommandString(commandindex:number, strOut:Out<string>): RESULT;
 
-        getCurrentCommand(): RESULT;
+        getCurrentCommand(commandindexOut:Out<number>, currenttimeOut:Out<number>): RESULT;
 
-        getLength(): RESULT;
+        getLength(lengthOut:Out<number>): RESULT;
 
-        getPaused(): RESULT;
+        getPaused(pausedOut:Out<number>): RESULT;
 
-        getPlaybackState(): RESULT;
+        getPlaybackState(playbackstateOut:Out<STUDIO_PLAYBACK_STATE>): RESULT;
 
-        getSystem(): RESULT;
+        getSystem(systemOut:Out<System>): RESULT;
 
-        getUserData(): RESULT;
+        getUserData(dataOut: any): RESULT;
 
         release(): RESULT;
 
-        seekToCommand(): RESULT;
+        seekToCommand(commandindex:number): RESULT;
 
-        seekToTime(): RESULT;
+        seekToTime(time:number): RESULT;
 
-        setBankPath(): RESULT;
+        setBankPath(path: string): RESULT;
 
-        setCreateInstanceCallback(): RESULT;
+        setCreateInstanceCallback(callback:FMOD.STUDIO_COMMANDREPLAY_CREATE_INSTANCE_CALLBACK): RESULT;
 
-        setFrameCallback(): RESULT;
+        setFrameCallback(callback:FMOD.STUDIO_COMMANDREPLAY_FRAME_CALLBACK): RESULT;
 
-        setLoadBankCallback(): RESULT;
+        setLoadBankCallback(callback: FMOD.STUDIO_COMMANDREPLAY_LOAD_BANK_CALLBACK): RESULT;
 
-        setPaused(): RESULT;
+        setPaused(paused: boolean): RESULT;
 
-        setUserData(): RESULT;
+        setUserData(data: any): RESULT;
 
         start(): RESULT;
 
@@ -4795,7 +4821,7 @@ Also defines the number of channels in the unit that a read callback will proces
      * @param instance The resulting event instance
      * @param userdata The userdata assigned into the given replay, or NULL if not set */
     export interface STUDIO_COMMANDREPLAY_CREATE_INSTANCE_CALLBACK {
-        (replay, commandIndex:number, eventDescription, instance: EventInstance, userdata:any): RESULT;
+        (replay: CommandReplay, commandIndex:number, eventDescription: EventDescription, instanceOut: Out<EventInstance>, userdata:any): RESULT;
     }
 
     /** Callback for when the command replay goes to the next frame 
@@ -4805,7 +4831,7 @@ Also defines the number of channels in the unit that a read callback will proces
      * @param currentTime The current playback time.
      * @param userdata The userdata assigned into the given replay, or NULL if not set. */
     export interface STUDIO_COMMANDREPLAY_FRAME_CALLBACK {
-        (replay, commandIndex:number, currentTime:number, userdata:any): RESULT;
+        (replay: CommandReplay, commandIndex:number, currentTime:number, userdata:any): RESULT;
     }
     /** 
      * Callback for command replay bank loading
@@ -4818,8 +4844,8 @@ Also defines the number of channels in the unit that a read callback will proces
      * @param bank The resulting bank handle.
      * @param userdata The userata assigned into the given replay, or NULL if not set. */
     export interface STUDIO_COMMANDREPLAY_LOAD_BANK_CALLBACK {
-        (replay, commandIndex:number, bankGuid, bankFilename, 
-            flags:STUDIO_LOAD_BANK_FLAGS, bank, userdata:any): RESULT;
+        (replay: CommandReplay, commandIndex:number, bankGuid: GUID, bankFilename: string, 
+            flags: STUDIO_LOAD_BANK_FLAGS, bankOut: Out<Bank>, userdata: any): RESULT;
     }
     /** 
      * The Interface shape for Event Callback Handlers 

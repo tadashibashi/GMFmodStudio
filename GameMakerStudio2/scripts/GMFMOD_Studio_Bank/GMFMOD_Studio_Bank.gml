@@ -74,28 +74,48 @@ function GMFMOD_Studio_Bank() constructor
         if (GMFMOD_GetError() != FMOD_OK)
             return [];
         
-        var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
-        buf.allocate(count * 8); // ensure buffer is big enough. 8 is sizeof byte
-        
-        // Fill buffer with pointers
-        fmod_studio_bank_get_bus_list(bank_, count, buf.getAddress());
-        
-        if (GMFMOD_GetError() == FMOD_OK)
+        if (typeof(bank_) == "struct") // html5 impl, we pass the array directly
         {
-            // No errors, commit changes
-            if (arr == undefined)           // user did not provide array: create
-                arr = array_create(count);
-            else                            // user provided one, resize
-                array_resize(arr, count);
-                
-            for (var i = 0; i < count; ++i) // populate array
-                arr[@i] = new GMFMOD_Studio_Bus(buf.read(buffer_u64));
-            
-            return arr;
+        	var outarr = array_create(count);
+			
+	        if (is_array(arr))           // user provided array, resize
+	            array_resize(arr, count);
+	        else                         // array not provided, create a new one
+	            arr = array_create(count);
+			fmod_studio_bank_get_bus_list(bank_, count, outarr);
+			
+			for (var i = 0; i < count; ++i)
+			{
+				arr[@i] = new GMFMOD_Studio_Bus(array_get(outarr, i));
+			}
+			
+			return arr;
         }
-        else
+        else                            // Desktop impl, use buffer
         {
-            return [];
+			var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
+	        buf.allocate(count * 8); // ensure buffer is big enough. 8 is sizeof byte
+	        
+	        // Fill buffer with pointers
+	        fmod_studio_bank_get_bus_list(bank_, count, buf.getAddress());
+	        
+	        if (GMFMOD_GetError() == FMOD_OK)
+	        {
+	            // No errors, commit changes
+	            if (arr == undefined)           // user did not provide array: create
+	                arr = array_create(count);
+	            else                            // user provided one, resize
+	                array_resize(arr, count);
+	                
+	            for (var i = 0; i < count; ++i) // populate array
+	                arr[@i] = new GMFMOD_Studio_Bus(buf.read(buffer_u64));
+	            
+	            return arr;
+	        }
+	        else
+	        {
+	            return [];
+	        }
         }
     };
     
@@ -115,31 +135,51 @@ function GMFMOD_Studio_Bank() constructor
         if (GMFMOD_GetError() != FMOD_OK)
             return [];
         
-        var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
-        buf.allocate(count * 8); // ensure buffer is big enough. 8 is sizeof byte
-        
-        // Fill buffer with pointers
-        fmod_studio_bank_get_event_list(bank_, count, buf.getAddress());
-        
-        if (GMFMOD_GetError() == FMOD_OK)
+        if (typeof(bank_) == "struct") // html5 impl, we pass the array directly
         {
-            // No errors, commit changes
-            if (is_array(arr))
-            	array_resize(arr, count);
-            else                       
-            	arr = array_create(count);
-                
-            for (var i = 0; i < count; ++i) // populate array
-            {
-            	arr[@i] = new GMFMOD_Studio_EventDescription(
-                	buf.read(buffer_u64));
-            }
-
-            return arr;
+        	var outarr = array_create(count);
+			
+	        if (is_array(arr))           // user provided array, resize
+	            array_resize(arr, count);
+	        else                         // array not provided, create a new one
+	            arr = array_create(count);
+			fmod_studio_bank_get_event_list(bank_, count, outarr);
+			
+			for (var i = 0; i < count; ++i)
+			{
+				arr[@i] = new GMFMOD_Studio_EventDescription(array_get(outarr, i));
+			}
+			
+			return arr;
         }
-        else
+        else                            // Desktop impl, use buffer
         {
-            return [];
+			var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
+	        buf.allocate(count * 8); // ensure buffer is big enough. 8 is sizeof byte
+	        
+	        // Fill buffer with pointers
+	        fmod_studio_bank_get_event_list(bank_, count, buf.getAddress());
+	        
+	        if (GMFMOD_GetError() == FMOD_OK)
+	        {
+	            // No errors, commit changes
+	            if (is_array(arr))
+	            	array_resize(arr, count);
+	            else                       
+	            	arr = array_create(count);
+	                
+	            for (var i = 0; i < count; ++i) // populate array
+	            {
+	            	arr[@i] = new GMFMOD_Studio_EventDescription(
+	                	buf.read(buffer_u64));
+	            }
+	
+	            return arr;
+	        }
+	        else
+	        {
+	            return [];
+	        }
         }
     };    
     
@@ -153,7 +193,7 @@ function GMFMOD_Studio_Bank() constructor
     
     /// note: please use sparingly, since dynamic memory is allocated on every call to this function.
     /// @param {array<any>} [arr] a pre-defined array to populate, otherwise the function creates and returns a new one.
-    /// @returns {array<GMFMOD_Studio_EventDescription>}
+    /// @returns {array<GMFMOD_Studio_VCA>}
     static getVCAList = function(arr)
     {
         var count = fmod_studio_bank_get_vca_count(bank_);
@@ -161,28 +201,48 @@ function GMFMOD_Studio_Bank() constructor
         if (GMFMOD_GetError() != FMOD_OK)
             return [];
         
-        var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
-        buf.allocate(count * 8); // ensure buffer is big enough. 8 is sizeof byte
-        
-        // Fill buffer with pointers
-        fmod_studio_bank_get_vca_list(bank_, count, buf.getAddress());
-        
-        if (GMFMOD_GetError() == FMOD_OK)
+        if (typeof(bank_) == "struct") // html5 impl, we pass the array directly
         {
-            // No errors, commit changes
-            if (arr == undefined)           // user did not provide array: create
-                arr = array_create(count);
-            else                            // user provided one, resize
-                array_resize(arr, count);
-                
-            for (var i = 0; i < count; ++i) // populate array
-                arr[@i] = new GMFMOD_Studio_VCA(buf.read(buffer_u64));
-                
-            return arr;
+        	var outarr = array_create(count);
+			
+	        if (is_array(arr))           // user provided array, resize
+	            array_resize(arr, count);
+	        else                         // array not provided, create a new one
+	            arr = array_create(count);
+			fmod_studio_bank_get_vca_list(bank_, count, outarr);
+			
+			for (var i = 0; i < count; ++i)
+			{
+				arr[@i] = new GMFMOD_Studio_VCA(array_get(outarr, i));
+			}
+			
+			return arr;
         }
-        else
+        else                           // Desktop impl, use buffer
         {
-            return [];
+    		var buf/*: GMFMOD_Buffer*/ = GMFMOD_GetBuffer();
+	        buf.allocate(count * 8); // ensure buffer is big enough. 8 is sizeof byte
+	        
+	        // Fill buffer with pointers
+	        fmod_studio_bank_get_vca_list(bank_, count, buf.getAddress());
+	        
+	        if (GMFMOD_GetError() == FMOD_OK)
+	        {
+	            // No errors, commit changes
+	            if (arr == undefined)           // user did not provide array: create
+	                arr = array_create(count);
+	            else                            // user provided one, resize
+	                array_resize(arr, count);
+	                
+	            for (var i = 0; i < count; ++i) // populate array
+	                arr[@i] = new GMFMOD_Studio_VCA(buf.read(buffer_u64));
+	                
+	            return arr;
+	        }
+	        else
+	        {
+	            return [];
+	        }
         }
     };
     

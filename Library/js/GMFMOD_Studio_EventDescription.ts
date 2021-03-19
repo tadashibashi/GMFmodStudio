@@ -1,7 +1,6 @@
 // ============================================================================
 // #region Instances
 // ============================================================================
-
 function fmod_studio_evdesc_create_instance(
     desc: FMOD.EventDescription): FMOD.EventInstance
 {
@@ -15,7 +14,7 @@ function fmod_studio_evdesc_get_instance_count(desc: FMOD.EventDescription)
     return out.val;
 }
 
-function fmod_studio_evdesc_get_event_list(desc: FMOD.EventDescription,
+function fmod_studio_evdesc_get_instance_list(desc: FMOD.EventDescription,
     capacity: number, arr: FMOD.Bank[]): number
 {
     if (desc.isValid())
@@ -150,8 +149,8 @@ function fmod_studio_evdesc_get_paramdesc_by_name(
     {
         let buf = new GMBuffer(gmbuf);
         buf.writeCharStar(pdesc["name"]);
-        buf.writeUint32(pdesc["id.data1"]);
-        buf.writeUint32(pdesc["id.data2"]);
+        buf.writeUint32(pdesc["id"].data1);
+        buf.writeUint32(pdesc["id"].data2);
         buf.writeFloat32(pdesc["minimum"]);
         buf.writeFloat32(pdesc["maximum"]);
         buf.writeFloat32(pdesc["defaultvalue"]);
@@ -171,8 +170,8 @@ function fmod_studio_evdesc_get_paramdesc_by_index(
     {
         let buf = new GMBuffer(gmbuf);
         buf.writeCharStar(pdesc["name"]);
-        buf.writeUint32(pdesc["id.data1"]);
-        buf.writeUint32(pdesc["id.data2"]);
+        buf.writeUint32(pdesc["id"].data1);
+        buf.writeUint32(pdesc["id"].data2);
         buf.writeFloat32(pdesc["minimum"]);
         buf.writeFloat32(pdesc["maximum"]);
         buf.writeFloat32(pdesc["defaultvalue"]);
@@ -197,8 +196,8 @@ function fmod_studio_evdesc_get_paramdesc_by_id(
     if (check === FMOD.RESULT.OK)
     {
         buf.writeCharStar(pdesc["name"]);
-        buf.writeUint32(pdesc["id.data1"]);
-        buf.writeUint32(pdesc["id.data2"]);
+        buf.writeUint32(pdesc["id"].data1);
+        buf.writeUint32(pdesc["id"].data2);
         buf.writeFloat32(pdesc["minimum"]);
         buf.writeFloat32(pdesc["maximum"]);
         buf.writeFloat32(pdesc["defaultvalue"]);
@@ -216,16 +215,28 @@ function fmod_studio_evdesc_get_user_property(desc: FMOD.EventDescription,
     name: string, gmbuf: ArrayBuffer): void
 {
     let prop = fmod.STUDIO_USER_PROPERTY();
-    check = desc.getUserProperty(name, prop);
+
+    try {
+        check = desc.getUserProperty(name, prop);
+    }
+    catch(err)
+    {
+        // For some reason fmod studio wasm throws a wasm out of bounds error
+        // when calling this function with floating point and integer values, but 
+        // successfully retrieves the values and keeps running without a problem.
+        // This may be a false alarm.
+    }
+    
     if (check === FMOD.RESULT.OK)
     {
         let buf = new GMBuffer(gmbuf);
         buf.writeCharStar(prop["name"]);
         buf.writeUint32(prop["type"]);
+
         switch(prop["type"])
         {
             case FMOD.STUDIO_USER_PROPERTY_TYPE.BOOLEAN:
-                buf.writeUint8(prop["boolvalue"]);
+                buf.writeInt8(prop["boolvalue"]);
             break;
 
             case FMOD.STUDIO_USER_PROPERTY_TYPE.FLOAT:
@@ -239,6 +250,7 @@ function fmod_studio_evdesc_get_user_property(desc: FMOD.EventDescription,
             case FMOD.STUDIO_USER_PROPERTY_TYPE.STRING:
                 buf.writeCharStar(prop["stringvalue"]);
             break;
+
             default:
                 console.error("GMFMOD Error! Tried to get the value of user " +
                     "property " + prop["name"] + ", but the type of property " +
@@ -261,7 +273,7 @@ function fmod_studio_evdesc_get_user_property_by_index(desc: FMOD.EventDescripti
         switch(prop["type"])
         {
             case FMOD.STUDIO_USER_PROPERTY_TYPE.BOOLEAN:
-                buf.writeUint8(prop["boolvalue"]);
+                buf.writeInt8(prop["boolvalue"]);
             break;
 
             case FMOD.STUDIO_USER_PROPERTY_TYPE.FLOAT:
@@ -298,10 +310,11 @@ function fmod_studio_evdesc_get_user_property_count(desc: FMOD.EventDescription)
 function fmod_studio_evdesc_get_id(desc: FMOD.EventDescription, 
     gmbuf: ArrayBuffer): void
 {
-    let guid = fmod.GUID();
-    check = desc.getID(guid);
+    check = desc.getID(out);
+
     if (check == FMOD.RESULT.OK)
     {
+        let guid = out.val;
         let buf = new GMBuffer(gmbuf);
         buf.writeUint32(guid.Data1);
         buf.writeUint16(guid.Data2);
@@ -330,6 +343,7 @@ function fmod_studio_evdesc_is_valid(desc: FMOD.EventDescription): boolean
 {
     return desc.isValid();
 }
+
 
 // #endregion
 

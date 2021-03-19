@@ -81,7 +81,56 @@
         <!-- Run the game code -->
         <script type="text/javascript" src="html5game/GMFmodStudio.js?SRKAC=1801561766"></script>
         <script type ="text/javascript">
-        	window.onload = GameMaker_Init;
+        	var fmod = {};
+
+        	fmod['preRun'] = preRun;
+        	fmod['onRuntimeInitialized'] = main;
+        	
+        	var fmodFiles = fmodFiles || [];
+        	var gameRootDir = gameRootDir || "html5game";
+
+        	function main()
+        	{
+        			GameMaker_Init();
+        	}
+
+        	function preRun()
+        	{
+        	    if (fmodFiles != undefined)
+        	    {
+        	        var map = new Set();
+        	        map.add("/");
+
+        	        fmodFiles.forEach(path => {
+        	            let toks = path.split("/");
+        	            toks.unshift(gameRootDir);
+
+        	            let parentFolder = "";
+        	            for (let i = 0; i < toks.length; ++i)
+        	            {
+        	                let tok = toks[i];
+        	                if (i < toks.length - 1) // make folder
+        	                {
+        	                    let newfolder = parentFolder + "/" + tok;
+        	                    if (!map.has(newfolder))
+        	                    {
+        	                        fmod.FS_createFolder(parentFolder + "/", tok, true, true);
+        	                        map.add(newfolder);
+        	                    }
+
+        	                    parentFolder = newfolder;
+        	                }
+        	                else                     // create file
+        	                {
+        	                    fmod.FS_createPreloadedFile(parentFolder + "/", tok, 
+        	                        gameRootDir + "/" + path, true, false);
+        	                }
+        	            }
+        	        });
+        	    }
+        	}
+
+        	window.onload = function() { FMODModule(fmod); };
         </script>
     </body>
 </html>

@@ -15,9 +15,15 @@ GMFMOD_Check("Loading string bank file");
 
 evdblip = studio.getEvent("event:/UIBlip"); /// @is {GMFMOD_Studio_EventDescription}
 GMFMOD_Check("Getting event");
+
 evinst = evdblip.createInstance(); /// @is {GMFMOD_Studio_EventInstance}
 GMFMOD_Check("Creating instance");
+
+evinst.setCallback(FMOD_STUDIO_EVENT_CALLBACK_ALL);
+GMFMOD_Check("Setting callback");
 
 // Event Description Tests
 GMFMOD_Assert(evdblip.getInstanceCount(), 1, "One event instance");
 GMFMOD_Check("getting event instance count");
+
+

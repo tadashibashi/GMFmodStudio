@@ -135,9 +135,6 @@ function GMFMOD_Studio_System() constructor
             return [];
         
 
-        
-        // Fill buffer with pointers
-		// TODO: TEST
 		if (typeof(studio_) == "struct")  // HTML5, we pass the array directly
 		{
 			var outarr = array_create(count);

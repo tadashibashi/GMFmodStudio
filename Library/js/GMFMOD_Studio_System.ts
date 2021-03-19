@@ -35,6 +35,7 @@ function fmod_studio_system_initialize(
 
 function fmod_studio_system_release(studio: FMOD.StudioSystem): void
 {
+    studio.setCallback(null, 0);
     check = studio.release();
 }
 
@@ -45,17 +46,26 @@ function fmod_studio_system_release(studio: FMOD.StudioSystem): void
 
 function fmod_studio_system_update(studio: FMOD.StudioSystem): void
 {
-    check = studio.update();
+    if (studio.isValid())
+        check = studio.update();
+    else
+        check = FMOD.RESULT.ERR_INVALID_HANDLE;
 }
 
 function fmod_studio_system_flush_commands(studio: FMOD.StudioSystem): void
 {
-    check = studio.flushCommands();
+    if (studio.isValid())
+        check = studio.flushCommands();
+    else
+        check = FMOD.RESULT.ERR_INVALID_HANDLE;
 }
 
 function fmod_studio_system_flush_sample_loading(studio: FMOD.StudioSystem): void
 {
-    check = studio.flushSampleLoading();
+    if (studio.isValid())
+        check = studio.flushSampleLoading();
+    else
+        check = FMOD.RESULT.ERR_INVALID_HANDLE;
 }
 
 

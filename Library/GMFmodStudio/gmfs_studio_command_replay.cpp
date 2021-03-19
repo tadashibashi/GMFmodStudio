@@ -77,7 +77,10 @@ FMOD_RESULT F_CALLBACK fmod_studio_comreplay_load_bank_callback(
     FMOD_STUDIO_SYSTEM *sys;
     FMOD_Studio_CommandReplay_GetSystem(replay, &sys);
 
-    FMOD_Studio_System_LoadBankFile(sys, bankfilename, flags, bank);
+    FMOD_RESULT result;
+    result = FMOD_Studio_System_LoadBankFile(sys, bankfilename, flags, bank);
+
+    if (result != FMOD_OK) return result;
 
     GM_DsMap map;
     map.AddString("fmodCallbackType", "CommandReplayLoadBank");
@@ -204,7 +207,7 @@ gms_export const char *fmod_studio_comreplay_get_command_string(char *ptr, doubl
     if (com && com->isValid())
     {
         char cstr[PATH_MAX_LENGTH];
-        check = com->getCommandString((int)commandindex ,cstr , PATH_MAX_LENGTH);
+        check = com->getCommandString((int)commandindex , cstr, PATH_MAX_LENGTH);
         str.assign(cstr);
     }
 

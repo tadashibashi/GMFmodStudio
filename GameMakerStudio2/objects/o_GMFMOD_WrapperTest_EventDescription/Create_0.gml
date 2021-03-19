@@ -79,24 +79,16 @@ GMFMOD_Check("Getting instance list by ref");
 GMFMOD_Assert(array_length(instlist) == array_length(instlistByRef),
     true, "Arrays are equal in length");
 
-var arraysEqual = true;
 var allAreValid = true;
 for (var i = 0; i < array_length(instlist); ++i)
 {
-    if (instlist[i].inst_ != instlistByRef[i].inst_)
-    {
-        arraysEqual = false;
-    }
-    
     if (!instlist[i].isValid() || !instlistByRef[i].isValid())
     {
         allAreValid = false;
     }
 }
 
-GMFMOD_Assert(arraysEqual, true, 
-    "Arrays retrieved from getInstanceList are equal");
-GMFMOD_Assert(arraysEqual, true, 
+GMFMOD_Assert(allAreValid, true, 
     "Instances retrieved from getInstanceList are all valid instances");
 
 eimusic1.release();
@@ -330,6 +322,17 @@ delete pdesc_fromid;
 delete pdesc;
 
 // ====== Get User Property ====================
+var userpropRet = edblip.getUserProperty("floatprop");
+GMFMOD_Check("Getting user property");
+
+GMFMOD_Assert(userpropRet.name, "floatprop",
+	"EvDesc Get User Property Float: name");
+GMFMOD_Assert(userpropRet.value, 1.234,
+	"EvDesc Get User Property Float: value");
+GMFMOD_Assert(userpropRet.type, FMOD_STUDIO_USER_PROPERTY_TYPE_FLOAT,
+	"EvDesc Get User Property Float: type");
+delete userpropRet;
+
 // pass by reference
 var userprop = new GMFMOD_STUDIO_USER_PROPERTY();
 edblip.getUserProperty("stringprop", userprop);
@@ -341,17 +344,6 @@ GMFMOD_Assert(userprop.value, "Hello World!",
 	"EvDesc Get User Property String: value");
 GMFMOD_Assert(userprop.type, FMOD_STUDIO_USER_PROPERTY_TYPE_STRING,
 	"EvDesc Get User Property String: type");
-delete userprop;
-
-userprop = edblip.getUserProperty("floatprop");
-GMFMOD_Check("Getting user property");
-
-GMFMOD_Assert(userprop.name, "floatprop", 
-	"EvDesc Get User Property Float: name");
-GMFMOD_Assert(userprop.value, 1.234, 
-	"EvDesc Get User Property Float: value");
-GMFMOD_Assert(userprop.type, FMOD_STUDIO_USER_PROPERTY_TYPE_FLOAT,
-	"EvDesc Get User Property Float: type");
 delete userprop;
 
 
@@ -447,8 +439,11 @@ GMFMOD_Assert(edblip.getPath(), "event:/UIBlip",
 GMFMOD_Check("Getting path for blip event");
 
 // ====== Set Callback =========================
-edmusic.setCallback(FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_BEAT);
-GMFMOD_Check("Setting callback with timeline beat mask");
+//edmusic.setCallback(FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_BEAT);
+//GMFMOD_Check("Setting callback with timeline beat mask");
 
 inst = edmusic.createInstance();
+GMFMOD_Check("Creating music instance");
 inst.start();
+GMFMOD_Check("Starting music instance");
+timer = 0;

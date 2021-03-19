@@ -2,9 +2,9 @@ event_inherited();
 
 // Clean up FMOD Studio
 studio.unloadAll();
-studio.flushCommands();
 studio.release();
+studio.flushCommands();
 
-//GMFMOD_Assert(studio.isValid(), false, "Studio System successfully invalidated");
+GMFMOD_Assert(studio.isValid(), false, "Studio System successfully invalidated");
 
 

@@ -457,3 +457,5 @@ instmusic.setCallback(FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_BEAT);
 GMFMOD_Check("Setting callback");
 
 instmusic.start();
+
+timer = 0;

@@ -194,9 +194,9 @@ gms_export const char *fmod_studio_bank_get_string_info_path(char *ptr, double i
     static std::string str;
 
     char buffer[PATH_MAX_LENGTH];
-    check = ((StudioBank *)ptr)->getStringInfo(
-        (int)index, nullptr, buffer, PATH_MAX_LENGTH, nullptr);
-
+    check = FMOD_Studio_Bank_GetStringInfo((FMOD_STUDIO_BANK *)ptr, (int)index, nullptr, buffer, PATH_MAX_LENGTH, nullptr);
+    
+    str.assign(buffer);
     return str.c_str();
 }
 
@@ -204,7 +204,7 @@ gms_export const char *fmod_studio_bank_get_string_info_path(char *ptr, double i
 gms_export double fmod_studio_bank_get_vca_count(char *ptr)
 {
     int count{ };
-    check = ((StudioBank *)ptr)->getVCACount(&count);
+    check = FMOD_Studio_Bank_GetVCACount((FMOD_STUDIO_BANK *)ptr, &count);
 
     return static_cast<double>(count);
 }
@@ -215,14 +215,17 @@ gms_export double fmod_studio_bank_get_vca_count(char *ptr)
 gms_export double fmod_studio_bank_get_vca_list(char *ptr, double capacity, char *gmbuf)
 {
     int count{ };
-    if (((StudioBank *)ptr)->isValid())
+    if (FMOD_Studio_Bank_IsValid((FMOD_STUDIO_BANK *)ptr))
     {
-        ((StudioBank *)ptr)->getVCACount(&count);
+        check = FMOD_Studio_Bank_GetVCACount((FMOD_STUDIO_BANK *)ptr, &count);
+        if (check != FMOD_OK)
+            return 0;
+
         if (count > capacity)
             count = (int)capacity;
 
-        FMOD::Studio::VCA **vcas = new FMOD::Studio::VCA * [(int)count];
-        check = ((StudioBank *)ptr)->getVCAList(vcas, count, &count);
+        FMOD_STUDIO_VCA **vcas = new FMOD_STUDIO_VCA *[(int)count];
+        check = FMOD_Studio_Bank_GetVCAList((FMOD_STUDIO_BANK *)ptr, vcas, count, &count);
 
         if (check == FMOD_OK)
         {
@@ -259,5 +262,5 @@ gms_export char *fmod_studio_bank_get_path(char *ptr)
 
 gms_export double fmod_studio_bank_is_valid(char *ptr)
 {
-    return ((StudioBank *)ptr)->isValid();
+    return static_cast<double>(FMOD_Studio_Bank_IsValid((FMOD_STUDIO_BANK *)ptr));
 }
