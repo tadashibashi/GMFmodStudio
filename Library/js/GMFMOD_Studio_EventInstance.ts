@@ -1,7 +1,6 @@
 // ============================================================================
 // Playback Control
 // ============================================================================
-
 function fmod_studio_evinst_start(inst: FMOD.EventInstance): void
 {
     check = inst.start();
@@ -350,11 +349,18 @@ function fmod_studio_evinst_callback(type: FMOD.STUDIO_EVENT_CALLBACK_TYPE,
                     result = core.createSound(info.name_or_data, info.mode | FMOD.MODE.LOOP_NORMAL, info.exinfo, out);
                     if (result != FMOD.RESULT.OK)
                         return result;
-                    console.log(out.val);
+
+                    let snd: FMOD.Sound = out.val;
+                    result = snd.getSubSound(info.subsoundindex, out);
+
+                    if (result != FMOD.RESULT.OK)
+                    {
+                        snd.release();
+                        return result;
+                    }
 
                     parameters.sound = out.val;
                     parameters.subsoundIndex = info.subsoundindex;
-                    console.log(parameters);
                 }
                 else                             // sound file
                 {
