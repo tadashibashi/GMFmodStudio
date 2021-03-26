@@ -2,7 +2,8 @@
     "compilerOptions": {
       "removeComments": true,
       "outFile": "../../GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio_ext.js",
-      "sourceMap": false
+      "sourceMap": false,
+      "lib": ["es2020", "DOM"],
     },
     "include": [
         "GMFmodStudio.ts", 
