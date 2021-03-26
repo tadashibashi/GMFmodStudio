@@ -364,6 +364,14 @@ function GMFMOD_Studio_EventInstance(_handle) constructor
 		return fmod_studio_evinst_set_callback(inst_, callback_mask);	
 	};
 	
+	/// @param {string} userdata_string data to store. For programmer 
+	///            instruments, write the name of an audio table key or filename
+	/// @param {GMFMOD_Studio_System} studio_system
+	static setUserData = function(userdata_string, studio_system)
+	{
+		fmod_studio_evinst_set_user_data(inst_, userdata_string, studio_system.studio_);	
+	};
+	
 	
 	static setCallbackAudioTable = function(studio)
 	{

@@ -49,8 +49,9 @@ if (timer >= 120)
 	GMFMOD_Assert(instblip.isValid(), false, "Blip instance released");
 	GMFMOD_Assert(instmusic.isValid(), false, "Music instance released");
 	
-	GMFMOD_Assert(received_createinst_callback && received_frame_callback &&
-		received_load_bank_callback, true, "Received all callbacks");
+	if (typeof(comrep.comrep_) != "struct")
+		GMFMOD_Assert(received_createinst_callback && received_frame_callback &&
+			received_load_bank_callback, true, "Received all callbacks");
 	
 	finish();
 }

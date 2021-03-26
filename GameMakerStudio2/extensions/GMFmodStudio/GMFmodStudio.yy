@@ -695,6 +695,25 @@
         {"externalName":"fmod_studio_vca_get_volume_final","kind":1,"help":"fmod_studio_vca_get_volume_final(vca)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_vca_get_volume_final","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"GMFMOD_RefsEqual","kind":1,"help":"GMFMOD_RefsEqual(obj1, obj2)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"GMFMOD_RefsEqual","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_evinst_set_user_data","kind":1,"help":"fmod_studio_evinst_set_user_data(evinst, userdatastr, studioptr)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+            1,
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_evinst_set_user_data","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_evinst_get_user_data","kind":1,"help":"fmod_studio_evinst_get_user_data(evinst)","hidden":false,"returnType":1,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_evinst_get_user_data","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_evinst_get_user_data_sound","kind":1,"help":"fmod_studio_evinst_get_user_data_sound(evinst)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_evinst_get_user_data_sound","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_set_dlsname","kind":1,"help":"fmod_studio_set_dlsname(name)","hidden":false,"returnType":2,"argCount":0,"args":[
+            1,
+          ],"resourceVersion":"1.0","name":"fmod_studio_set_dlsname","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"fmod_studio_get_dlsname","kind":1,"help":"fmod_studio_get_dlsname()","hidden":false,"returnType":1,"argCount":0,"args":[],"resourceVersion":"1.0","name":"fmod_studio_get_dlsname","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[
         {"value":"0","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_PLAYING","tags":[],"resourceType":"GMExtensionConstant",},
         {"value":"1","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_PLAYBACK_SUSTAINING","tags":[],"resourceType":"GMExtensionConstant",},
@@ -1241,6 +1260,12 @@
         {"name":"fmod_studio_evinst_get_volume_final","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_bus_get_volume_final","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"fmod_studio_vca_get_volume_final","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"GMFMOD_RefsEqual","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_evinst_set_user_data","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_evinst_get_user_data","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_evinst_get_user_data_sound","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_set_dlsname","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
+        {"name":"fmod_studio_get_dlsname","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",

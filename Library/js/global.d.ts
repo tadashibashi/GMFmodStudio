@@ -425,7 +425,7 @@ declare namespace FMOD {
 
         createSoundGroup(name:string, soundgroup:Out<SoundGroup>): RESULT;
 
-        createStream(name_or_data:string, mode:MODE, sound:Out<any>): RESULT;
+        createStream(name_or_data:string, mode:MODE, exinfo:CREATESOUNDEXINFO, sound:Out<any>): RESULT;
 
         detachChannelGroupFromPort(name:string, soundgroup:Out<SoundGroup>): RESULT;
 
@@ -1883,7 +1883,7 @@ Also defines the number of channels in the unit that a read callback will proces
          * info.mode, nullSinceNoExsoundinfoInJavascriptStruct, soundOut) to receive the parent sound. You can then retrieve
          * the subsound with Sound.getSubSound( info.subsoundindex, Outval );
          */
-        getSoundInfo(key:string,infoOut:Out<STUDIO_SOUND_INFO>): RESULT;
+        getSoundInfo(key:string,infoOut:STUDIO_SOUND_INFO): RESULT;
         /** 
          * Retrieves the user data that is set on the system.
          * @param userdataOut Address of a variable to receive the user data. 
@@ -5020,6 +5020,7 @@ Also defines the number of channels in the unit that a read callback will proces
     export interface STUDIO_SOUND_INFO {
         name_or_data:any,
         mode: MODE,
+        exinfo: CREATESOUNDEXINFO,
         subsoundindex:number
     }
     /** The struct used to receive timeline beat data upon receiving a Timeline Beat Event Callback 

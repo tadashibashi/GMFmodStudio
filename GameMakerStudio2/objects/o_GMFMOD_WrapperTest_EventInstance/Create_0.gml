@@ -1,9 +1,9 @@
 event_inherited();
 
-studio.loadBankFile("soundbanks/Desktop/Master_ENG.bank",
+bank = studio.loadBankFile("soundbanks/Desktop/Master_ENG.bank",
     FMOD_STUDIO_LOAD_BANK_NORMAL);
 GMFMOD_Check("Loading master bank file");
-studio.loadBankFile("soundbanks/Desktop/Master_ENG.strings.bank",
+stringsbank = studio.loadBankFile("soundbanks/Desktop/Master_ENG.strings.bank",
     FMOD_STUDIO_LOAD_BANK_NORMAL);
 GMFMOD_Check("Loading strings bank file");
 
@@ -444,7 +444,7 @@ GMFMOD_Check("Getting event description");
 GMFMOD_Assert(instanceof(newevdesc2), "GMFMOD_Studio_EventDescription",
     "EventDescription returned is of the correct type");
 GMFMOD_Assert(newevdesc2.isValid(), true, "Event Description is valid");
-GMFMOD_Assert(newevdesc.desc_, newevdesc2.desc_, "Event Descriptions equal");
+GMFMOD_Assert(newevdesc.getID().equals(newevdesc2.getID()), true, "Event Descriptions equal");
 
 delete newevdesc;
 delete newevdesc2;

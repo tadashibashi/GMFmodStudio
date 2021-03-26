@@ -643,11 +643,11 @@ function GMFMOD_Studio_System() constructor
 		
 		return guid;
 	};
-	
+
 	/// @returns {bool}
 	static isValid = function()
 	{
-		return fmod_studio_system_is_valid(studio_);	
+		return studio_ != pointer_null && fmod_studio_system_is_valid(studio_);	
 	};
 
 	/// @returns {pointer}
@@ -655,7 +655,7 @@ function GMFMOD_Studio_System() constructor
 	{
 		return studio_;	
 	};
-	
+
 	/// @returns {pointer}
 	static getCoreHandle = function()
 	{

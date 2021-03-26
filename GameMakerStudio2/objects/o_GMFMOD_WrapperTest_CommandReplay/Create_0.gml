@@ -8,11 +8,11 @@ received_load_bank_callback = false;
 comrep = /*#cast*/ pointer_null; /// @is {GMFMOD_Studio_CommandReplay}
 
 // Preliminary bank loading
-studio.loadBankFile("soundbanks/Desktop/Master_ENG.bank",
+bank = studio.loadBankFile("soundbanks/Desktop/Master_ENG.bank",
 	FMOD_STUDIO_LOAD_BANK_NORMAL);
 GMFMOD_Check("Loading master bank");
 
-studio.loadBankFile("soundbanks/Desktop/Master_ENG.strings.bank",
+stringsbank = studio.loadBankFile("soundbanks/Desktop/Master_ENG.strings.bank",
 	FMOD_STUDIO_LOAD_BANK_NORMAL);
 GMFMOD_Check("Loading master strings bank");
 

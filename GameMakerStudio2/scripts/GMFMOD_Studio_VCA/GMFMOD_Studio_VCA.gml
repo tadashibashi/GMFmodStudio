@@ -75,6 +75,6 @@ function GMFMOD_Studio_VCA() constructor
 	/// @returns {bool}
 	static isValid = function()
 	{
-		return fmod_studio_vca_is_valid(vca_);	
+		return vca_ != pointer_null && fmod_studio_vca_is_valid(vca_);	
 	};
 }

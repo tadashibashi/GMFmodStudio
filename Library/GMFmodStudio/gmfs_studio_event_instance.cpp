@@ -4,17 +4,127 @@
 #include <iostream>
 #include <map>
 
-std::string dlsname;
-
 typedef FMOD::Studio::EventInstance EvInst;
 
-struct SoundCallbackData
+struct EvInstUserData
 {
-    std::string key;
-    FMOD::Sound *sound = nullptr;
+    EvInstUserData() : system(nullptr), sound(nullptr) {}
+    EvInstUserData(FMOD_STUDIO_SYSTEM *system, const std::string &key) : system(system), key(key), sound(nullptr) {}
+    FMOD_STUDIO_SYSTEM *system;
+    FMOD_SOUND         *sound;
+    std::string         key;
 };
 
-FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback_audiotable(
+std::map<uintptr_t, EvInstUserData> evinstUserData;
+
+
+FMOD_RESULT CreateProgrammerSoundAudioTable(
+    FMOD::Studio::EventInstance             *inst,
+    const std::string                       &key, 
+    FMOD::Studio::System                    *studio,
+    FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES *props)
+{
+    FMOD_RESULT result;
+    FMOD_STUDIO_SOUND_INFO info;
+
+    if (key == "__NAME__") // Special setting to receive the name of the programmer instrument as the key
+    {
+        result = studio->getSoundInfo(props->name, &info);
+    }
+    else
+    {
+        result = studio->getSoundInfo(key.c_str(), &info);
+    }
+
+    if (result != FMOD_OK)
+    {
+        std::cerr << "GMFMOD Callback Error while getting soundinfo: " << FMOD_ErrorString(result);
+        return result;
+    }
+
+    FMOD::System *core;
+    result = studio->getCoreSystem(&core);
+    if (result != FMOD_OK)
+    {
+        std::cerr << "gmfms audiotable callback error, while getting core system: " << FMOD_ErrorString(result);
+        return result;
+    }
+
+    FMOD::Sound *sound;
+    result = core->createSound(info.name_or_data,
+        FMOD_LOOP_NORMAL | FMOD_CREATECOMPRESSEDSAMPLE | FMOD_NONBLOCKING | info.mode,
+        &info.exinfo, &sound);
+    if (result != FMOD_OK)
+    {
+        std::cerr << "GMFMOD Callback Error while creating FMOD::Sound: " << FMOD_ErrorString(result);
+        return result;
+    }
+
+    props->sound = (FMOD_SOUND *)sound;
+    props->subsoundIndex = info.subsoundindex;
+
+    evinstUserData[(uintptr_t)inst].sound = (FMOD_SOUND *)sound;
+
+    return result;
+}
+
+std::string gDlsname;
+gms_export void fmod_studio_set_dlsname(char *name)
+{
+    gDlsname = name;
+}
+
+gms_export const char *fmod_studio_get_dlsname()
+{
+    return gDlsname.c_str();
+}
+
+FMOD_RESULT CreateProgrammerSoundFromFile(
+    FMOD::Studio::EventInstance             *inst,
+    const std::string                       &filename, 
+    FMOD::Studio::System                    *studio,
+    FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES *props)
+{
+    FMOD_RESULT result;
+
+    FMOD::System *core;
+    result = studio->getCoreSystem(&core);
+    if (result != FMOD_OK)
+    {
+        std::cerr << "GMFMOD Callback Error while getting FMOD::System: " << FMOD_ErrorString(result);
+        return result;
+    }
+
+    auto exinfo = FMOD_CREATESOUNDEXINFO();
+    exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
+
+    if (!gDlsname.empty())
+    {
+        exinfo.dlsname = gDlsname.c_str();
+    }
+
+
+    FMOD::Sound *sound;
+    result = core->createSound(filename.c_str(),
+        FMOD_LOOP_NORMAL | FMOD_CREATECOMPRESSEDSAMPLE | FMOD_NONBLOCKING | FMOD_ACCURATETIME,
+&exinfo, &sound);
+if (result != FMOD_OK)
+{
+    std::cerr << "GMFMOD Callback Error while creating FMOD::Sound: " << FMOD_ErrorString(result);
+    return result;
+}
+
+props->sound = (FMOD_SOUND *)sound;
+props->subsoundIndex = -1;
+
+evinstUserData[(uintptr_t)inst].sound = (FMOD_SOUND *)sound;
+
+return result;
+}
+
+
+// General callback handler for EventInstances
+FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback(
     FMOD_STUDIO_EVENT_CALLBACK_TYPE type,
     FMOD_STUDIO_EVENTINSTANCE *inst,
     void *params)
@@ -24,256 +134,33 @@ FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback_audiotable(
     map.AddDouble("inst", (double)(uintptr_t)inst); // should cast to ptr on GMS side
     map.AddString("fmodCallbackType", "EventInstance");
 
+    FMOD_RESULT result = FMOD_OK;
+
     switch (type)
     {
     case FMOD_STUDIO_EVENT_CALLBACK_CREATE_PROGRAMMER_SOUND:
     {
         auto props = (FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES *)params;
-        EvInst *ins = (EvInst *)inst;
-        
-        FMOD::Studio::System *sys;
-        check = ins->getUserData((void **)&sys);
-        std::cout << "Getting user data: " << FMOD_ErrorString(check) << std::endl;
-        
-        if (!sys->isValid())
+
+        if (evinstUserData.count((uintptr_t)inst) > 0)
         {
-            std::cout << "FMOD Studio ERROR while creating FMOD_SOUND object from programmer sound with key \""
-                << props->name << "\": The FMOD::Studio::System handle was invalid." << std::endl;
-            return FMOD_ERR_INVALID_HANDLE;
+            EvInstUserData &data = evinstUserData[(uintptr_t)inst];
+
+            if (data.key.find('.') == std::string::npos)
+            {
+                result = CreateProgrammerSoundAudioTable((FMOD::Studio::EventInstance *)inst,
+                    data.key, (FMOD::Studio::System *)data.system, props);
+            }
+            else
+            {
+                result = CreateProgrammerSoundFromFile((FMOD::Studio::EventInstance *)inst,
+                    data.key, (FMOD::Studio::System *)data.system, props);
+            }
         }
-
-        FMOD_STUDIO_SOUND_INFO info;
-        check = sys->getSoundInfo(props->name, &info);
-        std::cout << "Getting sound info for key " << props->name << ": " << FMOD_ErrorString(check) << std::endl;
-        if (check != FMOD_OK)
-        {
-            std::cout << "FMOD Studio ERROR while creating FMOD_SOUND object from programmer sound with key \"" 
-                << props->name << "\": " << FMOD_ErrorString(check) << std::endl;
-            return FMOD_ERR_EVENT_NOTFOUND;
-        }
-
-        FMOD::System *core;
-        check = sys->getCoreSystem(&core);
-        std::cout << "Getting core system: " << FMOD_ErrorString(check) << std::endl;
-        
-        FMOD::Sound *sound;
-        check = core->createSound(info.name_or_data, 
-            FMOD_LOOP_NORMAL | FMOD_CREATECOMPRESSEDSAMPLE | FMOD_NONBLOCKING | info.mode, 
-            &info.exinfo, &sound);
-        std::cout << "Creating sound: " <<  FMOD_ErrorString(check) << std::endl;
-
-
-
-        props->sound = (FMOD_SOUND *)sound;
-        props->subsoundIndex = info.subsoundindex;
-        
-        map.AddString("name", props->name);
-        map.AddDouble("sound", (double)(uintptr_t)sound);
-        map.AddDouble("subsoundIndex", (double)props->subsoundIndex);
-    } break;
-    case FMOD_STUDIO_EVENT_CALLBACK_DESTROY_PROGRAMMER_SOUND:
-    {
-        auto props = (FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES *)params;
-
-        FMOD_Sound_Release(props->sound);
 
         map.AddString("name", props->name);
         map.AddDouble("sound", (double)(uintptr_t)props->sound);
         map.AddDouble("subsoundIndex", (double)props->subsoundIndex);
-    } break;
-    }
-
-    map.SendAsyncEvent();
-
-    return FMOD_OK;
-}
-
-std::map<char *, SoundCallbackData>audiotable_evdata;
-
-// General callback handler for EventInstances
-FMOD_RESULT F_CALLBACK gmfms_audiotable_event_callback(
-    FMOD_STUDIO_EVENT_CALLBACK_TYPE type,
-    FMOD_STUDIO_EVENTINSTANCE *inst,
-    void *params)
-{
-    FMOD_RESULT result;
-    auto props = (FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES *)params;
-    if (type == FMOD_STUDIO_EVENT_CALLBACK_CREATE_PROGRAMMER_SOUND)
-    {
-        FMOD::Studio::System *studio;
-        result = FMOD_Studio_EventInstance_GetUserData(inst, (void **)&studio);
-        if (result != FMOD_OK)
-        {
-            std::cerr << "gmfms audiotable callback error: " << FMOD_ErrorString(result);
-            return result;
-        }
-
-        FMOD_STUDIO_SOUND_INFO info;
-        result = studio->getSoundInfo(audiotable_evdata[(char *)inst].key.c_str(), &info);
-        if (result != FMOD_OK)
-        {
-            std::cerr << "gmfms audiotable callback error, while getting soundinfo: " << FMOD_ErrorString(result);
-            return result;
-        }
-
-        FMOD::System *core;
-        result = studio->getCoreSystem(&core);
-        if (result != FMOD_OK)
-        {
-            std::cerr << "gmfms audiotable callback error, while getting core system: " << FMOD_ErrorString(result);
-            return result;
-        }
-
-        FMOD::Sound *sound;
-        result = core->createSound(info.name_or_data,
-            FMOD_LOOP_NORMAL | FMOD_CREATECOMPRESSEDSAMPLE | FMOD_NONBLOCKING | info.mode,
-            &info.exinfo, &sound);
-        if (result != FMOD_OK)
-        {
-            std::cerr << "gmfms audiotable callback error, while creating sound: " << FMOD_ErrorString(result);
-            return result;
-        }
-
-        props->sound = (FMOD_SOUND *)sound;
-        props->subsoundIndex = info.subsoundindex;
-        
-        audiotable_evdata[(char *)inst].sound = sound;
-        return result;
-    }
-    else if (type == FMOD_STUDIO_EVENT_CALLBACK_DESTROY_PROGRAMMER_SOUND)
-    {
-        audiotable_evdata[(char *)inst].sound = nullptr;
-
-        result = FMOD_Sound_Release(props->sound);
-        return result;
-    }
-    else
-    {
-        std::cerr << "GMFMS Error! Please only register "
-            "gmfms_create_audiotable_event_callback with the "
-            "gmfms_create_audiotable_event function." << std::endl;
-        return FMOD_ERR_INVALID_PARAM;
-    }
-    
-
-}
-
-gms_export void gmfms_progevent_audiotable_release(char *inst_ptr)
-{
-    auto inst = (FMOD::Studio::EventInstance *)inst_ptr;
-    if (audiotable_evdata.count(inst_ptr) > 0)
-    {
-        audiotable_evdata.erase(inst_ptr);
-    }
-
-    check = inst->release();
-}
-
-// Returns associated sound or NULL if there is no sound available
-gms_export double gmfms_progevent_audiotable_get_sound(char *inst_ptr)
-{
-    double ret = 0;
-    if (audiotable_evdata.count(inst_ptr) > 0)
-    {
-        if (audiotable_evdata[inst_ptr].sound)
-            ret = (double)(uintptr_t)audiotable_evdata[inst_ptr].sound;
-    }
-
-    return ret;
-}
-
-gms_export double gmfms_progevent_audiotable_change_key(char *inst_ptr, char *new_key)
-{
-    if (((FMOD::Studio::EventInstance *)inst_ptr)->isValid() &&
-        audiotable_evdata.count(inst_ptr) > 0)
-    {
-        audiotable_evdata[inst_ptr].key = new_key;
-        return 0;
-    }
-    else
-    {
-        std::cerr << "ERROR failed to change key\n";
-        return -1;
-    }
-       
-    
-}
-
-// Helpers
-gms_export double gmfms_audiotable_event_create(char *studio_ptr, char *key, char *event_path)
-{
-    auto studio = (FMOD::Studio::System *)studio_ptr;
-
-    FMOD::Studio::EventDescription *desc;
-    check = studio->getEvent(event_path, &desc);
-    if (check != FMOD_OK)
-    {
-        std::cerr << "GMFMS Error! gmfms_create_audiotable_event, problem while getting event description: " 
-            << FMOD_ErrorString(check) << '\n';
-        return 0;
-    }
-
-    FMOD::Studio::EventInstance *inst;
-    check = desc->createInstance(&inst);
-    if (check != FMOD_OK)
-    {
-        std::cerr << "GMFMS Error! gmfms_create_audiotable_event, problem while creating event instance: " 
-            << FMOD_ErrorString(check) << '\n';
-        return 0;
-    }
-    
-    check = inst->setCallback(gmfms_audiotable_event_callback, 
-        FMOD_STUDIO_EVENT_CALLBACK_CREATE_PROGRAMMER_SOUND | FMOD_STUDIO_EVENT_CALLBACK_DESTROY_PROGRAMMER_SOUND);
-    if (check != FMOD_OK)
-    {
-        std::cerr << "GMFMS Error! gmfms_create_audiotable_event, problem while setting callback: " 
-            << FMOD_ErrorString(check) << '\n';
-        inst->release(); // clean up instance
-        return 0;
-    }
-
-    check = inst->setUserData((void *)studio_ptr);
-    if (check != FMOD_OK)
-    {
-        std::cerr << "GMFMS Error! gmfms_create_audiotable_event, problem while setting userdata: "
-            << FMOD_ErrorString(check) << '\n';
-        inst->release(); // clean up instance
-        return 0;
-    }
-
-    // good to go, set the data
-    audiotable_evdata[(char *)inst].key = std::string(key);
-    audiotable_evdata[(char *)inst].sound = nullptr;
-
-    return (double)(uintptr_t)inst;
-}
-
-// General callback handler for EventInstances
-FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback(
-    FMOD_STUDIO_EVENT_CALLBACK_TYPE type, 
-    FMOD_STUDIO_EVENTINSTANCE *inst,
-    void *params)
-{
-    GM_DsMap map;
-    map.AddDouble("type", (double)type);
-    map.AddDouble("inst", (double)(uintptr_t)inst); // should cast to ptr on GMS side
-    map.AddString("fmodCallbackType", "EventInstance");
-
-    switch (type)
-    {
-    case FMOD_STUDIO_EVENT_CALLBACK_CREATE_PROGRAMMER_SOUND:
-    {
-        auto props = (FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES *)params;
-        FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES *sound;
-
-        FMOD_Studio_EventInstance_GetUserData(inst, (void **)&sound);
-        props->name = sound->name;
-        props->sound = sound->sound;
-        props->subsoundIndex = sound->subsoundIndex;
-
-        map.AddString("name", sound->name);
-        map.AddDouble("sound", (double)(uintptr_t)sound->sound);
-        map.AddDouble("subsoundIndex", (double)sound->subsoundIndex);
     } break;
     case FMOD_STUDIO_EVENT_CALLBACK_DESTROY_PROGRAMMER_SOUND:
     {
@@ -318,18 +205,56 @@ FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback(
         map.AddDouble("sound", (double)(uintptr_t)params);
     } break;
 
+    case FMOD_STUDIO_EVENT_CALLBACK_DESTROYED:
+    {
+        if (evinstUserData.count((uintptr_t)inst) > 0)
+        {
+            evinstUserData.erase((uintptr_t)inst);
+        }
+    } break;
+
     }
 
     map.SendAsyncEvent();
 
-    return FMOD_OK;
+    return result;
+}
+
+// Only strings supported
+gms_export void fmod_studio_evinst_set_user_data(char *ptr, char *userDataStr, char *studioSystem)
+{
+    evinstUserData[(uintptr_t)ptr] = std::move(EvInstUserData((FMOD_STUDIO_SYSTEM *)studioSystem, userDataStr));
+}
+
+gms_export const char *fmod_studio_evinst_get_user_data(char *ptr)
+{
+    if (evinstUserData.count((uintptr_t)ptr) > 0)
+    {
+        return evinstUserData[(uintptr_t)ptr].key.c_str();
+    }
+    else
+    {
+        return "";
+    }
+}
+
+gms_export double fmod_studio_evinst_get_programmer_sound(char *ptr)
+{
+    if (evinstUserData.count((uintptr_t)ptr) > 0)
+    {
+        return (double)(uintptr_t)evinstUserData[(uintptr_t)ptr].sound;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 gms_export void fmod_studio_evdesc_set_callback(char *ptr, double callback_mask)
 {
     check = ((FMOD::Studio::EventDescription *)ptr)->setCallback(
         fmod_studio_evinst_callback,
-        (FMOD_STUDIO_EVENT_CALLBACK_TYPE)callback_mask);
+        (FMOD_STUDIO_EVENT_CALLBACK_TYPE)callback_mask | FMOD_STUDIO_EVENT_CALLBACK_DESTROYED);
 }
 
 // ============================================================================
@@ -816,16 +741,6 @@ gms_export void fmod_studio_evinst_set_callback(char *ptr, double flags)
     check = ((EvInst *)ptr)->setCallback(
         (FMOD_STUDIO_EVENT_CALLBACK)fmod_studio_evinst_callback,
         (FMOD_STUDIO_EVENT_CALLBACK_TYPE)flags);
-}
-
-gms_export void fmod_studio_evinst_set_callback_audiotable(char *ptr, char *studio_ptr)
-{
-    check = ((EvInst *)ptr)->setUserData(studio_ptr);
-    if (check != FMOD_OK) return;
-
-    check = ((EvInst *)ptr)->setCallback(
-            (FMOD_STUDIO_EVENT_CALLBACK)fmod_studio_evinst_callback_audiotable,
-            FMOD_STUDIO_EVENT_CALLBACK_CREATE_PROGRAMMER_SOUND | FMOD_STUDIO_EVENT_CALLBACK_DESTROY_PROGRAMMER_SOUND);
 }
 
 /*

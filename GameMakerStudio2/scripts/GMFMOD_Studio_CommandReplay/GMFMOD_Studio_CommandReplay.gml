@@ -208,7 +208,7 @@ function GMFMOD_Studio_CommandReplay() constructor
     /// @returns {bool}
     static isValid = function()
     {
-    	return fmod_studio_comreplay_is_valid(comrep_);
+    	return comrep_ != pointer_null && fmod_studio_comreplay_is_valid(comrep_);
     };
     
     

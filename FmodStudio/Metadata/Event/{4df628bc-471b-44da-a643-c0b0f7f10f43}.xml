@@ -104,7 +104,7 @@
 	<object class="MixerBusPanner" id="{38084e1f-ab8b-4973-929c-5b326402e487}" />
 	<object class="ProgrammerSound" id="{f75fbed3-d0e2-49a3-88b5-fbfdc89f8e7b}">
 		<property name="length">
-			<value>6</value>
+			<value>29</value>
 		</property>
 		<property name="name">
 			<value>Birds_Chirping</value>

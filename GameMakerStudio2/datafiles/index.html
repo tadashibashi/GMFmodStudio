@@ -10,7 +10,7 @@
         <meta charset="utf-8"/>
 
         <!-- Set the title bar of the page -->
-        <title>Created with GameMaker Studio 2</title>
+        <title>GMFMOD Extension</title>
 
         <!-- Set the background colour of the document -->
         <style>
@@ -77,60 +77,9 @@
                      <p>Your browser doesn't support HTML5 canvas.</p>
             </canvas>
         </div>
-        <script type="text/javascript" src="html5game/fmodstudioL.js"></script>
+        <script type="text/javascript" src="game/fmodstudioL.js"></script>
+        <script type="text/javascript" src="game/GMFMOD_Init.js"></script>
         <!-- Run the game code -->
-        <script type="text/javascript" src="html5game/GMFmodStudio.js?SRKAC=1801561766"></script>
-        <script type ="text/javascript">
-        	var fmod = {};
-
-        	fmod['preRun'] = preRun;
-        	fmod['onRuntimeInitialized'] = main;
-        	
-        	var fmodFiles = fmodFiles || [];
-        	var gameRootDir = gameRootDir || "html5game";
-
-        	function main()
-        	{
-        			GameMaker_Init();
-        	}
-
-        	function preRun()
-        	{
-        	    if (fmodFiles != undefined)
-        	    {
-        	        var map = new Set();
-        	        map.add("/");
-
-        	        fmodFiles.forEach(path => {
-        	            let toks = path.split("/");
-        	            toks.unshift(gameRootDir);
-
-        	            let parentFolder = "";
-        	            for (let i = 0; i < toks.length; ++i)
-        	            {
-        	                let tok = toks[i];
-        	                if (i < toks.length - 1) // make folder
-        	                {
-        	                    let newfolder = parentFolder + "/" + tok;
-        	                    if (!map.has(newfolder))
-        	                    {
-        	                        fmod.FS_createFolder(parentFolder + "/", tok, true, true);
-        	                        map.add(newfolder);
-        	                    }
-
-        	                    parentFolder = newfolder;
-        	                }
-        	                else                     // create file
-        	                {
-        	                    fmod.FS_createPreloadedFile(parentFolder + "/", tok, 
-        	                        gameRootDir + "/" + path, true, false);
-        	                }
-        	            }
-        	        });
-        	    }
-        	}
-
-        	window.onload = function() { FMODModule(fmod); };
-        </script>
+        <script type="text/javascript" src="game/GMFmodStudio.js"></script>
     </body>
 </html>

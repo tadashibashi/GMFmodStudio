@@ -1,10 +1,10 @@
 // Inherit the parent event
 event_inherited();
 
-studio.loadBankFile("soundbanks/Desktop/Master_ENG.bank",
+bank = studio.loadBankFile("soundbanks/Desktop/Master_ENG.bank",
     FMOD_STUDIO_LOAD_BANK_NORMAL);
 GMFMOD_Check("Loading master bank file");
-studio.loadBankFile("soundbanks/Desktop/Master_ENG.strings.bank",
+stringsbank = studio.loadBankFile("soundbanks/Desktop/Master_ENG.strings.bank",
     FMOD_STUDIO_LOAD_BANK_NORMAL);
 GMFMOD_Check("Loading strings bank file");
 
@@ -80,16 +80,21 @@ GMFMOD_Assert(array_length(instlist) == array_length(instlistByRef),
     true, "Arrays are equal in length");
 
 var allAreValid = true;
+var allAreEqual = true;
 for (var i = 0; i < array_length(instlist); ++i)
 {
-    if (!instlist[i].isValid() || !instlistByRef[i].isValid())
-    {
+    if (allAreValid && (!instlist[i].isValid() || !instlistByRef[i].isValid()))
         allAreValid = false;
-    }
+    
+    if (allAreEqual && !(instlist[i].getDescription().getID().equals(instlistByRef[i].getDescription().getID())))
+    	allAreEqual = false;
 }
 
 GMFMOD_Assert(allAreValid, true, 
     "Instances retrieved from getInstanceList are all valid instances");
+
+GMFMOD_Assert(allAreEqual, true, 
+    "Instances retrieved from getInstanceList return/passbyref are equal");
 
 eimusic1.release();
 eimusic2.release();

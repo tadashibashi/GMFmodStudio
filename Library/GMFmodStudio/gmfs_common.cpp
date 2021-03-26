@@ -26,3 +26,8 @@ gms_export void GMFMOD_ShutdownIntegration()
     CoUninitialize();
 #endif
 }
+
+gms_export bool GMFMOD_RefsEqual(char *obj1, char *obj2)
+{
+    return obj1 == obj2;
+}

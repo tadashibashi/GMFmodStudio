@@ -22,7 +22,7 @@
   "creationCodeFile": "",
   "inheritCode": false,
   "instanceCreationOrder": [
-    {"name":"inst_399DC791","path":"rooms/html5_test_r/html5_test_r.yy",},
+    {"name":"inst_399DC791","path":"rooms/r_sandbox/r_sandbox.yy",},
   ],
   "inheritCreationOrder": false,
   "sequenceId": null,
@@ -50,7 +50,7 @@
     "path": "folders/Rooms.yy",
   },
   "resourceVersion": "1.0",
-  "name": "html5_test_r",
+  "name": "r_sandbox",
   "tags": [],
   "resourceType": "GMRoom",
 }

@@ -310,7 +310,7 @@ function GMFMOD_Studio_Bank() constructor
     ///                 E.g. Unloading this bank will invalidate this object.
     static isValid = function()
     {
-        return fmod_studio_bank_is_valid(bank_);
+        return bank_ != pointer_null && fmod_studio_bank_is_valid(bank_);
     };
 }
 

@@ -161,6 +161,6 @@ function GMFMOD_Studio_Bus() constructor
 	/// @returns {bool}
 	static isValid = function()
 	{
-		return fmod_studio_bus_is_valid(bus_);	
+		return bus_ != pointer_null && fmod_studio_bus_is_valid(bus_);	
 	};
 }

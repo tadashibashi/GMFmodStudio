@@ -204,7 +204,7 @@ GMFMOD_Check("Getting Event by reference");
 GMFMOD_Assert(evdescByRef.isValid(), true, "Event Desc retrieved by path by ref"
 	+ "is valid");
 	
-GMFMOD_Assert(evdesc.desc_, evdescByRef.desc_, "Event Desc retrieved by path " +
+GMFMOD_Assert(GMFMOD_RefsEqual(evdesc.desc_, evdescByRef.desc_), true, "Event Desc retrieved by path " +
 	"return value and pass by ref handles are equal");
 
 // Clean up

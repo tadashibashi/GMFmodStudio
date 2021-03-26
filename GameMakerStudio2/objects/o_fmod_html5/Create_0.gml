@@ -22,6 +22,15 @@ GMFMOD_Check("Creating instance");
 evinst.setCallback(FMOD_STUDIO_EVENT_CALLBACK_ALL);
 GMFMOD_Check("Setting callback");
 
+evprog = studio.getEvent("event:/AudioTable").createInstance();
+GMFMOD_Check("Creating Instance of Audio Table event");
+GMFMOD_Set_DLSName("Fury.dls");
+evprog.setUserData("__NAME__", studio);
+evprog.setCallback(
+	FMOD_STUDIO_EVENT_CALLBACK_CREATE_PROGRAMMER_SOUND |
+	FMOD_STUDIO_EVENT_CALLBACK_DESTROY_PROGRAMMER_SOUND);
+evprog.start();
+
 // Event Description Tests
 GMFMOD_Assert(evdblip.getInstanceCount(), 1, "One event instance");
 GMFMOD_Check("getting event instance count");

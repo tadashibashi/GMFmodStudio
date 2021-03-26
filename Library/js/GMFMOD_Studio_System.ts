@@ -4,7 +4,7 @@
 
 function fmod_studio_system_create(): FMOD.StudioSystem
 {
-    fmod.Studio_System_Create(out);
+    check = fmod.Studio_System_Create(out);
     return out.val;
 }
 
@@ -16,19 +16,45 @@ function fmod_studio_system_initialize(
 {
     // Core optimiazations
     check = studio.getCoreSystem(out);
-    GMFMOD_CHECK(check);
+    if (check != FMOD.RESULT.OK)
+    {
+        console.error('FMOD Error: ' + fmod.ErrorString(check));
+        return;
+    }
+
     var gSystem = out.val;
 
     check = gSystem.getDriverInfo(0, null, null, out, null, null);
-    GMFMOD_CHECK(check);
+    if (check != FMOD.RESULT.OK)
+    {
+        console.error('FMOD Error: ' + fmod.ErrorString(check));
+        return;
+    }
+
     check = gSystem.setSoftwareFormat(out.val, FMOD.SPEAKERMODE.DEFAULT, 0);
-    GMFMOD_CHECK(check);
+    if (check != FMOD.RESULT.OK)
+    {
+        console.error('FMOD Error: ' + fmod.ErrorString(check));
+        return;
+    }
 
     check = gSystem.setDSPBufferSize(2048, 2);
-    GMFMOD_CHECK(check);
+    if (check != FMOD.RESULT.OK)
+    {
+        return;
+    }
+
+    let studioflags_mask = BigInt(studioflags) | 
+        BigInt(FMOD.STUDIO_INITFLAGS.DEFERRED_CALLBACKS |
+            FMOD.STUDIO_INITFLAGS.LOAD_FROM_UPDATE |
+            FMOD.STUDIO_INITFLAGS.SYNCHRONOUS_UPDATE);
+    
+    let coreflags_mask = BigInt(coreflags) |
+            BigInt(FMOD.INITFLAGS.STREAM_FROM_UPDATE |
+                FMOD.INITFLAGS.MIX_FROM_UPDATE);
 
     // Initialize studio
-    check = studio.initialize(maxchannels, studioflags, coreflags, null);
+    check = studio.initialize(maxchannels, Number(studioflags_mask), Number(coreflags_mask), null);
     if (check == FMOD.RESULT.OK)
         gStudio = studio;
 }

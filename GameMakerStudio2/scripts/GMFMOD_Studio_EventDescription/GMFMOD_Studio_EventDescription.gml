@@ -328,7 +328,7 @@ function GMFMOD_Studio_EventDescription() constructor
 	/// @returns {bool}
 	static isValid = function()
 	{
-		return fmod_studio_evdesc_is_valid(desc_);	
+		return desc_ != pointer_null && fmod_studio_evdesc_is_valid(desc_);	
 	};
 	
 	
@@ -339,8 +339,7 @@ function GMFMOD_Studio_EventDescription() constructor
 		return desc_;	
 	};
 	
-	
-	// Compare if EventDescription contains the same FMOD event.
+	// Compare if EventDescription contains the same FMOD event. Only works in Desktop.
 	/// @returns {bool}
 	static isEqualTo = function(event_desc)
 	{

@@ -310,13 +310,78 @@ function fmod_studio_evinst_callback(type: FMOD.STUDIO_EVENT_CALLBACK_TYPE,
     map["event"] = event;
     map["type"] = type;
     
+    let result = FMOD.RESULT.OK;
+
     switch(type)
     {
         case FMOD.STUDIO_EVENT_CALLBACK_TYPE.CREATE_PROGRAMMER_SOUND:
+            console.log(parameters);
+            map["name"] = parameters["name"];
+            map["sound"] = parameters["sound"];
+            map["subsoundIndex"] = parameters["subsoundIndex"];
+
+            if (evinstUserData.has(event.$$.ptr))
+            {
+                let data = evinstUserData.get(event.$$.ptr);
+                console.log(data);
+                console.log(data.key.indexOf('.'));
+                if (data.key.indexOf('.') == -1) // audio table
+                {
+                    let core: FMOD.System;
+                    result = gStudio.getCoreSystem(out);
+                    if (result != FMOD.RESULT.OK)
+                        return result;
+                    
+                    core = out.val;
+                    
+                    let info: FMOD.STUDIO_SOUND_INFO = fmod.STUDIO_SOUND_INFO();
+                    if (data.key === "__NAME__")
+                    {
+                        result = gStudio.getSoundInfo(parameters.name, info);
+                    }
+                    else
+                    {
+                        result = gStudio.getSoundInfo(data.key, info);
+                    }
+                    console.log(info);
+
+                    if (result != FMOD.RESULT.OK)
+                        return result;
+                    result = core.createSound(info.name_or_data, info.mode | FMOD.MODE.LOOP_NORMAL, info.exinfo, out);
+                    if (result != FMOD.RESULT.OK)
+                        return result;
+                    console.log(out.val);
+
+                    parameters.sound = out.val;
+                    parameters.subsoundIndex = info.subsoundindex;
+                    console.log(parameters);
+                }
+                else                             // sound file
+                {
+                    result = gStudio.getCoreSystem(out);
+                    if (result != FMOD.RESULT.OK) return result;
+
+                    let core: FMOD.System = out.val;
+                    let exinfo: FMOD.CREATESOUNDEXINFO = fmod.CREATESOUNDEXINFO();
+                    exinfo.dlsname = gDlsname;
+
+                    result = core.createStream(data.key, FMOD.MODE.CREATESTREAM | FMOD.MODE.LOOP_NORMAL, exinfo, out);
+                    if (result != FMOD.RESULT.OK) return result;
+
+                    parameters.sound = out.val;
+                    parameters.subsoundIndex = -1;
+                }
+            }
+
+        break;
+
         case FMOD.STUDIO_EVENT_CALLBACK_TYPE.DESTROY_PROGRAMMER_SOUND:
             map["name"] = parameters["name"];
             map["sound"] = parameters["sound"];
             map["subsoundIndex"] = parameters["subsoundIndex"];
+            console.log("Destroyed programmer sound!");
+            console.log(parameters);
+            result = parameters.sound.release();
         break;
 
         case FMOD.STUDIO_EVENT_CALLBACK_TYPE.PLUGIN_CREATED:
@@ -343,23 +408,58 @@ function fmod_studio_evinst_callback(type: FMOD.STUDIO_EVENT_CALLBACK_TYPE,
         case FMOD.STUDIO_EVENT_CALLBACK_TYPE.SOUND_STOPPED:
             map["sound"] = parameters;
         break;
-        case FMOD.STUDIO_EVENT_CALLBACK_TYPE.DESTROYED:
-            console.log("Event destroyed");
-            event.setCallback(null, 0);
-        break;
     }
 
     GMS_API.send_async_event_social(map);
    
-    return FMOD.RESULT.OK;
+    return result;
 }
+
 
 function fmod_studio_evinst_set_callback(inst: FMOD.EventInstance, 
     mask: number): void
 {
-    // Must convert to BigInt to prevent bitwise bug on large numbers / precision loss
-    let maskval = BigInt(mask) | BigInt(FMOD.STUDIO_EVENT_CALLBACK_TYPE.DESTROYED);
-    check = inst.setCallback(fmod_studio_evinst_callback, Number(maskval));
+    if (mask === 0) // way to null callback
+    {
+        check = inst.setCallback(null, 0);
+    }
+    else
+    {
+        // Must convert to BigInt to prevent bitwise bug on large numbers / precision loss
+        let maskval = BigInt(mask);
+        check = inst.setCallback(fmod_studio_evinst_callback, Number(maskval));
+    }
+}
+
+class EvInstUserData
+{
+    public system: FMOD.StudioSystem;
+    public key: string;
+
+    public constructor(system: FMOD.StudioSystem, key: string)
+    {
+        this.system = system;
+        this.key = key;
+    }
+}
+
+let gDlsname: string = "";
+
+function fmod_studio_set_dlsname(name: string): void
+{
+    gDlsname = name;
+}
+
+function fmod_studio_get_dlsname(): string
+{
+    return gDlsname;
+}
+
+const evinstUserData = new Map<number, EvInstUserData>();
+
+function fmod_studio_evinst_set_user_data(inst: FMOD.EventInstance, datastr: string, studio: FMOD.StudioSystem)
+{
+    evinstUserData.set(inst.$$.ptr, new EvInstUserData(studio, datastr));
 }
 
 function fmod_studio_evdesc_set_callback(desc: FMOD.EventDescription, 
@@ -367,7 +467,7 @@ function fmod_studio_evdesc_set_callback(desc: FMOD.EventDescription,
 {
     console.warn("FMOD Studio JS/HTML5 does not currently support setting callbacks with EventDescription. " +
         "There is a binding error. Please set each Event Instance's callback directly");
-    let maskval = BigInt(mask) | BigInt(FMOD.STUDIO_EVENT_CALLBACK_TYPE.DESTROYED);
+    let maskval = BigInt(mask);
     check = desc.setCallback(fmod_studio_evinst_callback, Number(maskval));
 }
 

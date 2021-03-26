@@ -8,7 +8,7 @@ function GMFMOD_Check(testname)
 	{
 		if (testname != undefined)
 		{
-			show_debug_message("===>>> FMOD Studio ERROR [" + string(testname) + "]: " 
+			show_debug_message("=====>>>>> FMOD Studio ERROR [" + string(testname) + "]: " 
 				+ GMFMOD_GetErrorString());
 			
 		}
