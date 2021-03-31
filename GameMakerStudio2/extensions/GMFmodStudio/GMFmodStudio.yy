@@ -92,7 +92,7 @@
             1,
             1,
           ],"resourceVersion":"1.0","name":"fmod_studio_evdesc_get_id","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"gmfms_interpret_string","kind":1,"help":"GMFMS_InterpretString(char_ptr)","hidden":false,"returnType":1,"argCount":0,"args":[
+        {"externalName":"gmfms_interpret_string","kind":1,"help":"__GMFMOD_InterpretString(char_ptr)","hidden":false,"returnType":1,"argCount":0,"args":[
             2,
           ],"resourceVersion":"1.0","name":"__GMFMOD_InterpretString","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"fmod_studio_system_get_event_by_id","kind":1,"help":"fmod_studio_system_get_event_by_id(studio, gm_buffer)","hidden":false,"returnType":2,"argCount":0,"args":[

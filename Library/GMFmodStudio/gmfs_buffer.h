@@ -1,5 +1,10 @@
 #pragma once
 #include <cstdint>
+#include <map>
+#include <iostream>
+
+extern unsigned int strcounter;
+extern std::map<int, std::string>storedstrs;
 
 // Helper object that interfaces with a GMS2-generated buffer.
 class Buffer
@@ -47,8 +52,11 @@ public:
     // GMFMS_InterpretString(double ptr) to get this string)
     void write_char_star(const char *str)
     {
-        *(uint64_t *)pos = (uintptr_t)str;
+        *(uint64_t *)pos = (uint64_t)strcounter;
         pos += sizeof(uint64_t);
+
+        storedstrs[strcounter] = std::move(std::string(str));
+        ++strcounter;
     }
 
     // Write the entire string into the buffer.

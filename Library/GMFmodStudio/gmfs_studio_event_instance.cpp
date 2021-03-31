@@ -35,7 +35,7 @@ FMOD_RESULT CreateProgrammerSoundAudioTable(
     {
         result = studio->getSoundInfo(key.c_str(), &info);
     }
-
+    
     if (result != FMOD_OK)
     {
         std::cerr << "GMFMOD Callback Error while getting soundinfo: " << FMOD_ErrorString(result);

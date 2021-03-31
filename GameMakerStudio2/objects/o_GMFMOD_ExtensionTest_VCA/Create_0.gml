@@ -35,22 +35,21 @@ GMFMOD_Assert(fmod_studio_vca_get_volume_final(vca), 1,
     "VCA get volume final. Before running an event instance.");
 GMFMOD_Check("VCA get volume final: no errors");
 
-var evdblip = GMFMOD_Ptr(fmod_studio_system_get_event(studio, "event:/UIBlip"));
-GMFMOD_Check("Getting event UIBlip");
-var eviblip = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdblip));
+var evdmusic = GMFMOD_Ptr(fmod_studio_system_get_event(studio, "event:/Music"));
+GMFMOD_Check("Getting event Music");
+var evimusic = GMFMOD_Ptr(fmod_studio_evdesc_create_instance(evdmusic));
 GMFMOD_Check("Creating event instance");
-fmod_studio_evinst_start(eviblip);
+fmod_studio_evinst_start(evimusic);
 GMFMOD_Check("Starting event instance");
 
-while(fmod_studio_vca_get_volume_final(vca) != 3)
+while(fmod_studio_vca_get_volume_final(vca) == 1)
 {
 	fmod_studio_system_flush_commands(studio);
 }
-GMFMOD_Assert(fmod_studio_vca_get_volume_final(vca), 3, "VCA final vol is 3");
 
-fmod_studio_evinst_stop(eviblip, FMOD_STUDIO_STOP_IMMEDIATE);
+fmod_studio_evinst_stop(evimusic, FMOD_STUDIO_STOP_IMMEDIATE);
 GMFMOD_Check("Stopping test instance");
-fmod_studio_evinst_release(eviblip);
+fmod_studio_evinst_release(evimusic);
 GMFMOD_Check("Releasing test instance");
 fmod_studio_system_flush_commands(studio);
 GMFMOD_Check("Flushing commands");

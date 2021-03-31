@@ -49,21 +49,25 @@ GMFMOD_Check("Loading Master_ENG.bank");
 //     get_sample_loading_state
 // ============================================================================
 // Loading
+
+fmod_studio_bank_unload_sample_data(bank);
+fmod_studio_system_flush_sample_loading(studio);
+
 fmod_studio_bank_load_sample_data(bank);
-GMFMOD_Check("Loading Sample Data: no errors");
+GMFMOD_Check("Loading Sample Data");
 GMFMOD_Assert(
     fmod_studio_bank_get_sample_loading_state(bank), 
     FMOD_STUDIO_LOADING_STATE_LOADING,
     "Getting Sample Loading State: loading");
-GMFMOD_Check("Getting Sample Loading State: no errors");
+GMFMOD_Check("Getting Sample Loading State");
 
 fmod_studio_system_flush_sample_loading(studio);
-GMFMOD_Check("Flush sample loading: no errors");
+GMFMOD_Check("Flush sample loading");
 
 GMFMOD_Assert(
     fmod_studio_bank_get_sample_loading_state(bank), 
     FMOD_STUDIO_LOADING_STATE_LOADED,
-    "Getting Sample Loading State: loaded");
+    "Getting Sample Loading State");
 
 // Unloading
 fmod_studio_bank_unload_sample_data(bank);

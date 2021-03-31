@@ -2,6 +2,7 @@
 #include <fmod_errors.h>
 #include <iostream>
 #include <vector>
+#include <map>
 
 std::vector<FMOD_STUDIO_PARAMETER_DESCRIPTION> fmod_studio_global_params;
 
@@ -17,9 +18,17 @@ gms_export const char *gmfms_get_error_string()
     return FMOD_ErrorString(check);
 }
 
-gms_export const char *gmfms_interpret_string(double ptr)
+unsigned int strcounter = 0;
+std::map<int, std::string>storedstrs;
+
+gms_export const char *gmfms_interpret_string(double ticket)
 {
-    return (const char *)(uintptr_t)ptr;
+    static std::string ret;
+    std::cout << storedstrs[ticket] << '\n';
+    ret.assign(storedstrs[(int)ticket]);
+    storedstrs.erase((int)ticket);
+
+    return ret.c_str();
 }
 
 FMOD_RESULT F_CALLBACK fmod_studio_system_callback(
@@ -498,14 +507,15 @@ gms_export void fmod_studio_system_get_paramdesc_by_index(char *ptr, double inde
             if (count > 0)
             {
                 FMOD_STUDIO_PARAMETER_DESCRIPTION *params = new FMOD_STUDIO_PARAMETER_DESCRIPTION[count];
-                check = studio->getParameterDescriptionList(params, count, &count);
+                int arrcount{};
+                check = studio->getParameterDescriptionList(params, count, &arrcount);
                 if (check != FMOD_OK)
                 {
                     delete[] params;
                     return;
                 }
 
-                for (int i = 0; i < count; ++i)
+                for (int i = 0; i < arrcount; ++i)
                 {
                     fmod_studio_global_params.push_back(params[i]);
                 }
