@@ -74,9 +74,9 @@
     "children": [],
   },
   "RoomOrderNodes": [
-    {"roomId":{"name":"r_sandbox","path":"rooms/r_sandbox/r_sandbox.yy",},},
-    {"roomId":{"name":"r_GMFMOD_WrapperTests","path":"rooms/r_GMFMOD_WrapperTests/r_GMFMOD_WrapperTests.yy",},},
     {"roomId":{"name":"r_GMFMOD_ExtensionTests","path":"rooms/r_GMFMOD_ExtensionTests/r_GMFMOD_ExtensionTests.yy",},},
+    {"roomId":{"name":"r_GMFMOD_WrapperTests","path":"rooms/r_GMFMOD_WrapperTests/r_GMFMOD_WrapperTests.yy",},},
+    {"roomId":{"name":"r_sandbox","path":"rooms/r_sandbox/r_sandbox.yy",},},
   ],
   "Folders": [
     {"folderPath":"folders/Sprites.yy","order":1,"resourceVersion":"1.0","name":"Sprites","tags":[],"resourceType":"GMFolder",},
@@ -120,6 +120,10 @@
     {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"fmodstudioL.js","resourceType":"GMIncludedFile",},
     {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"GMFMOD_Init.js","resourceType":"GMIncludedFile",},
     {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"good_bye_old_skool.xm","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"libfmodL.dylib","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"libfmodstudioL.dylib","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"libfmod.dylib","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"libfmodstudio.dylib","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
     "IDEVersion": "2.3.1.542",

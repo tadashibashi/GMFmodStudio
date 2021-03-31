@@ -120,19 +120,6 @@ stringsbank = GMFMOD_Ptr(fmod_studio_system_load_bank_file(studio,
 	working_directory + "soundbanks/Desktop/Master_ENG.strings.bank",
 	FMOD_STUDIO_LOAD_BANK_NORMAL));
 
-// ----------------------------------------------------------------------------
-// Bank Load Sample Data Test
-// ----------------------------------------------------------------------------
-fmod_studio_bank_load_sample_data(bank);
-
-// Process sample loading immediately, and stall until loading is finished.
-fmod_studio_system_flush_sample_loading(studio);
-GMFMOD_Assert(GMFMOD_GetError(), FMOD_OK, "Studio System Flush Sample Loading");
-
-// Check that the samples have successfully loaded.
-GMFMOD_Assert(fmod_studio_bank_get_sample_loading_state(bank), 
-	FMOD_STUDIO_LOADING_STATE_LOADED, "Bank Load Sample Data");
-
 /* ========================================================================== *
  * StudioSystem: Listeners                                                                 
  * ========================================================================== */

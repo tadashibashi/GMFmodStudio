@@ -889,6 +889,7 @@
         {"value":"$FFFFFFFF","hidden":false,"resourceVersion":"1.0","name":"FMOD_STUDIO_SYSTEM_CALLBACK_ALL","tags":[],"resourceType":"GMExtensionConstant",},
       ],"ProxyFiles":[
         {"TargetMask":5,"resourceVersion":"1.0","name":"GMFmodStudio_ext.js","tags":[],"resourceType":"GMProxyFile",},
+        {"TargetMask":1,"resourceVersion":"1.0","name":"libGMFmodStudio.dylib","tags":[],"resourceType":"GMProxyFile",},
       ],"copyToTargets":226,"order":[
         {"name":"GMFmodStudio","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"GMFmodStudio","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
