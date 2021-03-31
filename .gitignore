@@ -1,5 +1,10 @@
+## Mac
+.DS_Store
+
+Library/fmod/lib/
+Library/build/
+
 ## GameMaker: Studio 2.3
-GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio.dll
 GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio.exp
 GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio.ilk
 GameMakerStudio2/extensions/GMFmodStudio/GMFmodStudio.lib
