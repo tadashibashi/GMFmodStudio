@@ -890,6 +890,7 @@
       ],"ProxyFiles":[
         {"TargetMask":5,"resourceVersion":"1.0","name":"GMFmodStudio_ext.js","tags":[],"resourceType":"GMProxyFile",},
         {"TargetMask":1,"resourceVersion":"1.0","name":"libGMFmodStudio.dylib","tags":[],"resourceType":"GMProxyFile",},
+        {"TargetMask":7,"resourceVersion":"1.0","name":"libGMFmodStudio.so","tags":[],"resourceType":"GMProxyFile",},
       ],"copyToTargets":226,"order":[
         {"name":"GMFmodStudio","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},
         {"name":"GMFmodStudio","path":"extensions/GMFmodStudio/GMFmodStudio.yy",},

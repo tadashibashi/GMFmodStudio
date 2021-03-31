@@ -128,7 +128,7 @@ FMOD_RESULT F_CALLBACK fmod_studio_evinst_callback(
     FMOD_STUDIO_EVENT_CALLBACK_TYPE type,
     FMOD_STUDIO_EVENTINSTANCE *inst,
     void *params)
-{
+{ 
     GM_DsMap map;
     map.AddDouble("type", (double)type);
     map.AddDouble("event", (double)(uintptr_t)inst); // should cast to ptr on GMS side

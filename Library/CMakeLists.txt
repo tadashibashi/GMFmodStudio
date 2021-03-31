@@ -30,5 +30,5 @@ set_property(TARGET GMFmodStudio PROPERTY CXX_STANDARD 11)
 add_custom_command(TARGET GMFmodStudio POST_BUILD 
   COMMAND "${CMAKE_COMMAND}" -E copy 
      "$<TARGET_FILE:GMFmodStudio>"
-     "../../GameMakerStudio2/extensions/GMFmodStudio/$<TARGET_FILE_NAME:GMFmodStudio>" 
+     "../../GameMakerStudio2/extensions/GMFmodStudio/$<TARGET_FILE_NAME:GMFmodStudio>"
   COMMENT "Copying to output directory")
