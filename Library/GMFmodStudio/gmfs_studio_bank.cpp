@@ -15,32 +15,16 @@ gms_export double fmod_studio_bank_get_loading_state(char *ptr)
 
 // Loads non-streaming sample data for all events in the bank.
 // Returns 0 on success and -1 on error.
-gms_export double fmod_studio_bank_load_sample_data(char *ptr)
+gms_export void fmod_studio_bank_load_sample_data(char *ptr)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    double ret = -1;
-
-    if (bank && bank->isValid())
-    {
-        check = bank->loadSampleData();
-    }
-
-    return ret;
+    check = ((StudioBank *)ptr)->loadSampleData();
 }
 
 // Loads non-streaming sample data for all events in the bank.
 // Returns 0 on success and -1 on error.
-gms_export double fmod_studio_bank_unload_sample_data(char *ptr)
+gms_export void fmod_studio_bank_unload_sample_data(char *ptr)
 {
-    auto bank = (FMOD::Studio::Bank *)ptr;
-    double ret = -1;
-
-    if (bank && bank->isValid())
-    {
-        check = bank->unloadSampleData();
-    }
-
-    return ret;
+    check = ((StudioBank *)ptr)->unloadSampleData();
 }
 
 // Gets the current loading state of a studio bank.
