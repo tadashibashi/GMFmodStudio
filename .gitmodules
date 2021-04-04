@@ -1,0 +1,3 @@
+[submodule "Library/js/WebGL-FMOD-Studio-TypeScript-Definitions"]
+	path = Library/js/WebGL-FMOD-Studio-TypeScript-Definitions
+	url = https://github.com/tadashibashi/WebGL-FMOD-Studio-TypeScript-Definitions

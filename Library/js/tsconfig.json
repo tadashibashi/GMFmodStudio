@@ -15,5 +15,5 @@
         "GMFMOD_Studio_CommandReplay.ts",
         "GMFMOD_Studio_Bus.ts",
         "GMFMOD_Studio_VCA.ts",
-        "global.d.ts"],
+        "WebGL-FMOD-Studio-TypeScript-Definitions/index.d.ts"],
 }
