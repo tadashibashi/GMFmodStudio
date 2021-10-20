@@ -8,7 +8,7 @@
 #elif defined(__APPLE__)
     #define gms_export extern "C"
 #elif defined (__linux__) || defined (__unix__)
-    #define gms_export extern "C" __attribute__((visibility("default")))
+    #define gms_export extern "C"
 #endif
 
 #include "gmfs_api.h"
