@@ -8,10 +8,13 @@ if (instance_exists(fmod))
 	exit;
 }
 
+// Create and initialize FMOD Studio
 studio = new GMFMOD_Studio_System();
 
 studio.initialize(
 	128, 
 	FMOD_STUDIO_INIT_NORMAL, 
 	FMOD_INIT_NORMAL);
+	
 GMFMOD_Check("Initializing Studio System");
+
